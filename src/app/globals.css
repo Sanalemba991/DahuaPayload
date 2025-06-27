@@ -1,0 +1,64 @@
+/*
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*/
+
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure all text is visible by default */
+body, input, textarea, select, button {
+  color: #111 !important;
+  background-color: #fff;
+  caret-color: #2563eb !important; /* Makes the text cursor blue and always visible */
+}
+
+/* For select dropdown options */
+select option {
+  color: #111 !important;
+  background: #fff;
+}
+select option:checked,
+select option:hover {
+  color: #fff !important;
+  background: #2563eb !important; /* Tailwind blue-600 */
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
