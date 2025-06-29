@@ -17,14 +17,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
   const logoUrl =
     logo?.url?.startsWith('http') || !logo?.url
       ? logo.url
-      : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo.url}`
+      : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo?.url ?? ''}`
   // Close dropdown when clicking outside
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (navRef.current && !navRef.current.contains(event.target as Node)) {
       setActiveDropdown(null)
     }
   }, [])
-  console.log('Resolved Logo URL:', logoUrl)
+  console.log('Resolved Logo URL:', logoUrl ?? '')
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
@@ -72,7 +72,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 <Image
                   priority={true}
                   src={
-                    logo.url.startsWith('http')
+                    logo?.url?.startsWith('http')
                       ? logo.url
                       : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo.url}`
                   }
