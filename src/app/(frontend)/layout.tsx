@@ -13,7 +13,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <head>{favicon?.url && <link href={favicon.url} rel="icon" sizes="32x32" />}</head>
+      <head>{favicon?.url && <link href={favicon?.url} rel="icon" sizes="32x32" />}</head>
       <body>
         <Header />
         <main>{children}</main>
