@@ -143,7 +143,7 @@ export default async function prodcuts() {
                           'url' in cat.categoryImage &&
                           (cat.categoryImage as Media).url ? (
                             <Image
-                              src={(cat.categoryImage as Media).url!}
+                              src={(cat.categoryImage as Media).url ?? ''}
                               alt={cat.title}
                               width={500}
                               height={384}
