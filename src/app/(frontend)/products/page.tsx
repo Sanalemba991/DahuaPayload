@@ -22,19 +22,39 @@ export default async function prodcuts() {
   return (
     <>
       <div className="pt-[80px] min-h-screen flex flex-col bg-white">
-        {/* Hero Section with Image */}
-        <section className="relative h-[50vh] md:h-[60vh] bg-center bg-cover bg-no-repeat bg-gray-900">
+        <div className="relative w-full h-[320px] md:h-[420px]">
           <Image
             src="/images/dahuactct.jpg"
-            alt="Dahua Products Hero"
+            alt="Dahua Solutions Banner"
             fill
             className="object-cover w-full h-full"
             priority
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+Sh7cDvzSlT54b6bk+h0R+Sh7cDvzSlT54b6bk+h0R+Sh7cDvzSlT54b6bk+h0R+Sh7cDvzSlT54b6bk+h0R+Sh7cDvzSlT54b6bk+h0R+Sh7cDvzSlT54b6bk+h0R+Sh7cDvzSlT54b6bk+h0R+Sh7cDvz"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-50">
-            <div className="container mx-auto h-full flex flex-col items-center justify-center px-6 text-white text-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
+            <h1 className="text-white text-4xl md:text-5xl font-bold drop-shadow-lg">
+              <span className="text-white">Dahua</span>
+              <span className="text-red-500"> Products</span>
+            </h1>
+            <p className="text-xl max-w-3xl text-white/90">
+              Discover our comprehensive range of security products designed to meet all your
+              surveillance and safety needs.
+            </p>
+          </div>
+        </div>
+        {/* Hero Section with Image */}
+        {/* <section className="relative h-[50vh] md:h-[60vh] bg-center bg-cover bg-no-repeat bg-gray-900">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/dahuactct.jpg"
+              alt="Dahua Products Hero"
+              fill
+              className="object-cover "
+              priority
+            />
+          </div>
+
+          <div className="absolute inset-0 bg-black bg-opacity-50 z-10">
+            <div className="relative z-20 container mx-auto h-full flex flex-col items-center justify-center px-6 text-white text-center">
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
                 <span className="text-white">Dahua</span>
                 <span className="text-red-500"> Products</span>
@@ -45,7 +65,7 @@ export default async function prodcuts() {
               </p>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <div className="flex-grow">
           {/* <section className="py-16 bg-white">
@@ -98,7 +118,7 @@ export default async function prodcuts() {
                 <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
                   Product Categories
                 </h2>
-                <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+                <p className="text-lg  text-gray-700  mx-auto">
                   Browse through our extensive product categories to find the perfect security
                   solution for your needs.
                 </p>

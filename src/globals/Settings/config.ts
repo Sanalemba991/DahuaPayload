@@ -29,6 +29,11 @@ export const SiteSettings: GlobalConfig = {
       relationTo: 'media',
     },
     {
+      name: 'siteImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
       name: 'Telephone',
       type: 'text',
       required: true,
@@ -71,13 +76,27 @@ export const SiteSettings: GlobalConfig = {
             MetaImageField({
               relationTo: 'media',
             }),
-
+            {
+              type: 'text',
+              name: 'canonicalUrl',
+              label: 'Canonical URL',
+              hooks: {
+                beforeChange: [
+                  async ({ data, value }) =>
+                    !value ? `http:localohost:3000/products/${data?.slug}` : value,
+                ],
+              },
+            },
             MetaDescriptionField({}),
             PreviewField({
               hasGenerateFn: true,
-
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
+            }),
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
             }),
           ],
         },

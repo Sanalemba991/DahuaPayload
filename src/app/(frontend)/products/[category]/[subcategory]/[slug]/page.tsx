@@ -6,6 +6,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { RichText } from '@/components/RichText'
 import Image from 'next/image'
+import Script from 'next/script'
 
 export async function generateMetadata({
   params,
@@ -33,7 +34,8 @@ export async function generateMetadata({
       title: 'Product Not Found',
     }
   }
-
+  {
+  }
   return {
     title: product.title,
     description: product.meta?.description ?? '',
@@ -90,6 +92,10 @@ export default async function Product({ params }: { params: Promise<Args> }) {
       : '/placeholder.jpg'
   return (
     <>
+      <Script id="product-schema-markup" type="application/ld+json" strategy="beforeInteractive">
+        {JSON.stringify(product.schemaMarkup)}
+      </Script>
+
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
         <div className="py-4 px-2 sm:py-8 sm:px-4 lg:px-8">
           <div className="max-w-6xl mx-auto">

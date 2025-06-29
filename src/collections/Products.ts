@@ -111,7 +111,7 @@ export const Products: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      async ({ doc, operation }) => {
+      async ({ doc, operation, req }) => {
         if (operation === 'create' || operation === 'update') {
           const media = doc.heroImage as Media
 
@@ -135,17 +135,15 @@ export const Products: CollectionConfig = {
             },
           }
 
+          req.payload.update({
+            collection: 'products',
+            id: doc.id,
+            data: {
+              schemaMarkup: schema,
+            },
+          })
           doc.schemaMarkup = schema
           return doc
-
-          // // Update document with the generated schema markup
-          // await req.payload.update({
-          //   collection: 'products',
-          //   id: doc.id,
-          //   data: {
-          //     title: 'iufhwauifhwaui',
-          //   },
-          // })
         }
       },
     ],

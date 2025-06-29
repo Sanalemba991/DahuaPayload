@@ -162,6 +162,24 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    ogImage?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -364,6 +382,30 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        ogImage?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -473,6 +515,7 @@ export interface SiteSetting {
   id: string;
   'site-name': string;
   logo?: (string | null) | Media;
+  siteImage?: (string | null) | Media;
   Telephone: string;
   Email: string;
   favicon: string | Media;
@@ -482,6 +525,7 @@ export interface SiteSetting {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (string | null) | Media;
+    canonicalUrl?: string | null;
     description?: string | null;
   };
   slug?: string | null;
@@ -522,6 +566,7 @@ export interface Homepage {
 export interface SiteSettingsSelect<T extends boolean = true> {
   'site-name'?: T;
   logo?: T;
+  siteImage?: T;
   Telephone?: T;
   Email?: T;
   favicon?: T;
@@ -530,6 +575,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         title?: T;
         image?: T;
+        canonicalUrl?: T;
         description?: T;
       };
   slug?: T;

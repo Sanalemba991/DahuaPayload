@@ -14,17 +14,23 @@ import { Subcategories } from './collections/Subcategories'
 import { Users } from './collections/Users'
 import { SiteSettings } from './globals/Settings/config'
 import { ServicePage as ServicePageType } from './payload-types'
-
+import sharp from 'sharp'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      graphics: {
+        Logo: 'src/components/Logo.tsx#default',
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
+  sharp,
   collections: [Users, Media, ServicePage, Products, Categories, Subcategories],
   editor: lexicalEditor(),
   globals: [SiteSettings, Homepage],

@@ -64,6 +64,9 @@
   "engines": {
     "node": "^18.20.2 || >=20.9.0"
   },
+  "resolutions": {
+    "sharp": "0.33.0"
+  },
   "pnpm": {
     "onlyBuiltDependencies": [
       "sharp"

@@ -67,30 +67,49 @@ export default async function Product({ params }: { params: Promise<Args> }) {
   ).docs[0].subcategories
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="pt-[80px] min-h-screen flex flex-col bg-white">
+      <div className="relative w-full h-[320px] md:h-[420px]">
+        <Image
+          src="/images/dahuactct.jpg"
+          alt="Dahua Solutions Banner"
+          fill
+          className="object-cover w-full h-full"
+          priority
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
+          <h1 className="text-white text-4xl md:text-5xl font-bold drop-shadow-lg">
+            <span className="text-white">Dahua</span>
+            <span className="text-red-500"> Products</span>
+          </h1>
+          <p className="text-xl max-w-3xl text-white/90">
+            Discover our comprehensive range of security products designed to meet all your
+            surveillance and safety needs.
+          </p>
+        </div>
+      </div>
       <div className="flex-grow">
         {/* Header Section */}
         <div className="text-center mb-8">
           {/* White Hero Section with Two-Tone Text */}
-          <div className="w-full bg-white py-8 border-b border-gray-100">
+          {/* <div className="w-full bg-white py-8 border-b border-gray-100">
             <h1 className="text-4xl sm:text-5xl font-bold mb-3">
               <span className="text-black">Hikvision </span>
               <span className="text-red-600"> Solutionsjjhj</span>
             </h1>
-          </div>
+          </div> */}
 
           {/* Full Width Red Description Section */}
 
-          <div className="w-full bg-gradient-to-r from-red-700 to-red-800">
+          {/* <div className="w-full bg-gradient-to-r from-red-700 to-red-800">
             <div className="w-full mx-auto py-8 px-4">
               <div className="w-full px-4">
                 <p className="text-base sm:text-lg text-white leading-relaxed font-light tracking-wide"></p>
               </div>
             </div>
 
-            {/* Decorative bottom line */}
+          
             <div className="h-0.5 bg-gradient-to-r from-red-500/20 via-white/20 to-red-500/20"></div>
-          </div>
+          </div> */}
 
           {/* Decorative divider */}
           <div className="mt-8 flex items-center justify-center gap-3">

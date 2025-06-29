@@ -7,10 +7,12 @@ import TestimonialSlider from '@/components/Testimonials/testimonial-slider'
 import CTASection from '@/components/CTA/cta-section'
 import { Metadata } from 'next'
 import configPromise from '@payload-config'
+import { Media } from '@/payload-types'
 
 export async function generateMetadata(): Promise<Metadata> {
   const payload = await getPayload({ config: configPromise })
-  const settings = await payload.findGlobal({ slug: 'site-settings', depth: 3 })
+  const settings = await payload.findGlobal({ slug: 'site-settings', depth: 5 })
+  const ogImageUrl = settings.siteImage as Media
 
   return {
     title: settings.meta?.title,
@@ -21,6 +23,33 @@ export async function generateMetadata(): Promise<Metadata> {
       languages: {
         'en-US': '/en-US',
       },
+    },
+    openGraph: {
+      title: settings.meta?.title ?? '',
+      description: settings.meta?.description ?? '',
+      url: settings.slug ?? '',
+      siteName: settings.meta?.title || 'My Site',
+      alternateLocale: '',
+      countryName: 'U.A.E',
+      phoneNumbers: '+971503308608',
+      emails: 'sales@unvdubai.com',
+      images: [
+        {
+          url: ogImageUrl.sizes?.ogImage?.url ?? '',
+          alt: settings.meta?.title || 'Site image',
+        },
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      description: 'new description',
+      images: [
+        {
+          url: ogImageUrl.sizes?.ogImage?.url ?? '',
+          alt: settings.meta?.title || 'Site image',
+        },
+      ],
     },
   }
 }
