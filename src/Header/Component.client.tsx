@@ -16,7 +16,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
   const navRef = useRef<HTMLDivElement>(null)
   const logoUrl =
     logo?.url?.startsWith('http') || !logo?.url
-      ? logo.url
+      ? logo?.url
       : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo?.url ?? ''}`
   // Close dropdown when clicking outside
   const handleClickOutside = useCallback((event: MouseEvent) => {

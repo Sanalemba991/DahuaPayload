@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
       emails: 'sales@unvdubai.com',
       images: [
         {
-          url: ogImageUrl.sizes?.ogImage?.url ?? '',
+          url: ogImageUrl?.sizes?.ogImage?.url ?? '',
           alt: settings.meta?.title || 'Site image',
         },
       ],
@@ -46,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: 'new description',
       images: [
         {
-          url: ogImageUrl.sizes?.ogImage?.url ?? '',
+          url: ogImageUrl?.sizes?.ogImage?.url ?? '',
           alt: settings.meta?.title || 'Site image',
         },
       ],

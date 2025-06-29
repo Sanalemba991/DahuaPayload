@@ -7,7 +7,8 @@ import { getPayload } from 'payload'
 import Footer from '@/components/Footer/Footer'
 
 const payload = await getPayload({ config: configPromise })
-const favicon = (await payload.findGlobal({ slug: 'site-settings' })).favicon as Media
+const favicon = (await payload.findGlobal({ slug: 'site-settings' }))?.favicon as Media
+console.log('favicon', favicon)
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
