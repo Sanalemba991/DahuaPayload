@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const url = 'http://localhost:3000'
+  const url = 'http://localhost:3002'
 
   return {
     rules: [

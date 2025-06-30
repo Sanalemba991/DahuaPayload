@@ -4,8 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: payload-cms
-    volumes:
-      - ./payload:/app
+   
     ports:
       - "3002:3002"
     env_file:

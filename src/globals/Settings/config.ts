@@ -83,7 +83,7 @@ export const SiteSettings: GlobalConfig = {
               hooks: {
                 beforeChange: [
                   async ({ data, value }) =>
-                    !value ? `http:localohost:3000/products/${data?.slug}` : value,
+                    !value ? `http:localohost:3002/products/${data?.slug}` : value,
                 ],
               },
             },
