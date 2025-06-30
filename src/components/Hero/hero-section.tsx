@@ -39,9 +39,7 @@ const HeroSection = ({}: { homepage: Homepage }) => {
           onError={() => setVideoError(true)}
           className="absolute inset-0 w-full h-full object-cover opacity-60"
         >
-          <source src="/dahua-intro.mp4" type="video/mp4" />
-          <source src="dahua-intro.mp4" type="video/mp4" />
-          <source src="/videos/dahua-intro.mp4" type="video/mp4" />
+          <source src="/dahua-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       ) : (

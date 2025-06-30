@@ -6,15 +6,13 @@ export const Media: CollectionConfig = {
     read: () => true,
   },
   upload: {
-    staticDir: 'media',
-    // optional: where files are stored
-    // restrict to images
+    staticDir: '/media',
     imageSizes: [
       {
         name: 'ogImage',
         width: 1200,
         height: 600,
-        fit: 'cover', // 'cover' crops to fit; 'contain' fits inside without cropping
+        fit: 'cover',
       },
       {
         name: 'thumbnail',

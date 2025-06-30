@@ -52,6 +52,11 @@ export const Products: CollectionConfig = {
       required: true,
     },
     {
+      name: 'pricep',
+      type: 'text',
+      required: true,
+    },
+    {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',
@@ -114,7 +119,7 @@ export const Products: CollectionConfig = {
       async ({ doc, operation, req }) => {
         if (operation === 'create' || operation === 'update') {
           const media = doc.heroImage as Media
-
+          const price = doc.pricep
           const schema = {
             '@context': 'https://schema.org',
             '@type': 'Product',
@@ -125,7 +130,7 @@ export const Products: CollectionConfig = {
             offers: {
               '@type': 'Offer',
               priceCurrency: 'USD',
-              price: doc.price,
+              price: price,
               availability: 'https://schema.org/InStock',
               itemCondition: 'https://schema.org/NewCondition',
               seller: {

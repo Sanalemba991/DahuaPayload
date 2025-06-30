@@ -223,6 +223,7 @@ export interface Product {
     };
     [k: string]: unknown;
   };
+  pricep: string;
   heroImage?: (string | null) | Media;
   categories: string | Category;
   subcategories: string | Subcategory;
@@ -432,6 +433,7 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   content?: T;
+  pricep?: T;
   heroImage?: T;
   categories?: T;
   subcategories?: T;
