@@ -35,7 +35,7 @@ export async function generateMetadata({
   return {
     title: category.title,
     description: category.description ?? '',
-    metadataBase: new URL('http://localhost:3000'),
+    metadataBase: new URL('http://localhost:3002'),
     alternates: {
       canonical: '/',
       languages: {

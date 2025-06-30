@@ -39,7 +39,7 @@ export async function generateMetadata({
   return {
     title: product.title,
     description: product.meta?.description ?? '',
-    metadataBase: new URL('http://localhost:3000'),
+    metadataBase: new URL('http://localhost:3002'),
     alternates: {
       canonical: '/',
       languages: {

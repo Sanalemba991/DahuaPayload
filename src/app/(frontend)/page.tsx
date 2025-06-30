@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: settings.meta?.title,
     description: settings.meta?.description ?? '',
-    metadataBase: new URL('http://localhost:3000'),
+    metadataBase: new URL('http://localhost:3002'),
     alternates: {
       canonical: '/',
       languages: {
