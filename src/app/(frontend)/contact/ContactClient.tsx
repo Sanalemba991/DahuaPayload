@@ -104,9 +104,9 @@ export const ContactClient: React.FC<ContactClientProps> = ({ telephone, email, 
 
   return (
     <>
-      <Script id="contact-markup" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(schemaMarkup)}
-      </Script>
+      {schemaMarkup && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaMarkup }} />
+      )}
       <div className="min-h-screen bg-black relative overflow-hidden">
         {/* Dynamic Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
