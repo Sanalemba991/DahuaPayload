@@ -4,7 +4,7 @@ export const HomePage: CollectionConfig = {
 
   access: {
     read: () => true,
-    create: () => false,
+    create: () => true,
   },
   fields: [
     {
