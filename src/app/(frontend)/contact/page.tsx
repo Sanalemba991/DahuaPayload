@@ -11,13 +11,13 @@ export default async function ContactPage() {
   })
 
   const contactPage = contactPageRes.docs?.[0]
-  const telephone = contactPage.Email
-  const email = contactPage.Telephone
+  const telephone = contactPage.Email ?? ''
+  const email = contactPage.Telephone ?? ''
   return (
     <ContactClient
       telephone={telephone}
       email={email}
-      schemaMarkup={JSON.stringify(contactPage.schemaMarkup)}
+      schemaMarkup={JSON.stringify(contactPage.schemaMarkup ?? {})}
     />
   )
 }
