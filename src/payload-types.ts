@@ -73,6 +73,8 @@ export interface Config {
     products: Product;
     categories: Category;
     subcategories: Subcategory;
+    homepage: Homepage;
+    contactpage: Contactpage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -85,6 +87,8 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     subcategories: SubcategoriesSelect<false> | SubcategoriesSelect<true>;
+    homepage: HomepageSelect<false> | HomepageSelect<true>;
+    contactpage: ContactpageSelect<false> | ContactpageSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -94,11 +98,9 @@ export interface Config {
   };
   globals: {
     'site-settings': SiteSetting;
-    homepage: Homepage;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
-    homepage: HomepageSelect<false> | HomepageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -261,6 +263,15 @@ export interface Category {
   categoryImage?: (string | null) | Media;
   products?: (string | Product)[] | null;
   subcategories?: (string | Subcategory)[] | null;
+  schemaMarkup?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -275,6 +286,69 @@ export interface Subcategory {
   SubcategoryImage?: (string | null) | Media;
   slug: string;
   products?: (string | Product)[] | null;
+  schemaMarkup?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage".
+ */
+export interface Homepage {
+  id: string;
+  title: string;
+  slug: string;
+  /**
+   * Upload an MP4 hero video for the homepage
+   */
+  heroVideo: string | Media;
+  schemaMarkup?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contactpage".
+ */
+export interface Contactpage {
+  id: string;
+  title: string;
+  description: string;
+  Telephone: string;
+  Email: string;
+  address?: {
+    street?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postalCode?: string | null;
+    country?: string | null;
+  };
+  slug: string;
+  schemaMarkup?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -308,6 +382,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'subcategories';
         value: string | Subcategory;
+      } | null)
+    | ({
+        relationTo: 'homepage';
+        value: string | Homepage;
+      } | null)
+    | ({
+        relationTo: 'contactpage';
+        value: string | Contactpage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -461,6 +543,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   categoryImage?: T;
   products?: T;
   subcategories?: T;
+  schemaMarkup?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -474,6 +557,42 @@ export interface SubcategoriesSelect<T extends boolean = true> {
   SubcategoryImage?: T;
   slug?: T;
   products?: T;
+  schemaMarkup?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage_select".
+ */
+export interface HomepageSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  heroVideo?: T;
+  schemaMarkup?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contactpage_select".
+ */
+export interface ContactpageSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  Telephone?: T;
+  Email?: T;
+  address?:
+    | T
+    | {
+        street?: T;
+        city?: T;
+        state?: T;
+        postalCode?: T;
+        country?: T;
+      };
+  slug?: T;
+  schemaMarkup?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -544,25 +663,6 @@ export interface SiteSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "homepage".
- */
-export interface Homepage {
-  id: string;
-  title: string;
-  sliderImage?:
-    | {
-        /**
-         * upload slider image
-         */
-        image: string | Media;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -587,22 +687,6 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         platform?: T;
         url?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "homepage_select".
- */
-export interface HomepageSelect<T extends boolean = true> {
-  title?: T;
-  sliderImage?:
-    | T
-    | {
-        image?: T;
         id?: T;
       };
   updatedAt?: T;

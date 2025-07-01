@@ -21,7 +21,7 @@ export const Media: CollectionConfig = {
         fit: 'cover',
       },
     ],
-    adminThumbnail: 'ogImage', // show this resized version in admin UI
+    adminThumbnail: 'ogImage',
   },
   fields: [
     {

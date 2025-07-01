@@ -12,14 +12,13 @@ type Media = {
 
 export default async function prodcuts() {
   const payload = await getPayload({ config: configPromise })
-
   const categories = await payload.find({
     collection: 'categories',
     depth: 1,
     limit: 12,
     overrideAccess: false,
   })
-
+  console.log(categories)
   return (
     <>
       <div className="pt-[80px] min-h-screen flex flex-col bg-white">
@@ -42,77 +41,8 @@ export default async function prodcuts() {
             </p>
           </div>
         </div>
-        {/* Hero Section with Image */}
-        {/* <section className="relative h-[50vh] md:h-[60vh] bg-center bg-cover bg-no-repeat bg-gray-900">
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/images/dahuactct.jpg"
-              alt="Dahua Products Hero"
-              fill
-              className="object-cover "
-              priority
-            />
-          </div>
-
-          <div className="absolute inset-0 bg-black bg-opacity-50 z-10">
-            <div className="relative z-20 container mx-auto h-full flex flex-col items-center justify-center px-6 text-white text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                <span className="text-white">Dahua</span>
-                <span className="text-red-500"> Products</span>
-              </h1>
-              <p className="text-xl max-w-3xl text-white/90">
-                Discover our comprehensive range of security products designed to meet all your
-                surveillance and safety needs.
-              </p>
-            </div>
-          </div>
-        </section> */}
 
         <div className="flex-grow">
-          {/* <section className="py-16 bg-white">
-            <div className="container mx-auto px-4 max-w-6xl">
-              <div className="flex flex-col items-center mb-12">
-                <h2 className="text-4xl font-bold mb-8 text-center text-gray-900">
-                  Our Product <span className="text-red-600">Range</span>
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {products.map((prod) => (
-                  <div
-                    key={prod.id}
-                    className="relative overflow-hidden rounded-lg aspect-[3/4] group shadow-md border border-gray-200 hover:shadow-lg transition-shadow bg-white"
-                  >
-                    <div className="relative h-3/5 w-full bg-gray-50">
-                      <Image
-                        src={(prod.heroImage as Media).url}
-                        alt={prod.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                        className="transition-transform duration-700 group-hover:scale-105 p-2"
-                        style={{
-                          objectFit: 'contain',
-                          objectPosition: 'center',
-                        }}
-                      />
-                    </div>
-
-                    <div className="relative h-2/5 p-4 flex flex-col justify-center bg-white">
-                      <div>
-                        <h3 className="text-sm font-bold text-gray-900 mb-2 line-clamp-2 leading-tight">
-                          {prod.title}
-                        </h3>
-                        <p className="text-gray-600 text-xs line-clamp-3">{prod.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section> */}
-
-          {/* Subcategories Grid - Only if categories exist */}
-
           <section className="py-16 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-12">

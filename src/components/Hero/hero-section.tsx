@@ -1,10 +1,13 @@
 'use client'
-import { Homepage } from '@/payload-types'
+import { Homepage, Media } from '@/payload-types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
-
-const HeroSection = ({}: { homepage: Homepage }) => {
+interface Herosectionprops {
+  videoUrl: Media
+  homepage: Homepage
+}
+export const HeroSection: React.FC<Herosectionprops> = ({ videoUrl }) => {
   const [videoError, setVideoError] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   useEffect(() => {
@@ -39,7 +42,7 @@ const HeroSection = ({}: { homepage: Homepage }) => {
           onError={() => setVideoError(true)}
           className="absolute inset-0 w-full h-full object-cover opacity-60"
         >
-          <source src="/dahua-video.mp4" type="video/mp4" />
+          <source src={videoUrl?.url ?? '/dahua-video.mp4'} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       ) : (

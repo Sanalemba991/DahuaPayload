@@ -6,7 +6,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
-import { Homepage } from './collections/homepage'
+import { HomePage } from './collections/homepage'
 import { Media } from './collections/Media'
 import { Products } from './collections/Products'
 import { ServicePage } from './collections/services'
@@ -15,6 +15,8 @@ import { Users } from './collections/Users'
 import { SiteSettings } from './globals/Settings/config'
 import { ServicePage as ServicePageType } from './payload-types'
 import sharp from 'sharp'
+import { ContactPage } from './collections/ContactPage'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -31,9 +33,18 @@ export default buildConfig({
     },
   },
   sharp,
-  collections: [Users, Media, ServicePage, Products, Categories, Subcategories],
+  collections: [
+    Users,
+    Media,
+    ServicePage,
+    Products,
+    Categories,
+    Subcategories,
+    HomePage,
+    ContactPage,
+  ],
   editor: lexicalEditor(),
-  globals: [SiteSettings, Homepage],
+  globals: [SiteSettings],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
