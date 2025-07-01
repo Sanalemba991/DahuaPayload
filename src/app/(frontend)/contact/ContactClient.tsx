@@ -11,7 +11,6 @@ import {
   Star,
   Sparkles,
   MessageCircle,
-  Contact,
 } from 'lucide-react'
 import Script from 'next/script'
 
