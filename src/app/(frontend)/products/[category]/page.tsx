@@ -33,6 +33,7 @@ export async function generateMetadata({
       title: 'Category Not Found',
     }
   }
+
   return {
     title: category.title,
     description: category.description ?? '',

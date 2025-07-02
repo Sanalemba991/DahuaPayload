@@ -49,38 +49,4 @@ export const Subcategories: CollectionConfig = {
       },
     },
   ],
-  hooks: {
-    afterChange: [
-      async ({ doc, operation, req }) => {
-        if (operation === 'create' || operation === 'update') {
-          const schema = {
-            '@context': 'https://schema.org',
-            '@type': 'CollectionPage',
-            name: doc.title,
-            description: doc.description,
-            url: 'https://dubai-hikvision.com/productsnew',
-            mainEntity: {
-              '@type': 'ItemList',
-              itemListElement: doc.products.map((product: string, index: number) => ({
-                '@type': 'ListItem',
-                position: index + 1,
-                name: doc.title,
-                url: 'https://dubai-hikvision.com' + product,
-              })),
-            },
-          }
-
-          req.payload.update({
-            collection: 'subcategories',
-            id: doc.id,
-            data: {
-              schemaMarkup: schema,
-            },
-          })
-          doc.schemaMarkup = schema
-          return doc
-        }
-      },
-    ],
-  },
 }

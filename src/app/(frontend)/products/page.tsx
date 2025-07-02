@@ -18,9 +18,19 @@ export default async function prodcuts() {
     limit: 12,
     overrideAccess: false,
   })
-  console.log(categories)
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': categories.docs.map((cat) => cat.schemaMarkup).filter(Boolean),
+          }),
+        }}
+      />
+
       <div className="pt-[80px] min-h-screen flex flex-col bg-white">
         <div className="relative w-full h-[320px] md:h-[420px]">
           <Image
@@ -128,7 +138,6 @@ export default async function prodcuts() {
             </div>
           </section>
 
-          {/* Why Choose Our Products */}
           <section className="py-16 bg-white">
             <div className="container mx-auto px-6">
               <div className="text-center mb-12">
@@ -211,7 +220,6 @@ export default async function prodcuts() {
             </div>
           </section>
 
-          {/* CTA Section - Updated to match Solutions page style */}
           <section className="py-16 bg-white">
             <div className="container mx-auto px-6">
               <div className="max-w-4xl mx-auto bg-gradient-to-r from-black via-red-900 to-red-600 rounded-2xl p-12 shadow-xl text-center">

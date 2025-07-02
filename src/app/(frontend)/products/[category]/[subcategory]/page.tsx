@@ -5,7 +5,6 @@ import type { Product } from '@/payload-types'
 import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-
 type Args = {
   category: string
   subcategory: string
@@ -42,9 +41,68 @@ export default async function Product({ params }: { params: Promise<Args> }) {
       },
     })
   ).docs
-  console.log(products)
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'
+
+  const productSchemas = products.map((product) => ({
+    '@type': 'Product',
+    name: product.title,
+    url: `${baseUrl}/products/${category}/${subcategory}/${product.slug}`,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      price: product.pricep ? String(product.pricep) : '0.00',
+      availability: 'https://schema.org/InStock',
+    },
+  }))
+  const filteredProductSchemas = productSchemas.filter((item) => item['@type'] !== 'Product')
+  const schemaMarkup = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      ...filteredProductSchemas,
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            item: {
+              '@id': baseUrl,
+              '@type': 'WebPage',
+              name: 'Home',
+            },
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            item: {
+              '@id': `${baseUrl}/products/${category}`,
+              '@type': 'WebPage',
+              name: category,
+            },
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            item: {
+              '@id': `${baseUrl}/products/${category}/${subcategory}`,
+              '@type': 'WebPage',
+              name: subcategory,
+            },
+          },
+        ],
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+        key="product-schema"
+      />
+
       <div className="min-h-screen flex flex-col bg-white">
         <div className="flex-grow">
           <div className="text-center mb-8">

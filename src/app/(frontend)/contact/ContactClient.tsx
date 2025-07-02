@@ -12,8 +12,6 @@ import {
   Sparkles,
   MessageCircle,
 } from 'lucide-react'
-import Script from 'next/script'
-
 interface ContactClientProps {
   telephone: string
   email: string

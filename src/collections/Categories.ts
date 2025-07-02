@@ -1,7 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
-import { Media } from '@/payload-types'
 export const Categories: CollectionConfig = {
   slug: 'categories',
   access: {
@@ -55,44 +54,88 @@ export const Categories: CollectionConfig = {
       },
     },
   ],
-
   hooks: {
     afterChange: [
       async ({ doc, operation, req }) => {
-        if (operation === 'create' || operation === 'update') {
-          const media = doc.heroImage as Media
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'
 
-          const price = doc.pricep
+        if ((operation === 'create' || operation === 'update') && doc.products?.length) {
+          const items = await Promise.all(
+            doc.products.map(async (productEntry: string | { id: string }, index: number) => {
+              const productId = typeof productEntry === 'string' ? productEntry : productEntry?.id
+              if (!productId) return null
+
+              try {
+                const product = await req.payload.findByID({
+                  collection: 'products',
+                  id: productId,
+                })
+
+                return {
+                  '@type': 'ListItem',
+                  position: index + 1,
+                  name: product.title,
+                  url: `${baseUrl}/products/${product.slug}`,
+                }
+              } catch (err) {
+                console.error(`Failed to fetch product ${productId}:`, err)
+                return null
+              }
+            }),
+          )
+
+          const filteredItems = items.filter(Boolean)
+
           const schema = {
             '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: doc.title,
-            description: doc.description,
-            sku: doc.sku,
-            image: media?.url || '',
-            offers: {
-              '@type': 'Offer',
-              priceCurrency: 'USD',
-              price: price,
-              availability: 'https://schema.org/InStock',
-              itemCondition: 'https://schema.org/NewCondition',
-              seller: {
-                '@type': 'Organization',
-                name: 'Your Company',
+            '@graph': [
+              {
+                '@type': 'CollectionPage',
+                name: doc.title,
+                description: doc.description || '',
+                url: `${baseUrl}/categories/${doc.slug}`,
+                mainEntity: {
+                  '@type': 'ItemList',
+                  itemListElement: filteredItems,
+                },
               },
-            },
+              {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  {
+                    '@type': 'ListItem',
+                    position: 1,
+                    name: 'Home',
+                    item: baseUrl,
+                  },
+                  {
+                    '@type': 'ListItem',
+                    position: 2,
+                    name: 'products',
+                    item: `${baseUrl}/products`,
+                  },
+                  {
+                    '@type': 'ListItem',
+                    position: 3,
+                    name: doc.title,
+                    item: `${baseUrl}/products/${doc.slug}`,
+                  },
+                ],
+              },
+            ],
           }
 
           req.payload.update({
             collection: 'categories',
             id: doc.id,
-            data: {
-              schemaMarkup: schema,
-            },
+            data: { schemaMarkup: schema },
           })
+
           doc.schemaMarkup = schema
           return doc
         }
+
+        return doc
       },
     ],
   },
