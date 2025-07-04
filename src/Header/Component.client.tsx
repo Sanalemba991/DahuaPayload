@@ -13,12 +13,14 @@ interface HeaderClientProps {
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileSubMenu, setMobileSubMenu] = useState<null | 'technologies' | 'solutions'>(null)
   const navRef = useRef<HTMLDivElement>(null)
   const logoUrl =
     logo?.url?.startsWith('http') || !logo?.url
       ? logo?.url
       : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo?.url ?? ''}`
-  // Close dropdown when clicking outside
+
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (navRef.current && !navRef.current.contains(event.target as Node)) {
       setActiveDropdown(null)
@@ -34,7 +36,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 shadow-md"
+      className="fixed top-0 right-0 z-50 hadow-md"
       style={{
         backgroundColor: 'white',
         // backdropFilter: 'blur(1px) saturate(1.5)',
@@ -43,7 +45,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 9999,
+
         borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
       }}
     >
@@ -65,8 +67,44 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
             margin: '0 auto',
           }}
         >
+          <div className="flex w-full md:hidden items-center justify-between">
+            {/* Hamburger on the left */}
+            <button
+              className="flex items-center md:hidden"
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: 28,
+                color: '#fff',
+                cursor: 'pointer',
+              }}
+              aria-label="Toggle menu"
+              onClick={() => setMobileOpen((prev) => !prev)}
+            >
+              &#9776;
+            </button>
+            {/* Logo on the right */}
+            {logo?.url && (
+              <Link href="/" style={{ display: 'block' }}>
+                <Image
+                  priority={true}
+                  src={
+                    logo.url.startsWith('http')
+                      ? logo.url
+                      : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo.url}`
+                  }
+                  alt={logo.alt || 'Site Logo'}
+                  width={100}
+                  height={30}
+                />
+              </Link>
+            )}
+          </div>
           {/* Logo - Left Side */}
-          <div style={{ width: '150px' }}>
+          <div
+            style={{ width: '150px', marginLeft: '32px' }}
+            className="hidden md:flex items-center justify-start"
+          >
             <Link href="/" style={{ display: 'block' }}>
               {logo?.url && (
                 <Image
@@ -79,12 +117,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                   alt={logo.alt || 'Site Logo'}
                   width={140}
                   height={40}
-                  // style={{
-                  //   objectFit: 'contain',
-                  //   filter: 'brightness(1.2) contrast(1.1)',
-                  //   transition: 'all 0.3s ease',
-                  //   cursor: 'pointer',
-                  // }}
+                  style={{
+                    objectFit: 'contain',
+                    filter: 'brightness(1.2) contrast(1.1)',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                  }}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement
                     target.style.display = 'none'
@@ -112,31 +150,28 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
 
           {/* Main Navigation - Center */}
           <div
+            className="hidden md:flex items-center gap-8"
             style={{
-              display: 'flex',
-              gap: '25px',
-              alignItems: 'center',
-              justifyContent: 'center',
               flex: 1,
+              justifyContent: 'center',
             }}
           >
             <Link
               href="/"
               style={{
-                color: 'white',
+                color: 'black',
                 fontWeight: 'bold',
                 fontSize: '16px',
-                textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                 filter: 'brightness(1.1)',
                 transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 2px 8px rgba(59, 130, 246, 0.6)'
-                ;(e.target as HTMLElement).style.color = '#93c5fd'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
               onMouseLeave={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 1px 3px rgba(0,0,0,0.8)'
-                ;(e.target as HTMLElement).style.color = 'white'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
             >
               Home
@@ -147,16 +182,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 color: 'black',
                 fontWeight: 'bold',
                 fontSize: '16px',
-                textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                 filter: 'brightness(1.1)',
                 transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 2px 8px rgba(59, 130, 246, 0.6)'
-                ;(e.target as HTMLElement).style.color = '#93c5fd'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
               onMouseLeave={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 1px 3px rgba(0,0,0,0.8)'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
                 ;(e.target as HTMLElement).style.color = 'red'
               }}
             >
@@ -172,24 +206,23 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
               <Link
                 href="/technologies"
                 style={{
-                  color: 'white',
+                  color: 'black',
                   fontWeight: 'bold',
                   fontSize: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px',
                   padding: '15px 0',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                   filter: 'brightness(1.1)',
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 2px 8px rgba(59, 130, 246, 0.6)'
-                  ;(e.target as HTMLElement).style.color = '#93c5fd'
+                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
+                  ;(e.target as HTMLElement).style.color = 'red'
                 }}
                 onMouseLeave={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 1px 3px rgba(0,0,0,0.8)'
-                  ;(e.target as HTMLElement).style.color = 'white'
+                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
+                  ;(e.target as HTMLElement).style.color = 'red'
                 }}
               >
                 Technologies
@@ -416,24 +449,23 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
               <Link
                 href="/solutions"
                 style={{
-                  color: 'white',
+                  color: 'black',
                   fontWeight: 'bold',
                   fontSize: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px',
                   padding: '15px 0',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                   filter: 'brightness(1.1)',
                   transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 2px 8px rgba(59, 130, 246, 0.6)'
-                  ;(e.target as HTMLElement).style.color = '#93c5fd'
+                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
+                  ;(e.target as HTMLElement).style.color = 'red'
                 }}
                 onMouseLeave={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 1px 3px rgba(0,0,0,0.8)'
-                  ;(e.target as HTMLElement).style.color = 'white'
+                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
+                  ;(e.target as HTMLElement).style.color = 'red'
                 }}
               >
                 Solutions
@@ -632,20 +664,19 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
             <Link
               href="/sira"
               style={{
-                color: 'white',
+                color: 'black',
                 fontWeight: 'bold',
                 fontSize: '16px',
-                textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                 filter: 'brightness(1.1)',
                 transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 2px 8px rgba(59, 130, 246, 0.6)'
-                ;(e.target as HTMLElement).style.color = '#93c5fd'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
               onMouseLeave={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 1px 3px rgba(0,0,0,0.8)'
-                ;(e.target as HTMLElement).style.color = 'white'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
             >
               Sira
@@ -653,20 +684,19 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
             <Link
               href="/about-us"
               style={{
-                color: 'white',
+                color: 'black',
                 fontWeight: 'bold',
                 fontSize: '16px',
-                textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                 filter: 'brightness(1.1)',
                 transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 2px 8px rgba(59, 130, 246, 0.6)'
-                ;(e.target as HTMLElement).style.color = '#93c5fd'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
               onMouseLeave={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 1px 3px rgba(0,0,0,0.8)'
-                ;(e.target as HTMLElement).style.color = 'white'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
             >
               About Us
@@ -674,20 +704,19 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
             <Link
               href="/contact"
               style={{
-                color: 'white',
+                color: 'black',
                 fontWeight: 'bold',
                 fontSize: '16px',
-                textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                 filter: 'brightness(1.1)',
                 transition: 'all 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 2px 8px rgba(59, 130, 246, 0.6)'
-                ;(e.target as HTMLElement).style.color = '#93c5fd'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
               onMouseLeave={(e) => {
-                ;(e.target as HTMLElement).style.textShadow = '0 1px 3px rgba(0,0,0,0.8)'
-                ;(e.target as HTMLElement).style.color = 'white'
+                ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
+                ;(e.target as HTMLElement).style.color = 'red'
               }}
             >
               Contact Us
@@ -748,6 +777,180 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
             </div>
           </div>
         </div>
+        {mobileOpen && (
+          <div
+            className="fixed inset-0 z-[99999] flex md:hidden"
+            style={{ pointerEvents: 'none' }} // allow clicks to pass through except nav
+          >
+            {/* Transparent nav links */}
+            <div
+              className="flex flex-col gap-6 px-6 py-4 rounded-xl shadow-lg"
+              style={{
+                background: 'rgba(0,0,0,0.6)',
+                pointerEvents: 'auto',
+                maxWidth: 260,
+                minWidth: 200,
+                margin: '70px 0 0 0', // <-- changed from '70px 0 0 16px' to remove left gap
+                alignSelf: 'flex-start',
+                borderTopLeftRadius: 0, // <-- add
+              }}
+            >
+              {!mobileSubMenu && (
+                <ul className="flex flex-col gap-6">
+                  <li>
+                    <Link href="/" onClick={() => setMobileOpen(false)}>
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/products" onClick={() => setMobileOpen(false)}>
+                      Products
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      className="w-full text-left flex items-center justify-between"
+                      onClick={() => setMobileSubMenu('technologies')}
+                    >
+                      Technologies
+                      <span className="ml-2 text-gray-300">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+                          <path
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 6l6 6-6 6"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="w-full text-left flex items-center justify-between"
+                      onClick={() => setMobileSubMenu('solutions')}
+                    >
+                      Solutions
+                      <span className="ml-2 text-gray-300">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+                          <path
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 6l6 6-6 6"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <Link href="/sira" onClick={() => setMobileOpen(false)}>
+                      Sira
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about-us" onClick={() => setMobileOpen(false)}>
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/contact" onClick={() => setMobileOpen(false)}>
+                      Contact Us
+                    </Link>
+                  </li>
+                </ul>
+              )}
+
+              {/* Technologies Submenu */}
+              {mobileSubMenu === 'technologies' && (
+                <ul className="flex flex-col gap-6">
+                  <li>
+                    <button className="w-full text-left" onClick={() => setMobileSubMenu(null)}>
+                      &larr; Back
+                    </button>
+                  </li>
+                  <li>
+                    <Link href="/technologies/wizsense" onClick={() => setMobileOpen(false)}>
+                      WizSense Technology
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/technologies/wizmind" onClick={() => setMobileOpen(false)}>
+                      WizMind Technology
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/technologies/full-color" onClick={() => setMobileOpen(false)}>
+                      Full-color Technology
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/technologies/auto-tracking" onClick={() => setMobileOpen(false)}>
+                      Auto Tracking 3.0
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/technologies/hdcvi-ten" onClick={() => setMobileOpen(false)}>
+                      HDCVI TEN Technology
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/technologies/predictive-focus"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Predictive Focus Algorithm
+                    </Link>
+                  </li>
+                </ul>
+              )}
+
+              {/* Solutions Submenu */}
+              {mobileSubMenu === 'solutions' && (
+                <ul className="flex flex-col gap-6">
+                  <li>
+                    <button className="w-full text-left" onClick={() => setMobileSubMenu(null)}>
+                      &larr; Back
+                    </button>
+                  </li>
+                  <li>
+                    <Link href="/solutions/building" onClick={() => setMobileOpen(false)}>
+                      Building
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/solutions/banking" onClick={() => setMobileOpen(false)}>
+                      Banking
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/solutions/retail" onClick={() => setMobileOpen(false)}>
+                      Retail
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/solutions/transportation" onClick={() => setMobileOpen(false)}>
+                      Transportation
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/solutions/government" onClick={() => setMobileOpen(false)}>
+                      Government
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </div>
+            {/* Click outside to close */}
+            <div
+              className="flex-1"
+              onClick={() => setMobileOpen(false)}
+              style={{ cursor: 'pointer', pointerEvents: 'auto' }}
+            />
+          </div>
+        )}
       </nav>
     </header>
   )

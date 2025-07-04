@@ -259,7 +259,6 @@ export interface Category {
   id: string;
   title: string;
   description: string;
-  slug: string;
   categoryImage?: (string | null) | Media;
   products?: (string | Product)[] | null;
   subcategories?: (string | Subcategory)[] | null;
@@ -272,6 +271,16 @@ export interface Category {
     | number
     | boolean
     | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -284,7 +293,6 @@ export interface Subcategory {
   title: string;
   description: string;
   SubcategoryImage?: (string | null) | Media;
-  slug: string;
   products?: (string | Product)[] | null;
   schemaMarkup?:
     | {
@@ -295,6 +303,16 @@ export interface Subcategory {
     | number
     | boolean
     | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -539,11 +557,19 @@ export interface ProductsSelect<T extends boolean = true> {
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
-  slug?: T;
   categoryImage?: T;
   products?: T;
   subcategories?: T;
   schemaMarkup?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -555,9 +581,17 @@ export interface SubcategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   SubcategoryImage?: T;
-  slug?: T;
   products?: T;
   schemaMarkup?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }

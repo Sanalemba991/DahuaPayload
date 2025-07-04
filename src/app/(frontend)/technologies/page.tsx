@@ -27,6 +27,8 @@ export default function TechnologiesPage() {
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
                   src="/images/aisurv.jpg"
+                  width={400}
+                  height={400}
                   alt="WizSense Technology"
                   fill
                   className="object-cover object-center w-full h-full"
@@ -61,7 +63,8 @@ export default function TechnologiesPage() {
               <div className="p-3">
                 <h3 className="text-lg font-bold mb-1">WizMind Technology</h3>
                 <p className="text-black text-sm leading-relaxed">
-                  Advanced deep learning algorithms for intelligent video analytics and behavior analysis.
+                  Advanced deep learning algorithms for intelligent video analytics and behavior
+                  analysis.
                 </p>
                 <a
                   href="/technologies/wizmind"
@@ -86,7 +89,8 @@ export default function TechnologiesPage() {
               <div className="p-3">
                 <h3 className="text-lg font-bold mb-1">Full-color Technology</h3>
                 <p className="text-black text-sm leading-relaxed">
-                  24/7 full-color imaging with Smart Dual Illuminators for enhanced night visibility.
+                  24/7 full-color imaging with Smart Dual Illuminators for enhanced night
+                  visibility.
                 </p>
                 <a
                   href="/technologies/full-color"
@@ -136,7 +140,8 @@ export default function TechnologiesPage() {
               <div className="p-3">
                 <h3 className="text-lg font-bold mb-1">HDCVI TEN Technology</h3>
                 <p className="text-black text-sm leading-relaxed">
-                  4K resolution over coax with long-distance transmission and cost-effective upgrades.
+                  4K resolution over coax with long-distance transmission and cost-effective
+                  upgrades.
                 </p>
                 <a
                   href="/technologies/hdcvi-ten"
@@ -161,7 +166,8 @@ export default function TechnologiesPage() {
               <div className="p-3">
                 <h3 className="text-lg font-bold mb-1">PFA Technology</h3>
                 <p className="text-black text-sm leading-relaxed">
-                  Predictive Focus Algorithm ensuring sharp imaging with automatic focus optimization.
+                  Predictive Focus Algorithm ensuring sharp imaging with automatic focus
+                  optimization.
                 </p>
                 <a
                   href="/technologies/predictive-focus"
@@ -203,7 +209,8 @@ export default function TechnologiesPage() {
                 opacity: 0.95,
               }}
             >
-              Want to know which technology fits your needs? Our experts are ready to help you choose the best solution.
+              Want to know which technology fits your needs? Our experts are ready to help you
+              choose the best solution.
             </p>
             <a
               href="/contact"

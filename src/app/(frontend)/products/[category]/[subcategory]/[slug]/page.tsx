@@ -1,20 +1,20 @@
+export const dynamic = 'force-dynamic'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import type { Product } from '@/payload-types'
 import { draftMode } from 'next/headers'
 import { Metadata } from 'next'
-import Link from 'next/link'
-import { RichText } from '@/components/RichText'
 import Image from 'next/image'
+import ImageGallery from '@/components/ImageGallery'
+import ProductDetails from '@/components/ProductDetails'
 import Script from 'next/script'
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string; category: string; subcategory: string }>
 }): Promise<Metadata> {
   const payload = await getPayload({ config: configPromise })
-
+  const settings = await payload.findGlobal({ slug: 'site-settings', depth: 5 })
   const product = (
     await payload.find({
       collection: 'products',
@@ -39,7 +39,7 @@ export async function generateMetadata({
   return {
     title: product.title,
     description: product.meta?.description ?? '',
-    metadataBase: new URL('http://localhost:3002'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'),
     alternates: {
       canonical: '/',
       languages: {
@@ -48,10 +48,8 @@ export async function generateMetadata({
     },
     openGraph: {
       title: product.title,
-
       description: product?.meta?.description ?? '',
-      siteName: 'https://totalengg.in',
-
+      siteName: settings.meta?.title || 'My Site',
       locale: 'en_US',
       type: 'website',
     },
@@ -67,7 +65,6 @@ type Args = {
 export default async function Product({ params }: { params: Promise<Args> }) {
   const { isEnabled: draft } = await draftMode()
   const { slug } = await params
-
   const payload = await getPayload({ config: configPromise })
   const product = (
     await payload.find({
@@ -84,118 +81,48 @@ export default async function Product({ params }: { params: Promise<Args> }) {
     })
   ).docs[0]
 
-  const selectedImage =
-    typeof product.heroImage === 'object' &&
-    product.heroImage !== null &&
-    'url' in product.heroImage
-      ? (product.heroImage.url ?? '/placeholder.jpg') // <- THIS ENSURES it's never null
-      : '/placeholder.jpg'
   return (
     <>
       <Script id="product-schema-markup" type="application/ld+json" strategy="beforeInteractive">
         {JSON.stringify(product.schemaMarkup)}
       </Script>
-
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-        <div className="py-4 px-2 sm:py-8 sm:px-4 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                {/* Image Gallery Section - Enhanced */}
-                <div className="p-4 sm:p-6 bg-gray-50">
-                  <div className="relative h-72 sm:h-[400px] rounded-xl overflow-hidden border border-gray-100 shadow-lg bg-white group flex items-center justify-center">
-                    <Image
-                      src={selectedImage}
-                      alt={product.title}
-                      width={500}
-                      height={384}
-                      className="w-full h-full object-contain p-4 sm:p-4 transition-all duration-500 transform hover:scale-105"
-                    />
-                    {/* Slider Navigation Arrows - visible on both mobile and desktop */}
-                    <div className="flex absolute inset-0 items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-2 rounded-full bg-white/90 shadow-md hover:shadow-lg transition-all text-gray-800 hover:text-red-600">
-                        <svg
-                          className="w-5 h-5 sm:w-6 sm:h-6"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 19l-7-7 7-7"
-                          />
-                        </svg>
-                      </button>
-                      <button className="p-2 rounded-full bg-white/90 shadow-md hover:shadow-lg transition-all text-gray-800 hover:text-red-600">
-                        <svg
-                          className="w-5 h-5 sm:w-6 sm:h-6"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-6"></div>
-                </div>
-                {/* Product Details Section */}
-                <div className="p-2 sm:p-6 lg:p-8">
-                  <div className="space-y-4 sm:space-y-6">
-                    <div>
-                      <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 break-words">
-                        {product.title}
-                      </h1>
-                      <p className="text-base sm:text-base text-gray-600 leading-relaxed">
-                        {product.description}
-                      </p>
-                    </div>
-
-                    <div className="pt-3 sm:pt-4">
-                      <Link
-                        href="/Contact"
-                        className="group relative w-full inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-red-600 text-white text-base sm:text-base font-medium rounded-lg hover:bg-red-700 transition-all duration-200 shadow-md hover:shadow-lg"
-                      >
-                        <svg
-                          className="w-5 h-5 sm:w-5 sm:h-5 mr-2"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                          />
-                        </svg>
-                        Contact Us About This Product
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-3 sm:p-6">
-              <h2 className="text-lg text-black sm:text-xl font-semibold mb-2 sm:mb-4">
-                Key Features
-              </h2>
-              <ul className="list-disc pl-4 sm:pl-5 space-y-1 sm:space-y-2 text-black">
-                <RichText data={product.content} />
-              </ul>
+      <section className="bg-gray-50 py-8 pt-32">
+        <div className="relative w-full h-[320px] md:h-[420px]">
+          <Image
+            src="/images/dahuactct.jpg"
+            alt="Dahua Solutions Banner"
+            fill
+            className="object-cover w-full h-full"
+            priority
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
+            <h1 className="text-white text-4xl md:text-5xl font-bold drop-shadow-lg">
+              <span className="text-white">Dahua</span>
+              <span className="text-red-500"> Products</span>
+            </h1>
+            <p className="text-xl max-w-3xl text-white/90">
+              Discover our comprehensive range of security products designed to meet all your
+              surveillance and safety needs.
+            </p>
+          </div>
+        </div>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* <Breadcrumb title={product.title} /> */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+              <ImageGallery
+                image={
+                  (typeof product.heroImage === 'string'
+                    ? product.heroImage
+                    : product.heroImage?.url) ?? ''
+                }
+                title={product.title}
+              />
+              <ProductDetails product={product} />
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   )
 }

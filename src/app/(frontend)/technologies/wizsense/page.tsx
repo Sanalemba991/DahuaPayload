@@ -354,12 +354,9 @@ export default function WizSensePage() {
                   <Image
                     src="/images/domecamera.webp"
                     alt="WizSense Dome Camera"
-                    style={{
-                      maxWidth: '100%',
-                      maxHeight: '100%',
-                      objectFit: 'contain', // Changed from 'cover' to 'contain'
-                      borderRadius: '8px',
-                    }}
+                    width={600}
+                    height={600}
+                    className="objectFit contain border-8"
                   />
                 </div>
                 <div style={{ padding: '30px' }}>
@@ -418,12 +415,9 @@ export default function WizSensePage() {
                   <Image
                     src="/images/wBulletCamera.webp"
                     alt="WizSense Bullet Camera"
-                    style={{
-                      maxWidth: '100%',
-                      maxHeight: '100%',
-                      objectFit: 'contain',
-                      borderRadius: '8px',
-                    }}
+                    width={400}
+                    height={400}
+                    className="object contain border-8"
                   />
                 </div>
                 <div style={{ padding: '30px' }}>
@@ -482,12 +476,9 @@ export default function WizSensePage() {
                   <Image
                     src="/images/WizPTZCamera.webp"
                     alt="WizSense PTZ Camera"
-                    style={{
-                      maxWidth: '100%',
-                      maxHeight: '100%',
-                      objectFit: 'contain',
-                      borderRadius: '8px',
-                    }}
+                    width={600}
+                    height={600}
+                    className="object contain border-8"
                   />
                 </div>
                 <div style={{ padding: '30px' }}>
