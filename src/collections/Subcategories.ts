@@ -1,7 +1,14 @@
 import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
-
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
+import { slugField } from '@/fields/slug'
 export const Subcategories: CollectionConfig = {
   slug: 'subcategories',
   access: {
@@ -30,12 +37,6 @@ export const Subcategories: CollectionConfig = {
       relationTo: 'media',
     },
     {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-    },
-    {
       name: 'products',
       type: 'relationship',
       relationTo: 'products',
@@ -48,5 +49,38 @@ export const Subcategories: CollectionConfig = {
         readOnly: true,
       },
     },
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          name: 'meta',
+          label: 'SEO',
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+            }),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+
+            MetaDescriptionField({
+              hasGenerateFn: true,
+            }),
+            PreviewField({
+              hasGenerateFn: true,
+
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
+        },
+      ],
+    },
+    ...slugField(),
   ],
 }

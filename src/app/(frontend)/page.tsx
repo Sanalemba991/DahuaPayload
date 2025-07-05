@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: settings.meta?.title,
     description: settings.meta?.description ?? '',
-    metadataBase: new URL('http://localhost:3002'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'),
     alternates: {
       canonical: '/',
       languages: {
@@ -67,7 +67,6 @@ export default async function HomePage() {
   })
 
   const HomePage = homePageData.docs?.[0] ?? null
-
   const heroVideo = HomePage?.heroVideo as Media
 
   const products = (

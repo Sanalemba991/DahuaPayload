@@ -4,10 +4,36 @@ import Image from 'next/image'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Category } from '@/payload-types'
+import { Metadata } from 'next'
 
 type Media = {
   url: string
   alt?: string
+}
+export async function generateMetadata(): Promise<Metadata> {
+  const payload = await getPayload({ config: configPromise })
+
+  const settings = await payload.findGlobal({
+    slug: 'site-settings',
+    depth: 1,
+  })
+
+  return {
+    title: settings.meta?.title || 'Products',
+    description: settings.meta?.description || 'Explore our product categories.',
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'),
+    alternates: {
+      canonical: '/products',
+    },
+    openGraph: {
+      title: settings.meta?.title || 'Products',
+      description: settings.meta?.description || '',
+      siteName: settings.meta?.title || 'My Site',
+      locale: 'en_US',
+      type: 'website',
+      url: '/products',
+    },
+  }
 }
 
 export default async function prodcuts() {
@@ -16,6 +42,7 @@ export default async function prodcuts() {
     collection: 'categories',
     depth: 1,
     limit: 12,
+
     overrideAccess: false,
   })
 

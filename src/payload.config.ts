@@ -58,6 +58,8 @@ export default buildConfig({
       uploadsCollection: 'media',
       generateTitle: ({ doc }: { doc: ServicePageType }) =>
         `Lovosis Technology L.L.C — ${doc.title}`,
+      generateURL: ({ doc, collectionSlug }) =>
+        `process.env.DATABASE_URI/${collectionSlug}/${doc?.slug}`,
     }),
   ],
 })

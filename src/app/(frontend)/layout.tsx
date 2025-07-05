@@ -6,12 +6,10 @@ import { Media } from '@/payload-types'
 import { getPayload } from 'payload'
 import Footer from '@/components/Footer/Footer'
 
-const payload = await getPayload({ config: configPromise })
-const favicon = (await payload.findGlobal({ slug: 'site-settings' }))?.favicon as Media
-console.log('favicon', favicon)
 export default async function RootLayout(props: { children: React.ReactNode }) {
+  const payload = await getPayload({ config: configPromise })
+  const favicon = (await payload.findGlobal({ slug: 'site-settings' }))?.favicon as Media
   const { children } = props
-
   return (
     <html lang="en">
       <head>{favicon?.url && <link href={favicon?.url} rel="icon" sizes="32x32" />}</head>

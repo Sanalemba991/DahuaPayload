@@ -52,6 +52,19 @@ export const Products: CollectionConfig = {
       required: true,
     },
     {
+      name: 'content1',
+      type: 'richText',
+      editor: lexicalEditor({}),
+      required: true,
+    },
+    {
+      name: 'content2',
+      type: 'richText',
+      editor: lexicalEditor({}),
+      required: true,
+    },
+
+    {
       name: 'pricep',
       type: 'text',
       required: true,
