@@ -225,6 +225,36 @@ export interface Product {
     };
     [k: string]: unknown;
   };
+  content1: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  content2: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   pricep: string;
   heroImage?: (string | null) | Media;
   categories: string | Category;
@@ -533,6 +563,8 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   content?: T;
+  content1?: T;
+  content2?: T;
   pricep?: T;
   heroImage?: T;
   categories?: T;
