@@ -15,18 +15,54 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileSubMenu, setMobileSubMenu] = useState<null | 'technologies' | 'solutions'>(null)
+  const [logoError, setLogoError] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
-  const logoUrl =
-    logo?.url?.startsWith('http') || !logo?.url
-      ? logo?.url
-      : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo?.url ?? ''}`
+  // More robust logo URL construction with fallback
+  const logoUrl = React.useMemo(() => {
+    if (!logo?.url) return '/images/dahualogo-removebg-preview.png.png' // Fallback to existing Dahua logo
+
+    // If this is the problematic logo file, use fallback immediately
+    if (logo.url.includes('logodahu-1.jpg')) {
+      console.log('Detected problematic logo file, using fallback immediately')
+      setLogoError(true)
+      return '/images/dahualogo-removebg-preview.png.png'
+    }
+
+    if (logo.url.startsWith('http')) {
+      return logo.url
+    }
+
+    const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://dahua.lovosis.com'
+    return `${serverUrl}${logo.url}`
+  }, [logo?.url])
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (navRef.current && !navRef.current.contains(event.target as Node)) {
       setActiveDropdown(null)
     }
   }, [])
+
+  const handleLogoError = useCallback(() => {
+    console.error('Logo failed to load:', logoUrl)
+    console.log('Setting logoError to true, will use fallback logo')
+    setLogoError(true)
+  }, [logoUrl])
+
   console.log('Resolved Logo URL:', logoUrl ?? '')
+  console.log('Logo error state:', logoError)
+
+  // Auto-fallback after 3 seconds if logo hasn't loaded
+  useEffect(() => {
+    if (!logoError && logo?.url && !logo.url.includes('dahualogo-removebg-preview')) {
+      const fallbackTimer = setTimeout(() => {
+        console.log('Logo taking too long to load, falling back to default')
+        setLogoError(true)
+      }, 3000)
+
+      return () => clearTimeout(fallbackTimer)
+    }
+  }, [logo?.url, logoError])
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
@@ -104,8 +140,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              padding: '0 5px',
-              maxWidth: '1200px',
+              padding: '0 15px',
+
               margin: '0 auto',
             }}
           >
@@ -149,67 +185,89 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 </div>
               </button>
               {/* Logo on the right */}
-              {logo?.url && (
+              {(logo?.url || logoError) && (
                 <Link href="/" style={{ display: 'block' }}>
-                  <Image
-                    priority={true}
-                    src={
-                      logo.url.startsWith('http')
-                        ? logo.url
-                        : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo.url}`
-                    }
-                    alt={logo.alt || 'Site Logo'}
-                    width={100}
-                    height={30}
-                  />
+                  {logoError ? (
+                    <img
+                      src="/images/dahualogo-removebg-preview.png.png"
+                      alt={logo?.alt || 'Site Logo'}
+                      width={100}
+                      height={30}
+                      style={{ objectFit: 'contain' }}
+                      className="object-contain"
+                    />
+                  ) : (
+                    <Image
+                      priority={true}
+                      src={logoUrl}
+                      alt={logo?.alt || 'Site Logo'}
+                      width={100}
+                      height={30}
+                      onError={handleLogoError}
+                      className="object-contain"
+                      onLoad={() => console.log('Logo loaded successfully')}
+                    />
+                  )}
                 </Link>
               )}
             </div>
             {/* Logo - Left Side */}
             <div
-              style={{ width: '150px', marginLeft: '32px' }}
+              style={{ width: '150px', marginLeft: '16px' }}
               className="hidden md:flex items-center justify-start"
             >
               <Link href="/" style={{ display: 'block' }}>
-                {logo?.url && (
-                  <Image
-                    priority={true}
-                    src={
-                      logo?.url?.startsWith('http')
-                        ? logo.url
-                        : `${process.env.NEXT_PUBLIC_SERVER_URL}${logo.url}`
-                    }
-                    alt={logo.alt || 'Site Logo'}
-                    width={140}
-                    height={40}
-                    style={{
-                      objectFit: 'contain',
-                      filter: 'brightness(1.2) contrast(1.1)',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer',
-                    }}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.style.display = 'none'
-                      const fallback = document.createElement('span')
-                      fallback.style.color = 'white'
-                      fallback.style.fontWeight = 'bold'
-                      fallback.style.fontSize = '20px'
-                      fallback.style.textShadow = '0 2px 4px rgba(0,0,0,0.8)'
-                      fallback.textContent = 'DAHUA'
-                      target.parentNode?.appendChild(fallback)
-                    }}
-                    onMouseEnter={(e) => {
-                      ;(e.target as HTMLImageElement).style.filter =
-                        'brightness(1.3) contrast(1.2) drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4))'
-                      ;(e.target as HTMLImageElement).style.transform = 'scale(1.05)'
-                    }}
-                    onMouseLeave={(e) => {
-                      ;(e.target as HTMLImageElement).style.filter = 'brightness(1.2) contrast(1.1)'
-                      ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
-                    }}
-                  />
-                )}
+                {(logo?.url || logoError) &&
+                  (logoError ? (
+                    <img
+                      src="/images/dahualogo-removebg-preview.png.png"
+                      alt={logo?.alt || 'Site Logo'}
+                      width={140}
+                      height={40}
+                      style={{
+                        objectFit: 'contain',
+                        filter: 'brightness(1.2) contrast(1.1)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer',
+                      }}
+                      onMouseEnter={(e) => {
+                        ;(e.target as HTMLImageElement).style.filter =
+                          'brightness(1.3) contrast(1.2) drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4))'
+                        ;(e.target as HTMLImageElement).style.transform = 'scale(1.05)'
+                      }}
+                      onMouseLeave={(e) => {
+                        ;(e.target as HTMLImageElement).style.filter =
+                          'brightness(1.2) contrast(1.1)'
+                        ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      priority={true}
+                      src={logoUrl}
+                      alt={logo?.alt || 'Site Logo'}
+                      width={140}
+                      height={40}
+                      onError={handleLogoError}
+                      style={{
+                        objectFit: 'contain',
+                        filter: 'brightness(1.2) contrast(1.1)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer',
+                      }}
+                      onMouseEnter={(e) => {
+                        ;(e.target as HTMLImageElement).style.filter =
+                          'brightness(1.3) contrast(1.2) drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4))'
+                        ;(e.target as HTMLImageElement).style.transform = 'scale(1.05)'
+                      }}
+                      onMouseLeave={(e) => {
+                        ;(e.target as HTMLImageElement).style.filter =
+                          'brightness(1.2) contrast(1.1)'
+                        ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
+                      }}
+                      onLoad={() => console.log('Desktop logo loaded successfully')}
+                    />
+                  ))}
               </Link>
             </div>
 
@@ -789,14 +847,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
             </div>
 
             <div
-              className=""
+              className="mobile-right"
               style={{
-                width: '150px',
                 display: 'flex',
                 justifyContent: 'flex-end',
               }}
             >
-              <div className="px-4 py-3 border-none border-gray-200 dark:border-gray-700 text-black">
+              <div className="px-4 py-3 border-none border-gray-200 dark:border-gray-700 text-black hidden md:block  ">
                 <div className="space-y-2">
                   <a
                     href="mailto:sales@unvdubai.com"
