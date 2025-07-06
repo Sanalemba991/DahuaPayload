@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import './predictive-focus.css'
 export default function PredictiveFocusPage() {
   const [activeTab, setActiveTab] = useState('overview')
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
@@ -1086,34 +1087,6 @@ export default function PredictiveFocusPage() {
           </Link>
         </div>
       </section>
-
-      <style jsx>{`
-        @keyframes pulse {
-          0% {
-            transform: translateY(-50%) scale(1);
-          }
-          50% {
-            transform: translateY(-50%) scale(1.05);
-          }
-          100% {
-            transform: translateY(-50%) scale(1);
-          }
-        }
-        @keyframes focusRing {
-          0% {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8);
-          }
-          50% {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-          }
-          100% {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(1.2);
-          }
-        }
-      `}</style>
     </div>
   )
 }

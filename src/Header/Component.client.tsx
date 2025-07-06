@@ -3,6 +3,7 @@ import { Media } from '@/payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useRef, useCallback, useEffect } from 'react'
+import './header.css'
 
 interface HeaderClientProps {
   logo: Media
@@ -16,14 +17,22 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileSubMenu, setMobileSubMenu] = useState<null | 'technologies' | 'solutions'>(null)
   const [logoError, setLogoError] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
+
+  // Ensure client-side rendering
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
   // More robust logo URL construction with fallback
   const logoUrl = React.useMemo(() => {
     if (!logo?.url) return '/images/dahualogo-removebg-preview.png.png' // Fallback to existing Dahua logo
 
     // If this is the problematic logo file, use fallback immediately
     if (logo.url.includes('logodahu-1.jpg')) {
-      console.log('Detected problematic logo file, using fallback immediately')
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Detected problematic logo file, using fallback immediately')
+      }
       setLogoError(true)
       return '/images/dahualogo-removebg-preview.png.png'
     }
@@ -36,97 +45,87 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
     return `${serverUrl}${logo.url}`
   }, [logo?.url])
 
-  const handleClickOutside = useCallback((event: MouseEvent) => {
-    if (navRef.current && !navRef.current.contains(event.target as Node)) {
-      setActiveDropdown(null)
-    }
-  }, [])
-
   const handleLogoError = useCallback(() => {
-    console.error('Logo failed to load:', logoUrl)
-    console.log('Setting logoError to true, will use fallback logo')
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Logo failed to load:', logoUrl)
+      console.log('Setting logoError to true, will use fallback logo')
+    }
     setLogoError(true)
   }, [logoUrl])
 
-  console.log('Resolved Logo URL:', logoUrl ?? '')
-  console.log('Logo error state:', logoError)
+  // Debug logging only in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Logo data:', logo)
+  }
 
   // Auto-fallback after 3 seconds if logo hasn't loaded
   useEffect(() => {
+    if (!isClient || !logo?.url) return
+
     if (!logoError && logo?.url && !logo.url.includes('dahualogo-removebg-preview')) {
       const fallbackTimer = setTimeout(() => {
-        console.log('Logo taking too long to load, falling back to default')
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Logo taking too long to load, falling back to default')
+        }
         setLogoError(true)
       }, 3000)
 
-      return () => clearTimeout(fallbackTimer)
+      return () => {
+        clearTimeout(fallbackTimer)
+      }
     }
-  }, [logo?.url, logoError])
+  }, [logo?.url, logoError, isClient])
 
+  // Handle mobile menu body scroll prevention
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+    if (!isClient) return
+
+    if (mobileOpen) {
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.width = '100%'
+    } else {
+      // Restore body scroll
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
     }
-  }, [handleClickOutside])
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
+    }
+  }, [mobileOpen, isClient])
+
+  // Handle click outside with modern event listener options
+  useEffect(() => {
+    if (!isClient) return
+
+    const controller = new AbortController()
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null)
+      }
+    }
+
+    // Use AbortController for cleaner event listener management
+    document.addEventListener('mousedown', handleClickOutside, {
+      passive: true,
+      signal: controller.signal,
+    })
+
+    return () => {
+      controller.abort()
+    }
+  }, [isClient])
 
   return (
     <>
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes slideInLeft {
-          from {
-            transform: translateX(-100%);
-          }
-          to {
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes slideInRight {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-      <header
-        className="fixed top-0 right-0 z-50 hadow-md"
-        style={{
-          backgroundColor: 'white',
-          // backdropFilter: 'blur(1px) saturate(1.5)',
-          // WebkitBackdropFilter: 'blur(15px) saturate(1.5)',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-
-          borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-        }}
-      >
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-gray-200 header-container">
         <nav
           ref={navRef}
           style={{
@@ -205,7 +204,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                       height={30}
                       onError={handleLogoError}
                       className="object-contain"
-                      onLoad={() => console.log('Logo loaded successfully')}
+                      onLoad={() => {
+                        if (process.env.NODE_ENV === 'development') {
+                          console.log('Logo loaded successfully')
+                        }
+                      }}
                     />
                   )}
                 </Link>
@@ -265,7 +268,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           'brightness(1.2) contrast(1.1)'
                         ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
                       }}
-                      onLoad={() => console.log('Desktop logo loaded successfully')}
+                      onLoad={() => {
+                        if (process.env.NODE_ENV === 'development') {
+                          console.log('Desktop logo loaded successfully')
+                        }
+                      }}
                     />
                   ))}
               </Link>
@@ -377,18 +384,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                     />
 
                     <div
+                      className="dropdown-menu"
                       style={{
                         position: 'absolute',
                         top: 'calc(100% + 10px)',
                         left: '0',
-                        backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                        backdropFilter: 'blur(20px) saturate(1.8)',
-                        WebkitBackdropFilter: 'blur(20px) saturate(1.8)',
                         width: '500px',
-                        boxShadow: '0 12px 40px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.15)',
-                        borderRadius: '12px',
                         zIndex: 10000,
-                        border: '1px solid rgba(255, 255, 255, 0.4)',
                         overflow: 'hidden',
                       }}
                       onMouseEnter={() => setActiveDropdown('technologies')}
@@ -620,18 +622,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                     />
 
                     <div
+                      className="dropdown-menu"
                       style={{
                         position: 'absolute',
                         top: 'calc(100% + 10px)',
                         left: '0',
-                        backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                        backdropFilter: 'blur(20px) saturate(1.8)',
-                        WebkitBackdropFilter: 'blur(20px) saturate(1.8)',
                         width: '450px',
-                        boxShadow: '0 12px 40px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.15)',
-                        borderRadius: '12px',
                         zIndex: 10000,
-                        border: '1px solid rgba(255, 255, 255, 0.4)',
                         overflow: 'hidden',
                       }}
                       onMouseEnter={() => setActiveDropdown('solutions')}
@@ -907,13 +904,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
               }}
             >
               {/* Full Screen Background */}
-              <div
-                className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"
-                style={{
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                }}
-              />
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black mobile-menu-bg" />
 
               {/* Main Menu Container */}
               <div

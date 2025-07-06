@@ -18,7 +18,7 @@ type LinkType = (options?: {
   overrides?: Record<string, unknown>
 }) => Field
 
-export const link: LinkType = ({ appearances, disableLabel = false, overrides = {} } = {}) => {
+export const link: LinkType = ({ appearances, disableLabel = {} } = {}) => {
   const linkResult: Field = {
     name: 'link',
     type: 'group',
