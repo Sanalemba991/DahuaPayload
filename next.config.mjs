@@ -15,6 +15,13 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      // Add explicit domain for dahua.lovosis.com
+      {
+        protocol: 'https',
+        hostname: 'dahua.lovosis.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   reactStrictMode: true,
