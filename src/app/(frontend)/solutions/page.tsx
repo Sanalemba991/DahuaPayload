@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import './solutions.css'
 
 const solutionsData = [
   {
@@ -69,50 +70,9 @@ export default function SolutionsPage() {
     }
   }, [])
 
-  // useEffect(() => {
-
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         if (entry.isIntersecting) {
-  //           entry.target.classList.add('animate-in')
-  //         }
-  //       })
-  //     },
-  //     { threshold: 0.2 },
-  //   )
-
-  //   // Observe all solution cards
-  //   solutionRefs.current.forEach((ref) => {
-  //     if (ref) observer.observe(ref)
-  //   })
-
-  //   return () => {
-  //     solutionRefs.current.forEach((ref) => {
-  //       if (ref) observer.unobserve(ref)
-  //     })
-  //   }
-  // }, [])
-
   return (
     <>
       <div className="pt-[80px]">
-        {/* Top Banner Image */}
-        <div className="relative w-full h-[320px] md:h-[420px]">
-          <Image
-            src="/images/solution.jpg"
-            alt="Dahua Solutions Banner"
-            fill
-            className="object-cover w-full h-full"
-            priority
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
-            <h1 className="text-white text-4xl md:text-5xl font-bold drop-shadow-lg">
-              Dahua Solutions
-            </h1>
-            <p className="text-white text-lg mt-2 drop-shadow">Your Security, Our Priority</p>
-          </div>
-        </div>
         {/* Hero section with background image */}
         <section
           className="relative h-[70vh] min-h-[500px] bg-center bg-cover bg-no-repeat"
@@ -322,7 +282,7 @@ export default function SolutionsPage() {
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Link
                   href="/technologies"
-                  className="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-black hover:text-red-600 transform hover:scale-105 transition-all n-duratio300"
+                  className="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-black hover:text-red-600 transform hover:scale-105 transition-all duration-300"
                 >
                   Get a Free Consultation
                 </Link>
@@ -337,21 +297,6 @@ export default function SolutionsPage() {
           </div>
         </section>
       </div>
-      {/* Custom Styles for Animations */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        .solution-card.animate-in {
-          opacity: 1;
-          transform: translateY(0) translateX(0);
-        }
-      `}</style>{' '}
     </>
   )
 }

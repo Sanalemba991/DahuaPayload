@@ -3,6 +3,7 @@ import { Media } from '@/payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useRef, useCallback, useEffect } from 'react'
+import './header.css'
 
 interface HeaderClientProps {
   logo: Media
@@ -22,16 +23,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
   // Ensure client-side rendering
   useEffect(() => {
     setIsClient(true)
-
-    // Clean up any potential unload handlers on unmount
-    return () => {
-      // Clear any active timeouts
-      if (typeof window !== 'undefined') {
-        // Remove any potential unload handlers
-        window.removeEventListener('beforeunload', () => {})
-        window.removeEventListener('unload', () => {})
-      }
-    }
   }, [])
   // More robust logo URL construction with fallback
   const logoUrl = React.useMemo(() => {
@@ -39,7 +30,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
 
     // If this is the problematic logo file, use fallback immediately
     if (logo.url.includes('logodahu-1.jpg')) {
-      console.log('Detected problematic logo file, using fallback immediately')
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Detected problematic logo file, using fallback immediately')
+      }
       setLogoError(true)
       return '/images/dahualogo-removebg-preview.png.png'
     }
@@ -52,20 +45,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
     return `${serverUrl}${logo.url}`
   }, [logo?.url])
 
-  // const handleClickOutside = useCallback((event: MouseEvent) => {
-  //   if (navRef.current && !navRef.current.contains(event.target as Node)) {
-  //     setActiveDropdown(null)
-  //   }
-  // }, [])
-
   const handleLogoError = useCallback(() => {
-    console.error('Logo failed to load:', logoUrl)
-    console.log('Setting logoError to true, will use fallback logo')
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Logo failed to load:', logoUrl)
+      console.log('Setting logoError to true, will use fallback logo')
+    }
     setLogoError(true)
   }, [logoUrl])
 
-  console.log('Resolved Logo URL:', logoUrl ?? '')
-  console.log('Logo error state:', logoError)
+  // Debug logging only in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Logo data:', logo)
+  }
 
   // Auto-fallback after 3 seconds if logo hasn't loaded
   useEffect(() => {
@@ -73,7 +64,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
 
     if (!logoError && logo?.url && !logo.url.includes('dahualogo-removebg-preview')) {
       const fallbackTimer = setTimeout(() => {
-        console.log('Logo taking too long to load, falling back to default')
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Logo taking too long to load, falling back to default')
+        }
         setLogoError(true)
       }, 3000)
 
@@ -111,90 +104,27 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
   useEffect(() => {
     if (!isClient) return
 
+    const controller = new AbortController()
+
     const handleClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setActiveDropdown(null)
       }
     }
 
-    // Use modern event listener options to avoid deprecation warnings
-    const options: AddEventListenerOptions = {
+    // Use AbortController for cleaner event listener management
+    document.addEventListener('mousedown', handleClickOutside, {
       passive: true,
-      capture: false,
-      once: false,
-    }
-
-    document.addEventListener('mousedown', handleClickOutside, options)
+      signal: controller.signal,
+    })
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+      controller.abort()
     }
   }, [isClient])
 
   return (
     <>
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes slideInLeft {
-          from {
-            transform: translateX(-100%);
-          }
-          to {
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes slideInRight {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .header-container {
-          background-color: white;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .mobile-menu-bg {
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-        }
-
-        .dropdown-menu {
-          background-color: rgba(255, 255, 255, 0.98);
-          backdrop-filter: blur(20px) saturate(1.8);
-          -webkit-backdrop-filter: blur(20px) saturate(1.8);
-          box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            0 4px 12px rgba(0, 0, 0, 0.15);
-          border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-      `}</style>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-gray-200 header-container">
         <nav
           ref={navRef}
@@ -274,7 +204,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                       height={30}
                       onError={handleLogoError}
                       className="object-contain"
-                      onLoad={() => console.log('Logo loaded successfully')}
+                      onLoad={() => {
+                        if (process.env.NODE_ENV === 'development') {
+                          console.log('Logo loaded successfully')
+                        }
+                      }}
                     />
                   )}
                 </Link>
@@ -334,7 +268,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           'brightness(1.2) contrast(1.1)'
                         ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
                       }}
-                      onLoad={() => console.log('Desktop logo loaded successfully')}
+                      onLoad={() => {
+                        if (process.env.NODE_ENV === 'development') {
+                          console.log('Desktop logo loaded successfully')
+                        }
+                      }}
                     />
                   ))}
               </Link>
