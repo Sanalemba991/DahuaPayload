@@ -288,40 +288,26 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
             >
               <Link
                 href="/"
+                className="nav-link"
                 style={{
                   color: 'black',
                   fontWeight: 'bold',
                   fontSize: '16px',
-                  filter: 'brightness(1.1)',
                   transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
-                  ;(e.target as HTMLElement).style.color = 'red'
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
-                  ;(e.target as HTMLElement).style.color = 'red'
+                  padding: '8px 0',
                 }}
               >
                 Home
               </Link>
               <Link
                 href="/products"
+                className="nav-link"
                 style={{
                   color: 'black',
                   fontWeight: 'bold',
                   fontSize: '16px',
-                  filter: 'brightness(1.1)',
                   transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
-                  ;(e.target as HTMLElement).style.color = 'red'
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
-                  ;(e.target as HTMLElement).style.color = 'red'
+                  padding: '8px 0',
                 }}
               >
                 Products
@@ -335,6 +321,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
               >
                 <Link
                   href="/technologies"
+                  className="nav-link"
                   style={{
                     color: 'black',
                     fontWeight: 'bold',
@@ -342,17 +329,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '5px',
-                    padding: '15px 0',
-                    filter: 'brightness(1.1)',
+                    padding: '8px 0',
                     transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
-                    ;(e.target as HTMLElement).style.color = 'red'
-                  }}
-                  onMouseLeave={(e) => {
-                    ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
-                    ;(e.target as HTMLElement).style.color = 'red'
                   }}
                 >
                   Technologies
@@ -389,7 +367,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                         position: 'absolute',
                         top: 'calc(100% + 10px)',
                         left: '0',
-                        width: '500px',
+                        width: '650px',
                         zIndex: 10000,
                         overflow: 'hidden',
                       }}
@@ -573,6 +551,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
               >
                 <Link
                   href="/solutions"
+                  className="nav-link"
                   style={{
                     color: 'black',
                     fontWeight: 'bold',
@@ -580,17 +559,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '5px',
-                    padding: '15px 0',
-                    filter: 'brightness(1.1)',
+                    padding: '8px 0',
                     transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
-                    ;(e.target as HTMLElement).style.color = 'red'
-                  }}
-                  onMouseLeave={(e) => {
-                    ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
-                    ;(e.target as HTMLElement).style.color = 'red'
                   }}
                 >
                   Solutions
@@ -627,7 +597,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                         position: 'absolute',
                         top: 'calc(100% + 10px)',
                         left: '0',
-                        width: '450px',
+                        width: '650px',
                         zIndex: 10000,
                         overflow: 'hidden',
                       }}
@@ -783,60 +753,39 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
 
               <Link
                 href="/sira"
+                className="nav-link"
                 style={{
                   color: 'black',
                   fontWeight: 'bold',
                   fontSize: '16px',
-                  filter: 'brightness(1.1)',
+                  padding: '8px 0',
                   transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
-                  ;(e.target as HTMLElement).style.color = 'red'
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
-                  ;(e.target as HTMLElement).style.color = 'red'
                 }}
               >
                 Sira
               </Link>
               <Link
                 href="/about-us"
+                className="nav-link"
                 style={{
                   color: 'black',
                   fontWeight: 'bold',
                   fontSize: '16px',
-                  filter: 'brightness(1.1)',
+                  padding: '8px 0',
                   transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
-                  ;(e.target as HTMLElement).style.color = 'red'
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
-                  ;(e.target as HTMLElement).style.color = 'red'
                 }}
               >
                 About Us
               </Link>
               <Link
                 href="/contact"
+                className="nav-link"
                 style={{
                   color: 'black',
                   fontWeight: 'bold',
                   fontSize: '16px',
-                  filter: 'brightness(1.1)',
+                  padding: '8px 0',
                   transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(3, 58, 8, 0.6)'
-                  ;(e.target as HTMLElement).style.color = 'red'
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.target as HTMLElement).style.textShadow = '0 0px 0px rgba(0,0,0,0.8)'
-                  ;(e.target as HTMLElement).style.color = 'red'
                 }}
               >
                 Contact Us
