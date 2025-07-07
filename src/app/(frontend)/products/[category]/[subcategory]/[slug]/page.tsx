@@ -88,7 +88,6 @@ export default async function Product({ params }: { params: Promise<Args> }) {
   const product = productResult.docs[0]
 
   if (!product) {
-    console.error(`Product not found: ${slug}`)
     return (
       <div className="pt-[90px] min-h-screen flex items-center justify-center">
         <div className="text-center">
