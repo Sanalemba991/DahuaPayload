@@ -89,7 +89,7 @@ export default async function HomePage() {
   return (
     <>
       <Script id="product-schema-markup" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify(HomePage.schemaMarkup)}
+        {JSON.stringify(HomePage?.schemaMarkup)}
       </Script>
       <div className="relative w-full overflow-hidden">
         <HeroSection homepage={HomePage} videoUrl={heroVideo} />

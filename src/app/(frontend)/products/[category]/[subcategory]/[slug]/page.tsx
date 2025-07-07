@@ -17,20 +17,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const payload = await getPayload({ config: configPromise })
 
-  const product = (
-    await payload.find({
-      collection: 'products',
-      draft: false,
-      limit: 1,
-      overrideAccess: false,
-      pagination: false,
-      where: {
-        slug: {
-          equals: (await params).slug,
-        },
+  const productResult = await payload.find({
+    collection: 'products',
+    draft: false,
+    limit: 1,
+    overrideAccess: false,
+    pagination: false,
+    where: {
+      slug: {
+        equals: (await params).slug,
       },
-    })
-  ).docs[0]
+    },
+  })
+
+  const product = productResult.docs[0]
+
   if (!product) {
     return {
       title: 'Product Not Found',
@@ -71,20 +72,32 @@ export default async function Product({ params }: { params: Promise<Args> }) {
   const { slug } = await params
 
   const payload = await getPayload({ config: configPromise })
-  const product = (
-    await payload.find({
-      collection: 'products',
-      draft,
-      limit: 1,
-      overrideAccess: false,
-      pagination: false,
-      where: {
-        slug: {
-          equals: slug,
-        },
+  const productResult = await payload.find({
+    collection: 'products',
+    draft,
+    limit: 1,
+    overrideAccess: false,
+    pagination: false,
+    where: {
+      slug: {
+        equals: slug,
       },
-    })
-  ).docs[0]
+    },
+  })
+
+  const product = productResult.docs[0]
+
+  if (!product) {
+    console.error(`Product not found: ${slug}`)
+    return (
+      <div className="pt-[90px] min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
+          <p className="text-gray-600">The product "{slug}" could not be found.</p>
+        </div>
+      </div>
+    )
+  }
 
   const selectedImage =
     typeof product.heroImage === 'object' &&
