@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { Category, Product } from '@/payload-types'
+import { Category, Product, Subcategory } from '@/payload-types'
 import Link from 'next/link'
 type Media = {
   url: string
@@ -124,6 +124,16 @@ export default function ProductGrid({
                       } else {
                         const category = product.categories as Category
                         return category?.slug || 'unknown'
+                      }
+                    })()}/${(() => {
+                      if (!product.subcategories) return 'unknown'
+
+                      if (Array.isArray(product.subcategories)) {
+                        const firstCategory = product.subcategories[0] as Subcategory
+                        return firstCategory?.slug || 'unknown'
+                      } else {
+                        const subcategory = product.subcategories as Subcategory
+                        return subcategory?.slug || 'unknown'
                       }
                     })()}/${product.slug || 'unknown'}`}
                   >

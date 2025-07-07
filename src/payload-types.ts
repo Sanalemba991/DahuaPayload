@@ -191,14 +191,6 @@ export interface ServicePage {
   id: string;
   title: string;
   heroImage?: (string | null) | Media;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -545,13 +537,6 @@ export interface MediaSelect<T extends boolean = true> {
 export interface ServicePageSelect<T extends boolean = true> {
   title?: T;
   heroImage?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }
