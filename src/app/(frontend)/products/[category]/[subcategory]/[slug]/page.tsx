@@ -93,7 +93,7 @@ export default async function Product({ params }: { params: Promise<Args> }) {
       <div className="pt-[90px] min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-          <p className="text-gray-600">The product could not be found.</p>
+          <p className="text-gray-600">The product could not be found</p>
         </div>
       </div>
     )
