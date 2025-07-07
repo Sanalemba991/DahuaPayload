@@ -75,19 +75,31 @@ export async function generateMetadata({
 export default async function Product({ params }: { params: Promise<Args> }) {
   const { category } = await params
   const payload = await getPayload({ config: configPromise })
-  const categoryDoc = (
-    await payload.find({
-      collection: 'categories',
-      depth: 2,
-      limit: 12,
-      overrideAccess: false,
-      where: {
-        slug: {
-          equals: category,
-        },
+  const categoryResult = await payload.find({
+    collection: 'categories',
+    depth: 2,
+    limit: 12,
+    overrideAccess: false,
+    where: {
+      slug: {
+        equals: category,
       },
-    })
-  ).docs[0] as Category
+    },
+  })
+
+  const categoryDoc = categoryResult.docs[0] as Category
+
+  if (!categoryDoc) {
+    console.error(`Category not found: ${category}`)
+    return (
+      <div className="pt-[90px] min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Category Not Found</h1>
+          <p className="text-gray-600">The category &ldquo;{category}&rdquo; could not be found.</p>
+        </div>
+      </div>
+    )
+  }
   const subcategories = categoryDoc?.subcategories
   const categoryTitle = categoryDoc?.title
   return (
