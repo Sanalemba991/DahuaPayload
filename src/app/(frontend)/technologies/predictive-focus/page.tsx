@@ -379,7 +379,7 @@ export default function PredictiveFocusPage() {
                       type="video/mp4"
                     />
                     <source
-                      src="https://www.dahuasecuarity.com/asset/upload/video/Predictive_Focus_Algorithm_(PFA).mp4"
+                      src="https://www.dahuasecurity.com/asset/upload/video/Predictive_Focus_Algorithm_(PFA).mp4"
                       type="video/mp4"
                     />
                     Your browser does not support the video tag.

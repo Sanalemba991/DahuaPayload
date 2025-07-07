@@ -13,7 +13,7 @@ import { ServicePage } from './collections/services'
 import { Subcategories } from './collections/Subcategories'
 import { Users } from './collections/Users'
 import { SiteSettings } from './globals/Settings/config'
-import { ServicePage as ServicePageType } from './payload-types'
+import { Product as ProductsType } from './payload-types'
 import sharp from 'sharp'
 import { ContactPage } from './collections/ContactPage'
 
@@ -54,12 +54,11 @@ export default buildConfig({
   }),
   plugins: [
     seoPlugin({
-      collections: ['ServicePage'],
+      collections: ['Products'],
       uploadsCollection: 'media',
-      generateTitle: ({ doc }: { doc: ServicePageType }) =>
-        `Lovosis Technology L.L.C — ${doc.title}`,
+      generateTitle: ({ doc }: { doc: ProductsType }) => `Lovosis Technology L.L.C — ${doc.title}`,
       generateURL: ({ doc, collectionSlug }) =>
-        `${process.env.DATABASE_URI}/${collectionSlug}/${doc?.slug}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/${collectionSlug}/${doc?.slug}`,
     }),
   ],
 })

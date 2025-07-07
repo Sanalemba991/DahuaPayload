@@ -108,6 +108,11 @@ export const Categories: CollectionConfig = {
                   id: productId,
                 })
 
+                if (!product || !product.title || !product.slug) {
+                  console.warn(`Product ${productId} missing required fields`)
+                  return null
+                }
+
                 return {
                   '@type': 'ListItem',
                   position: index + 1,

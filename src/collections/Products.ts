@@ -117,7 +117,6 @@ export const Products: CollectionConfig = {
             MetaDescriptionField({}),
             PreviewField({
               hasGenerateFn: true,
-
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),

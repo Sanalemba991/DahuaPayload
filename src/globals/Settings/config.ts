@@ -83,7 +83,7 @@ export const SiteSettings: GlobalConfig = {
               hooks: {
                 beforeChange: [
                   async ({ data, value }) =>
-                    !value ? `http:localohost:3002/products/${data?.slug}` : value,
+                    !value ? `${process.env.NEXT_PUBLIC_SERVER_URL}/${data?.slug}` : value,
                 ],
               },
             },

@@ -25,7 +25,6 @@ export const Card: React.FC<{
   const { slug, title, heroImage, categories, meta } = doc || {}
   const { description, image: metaImage } = meta || {}
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
-  console.log(hasCategories)
   const titleToUse = titleFromProps || title
   const productImage = prodImage || heroImage
 
