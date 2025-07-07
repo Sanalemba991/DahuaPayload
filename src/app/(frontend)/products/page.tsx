@@ -53,7 +53,7 @@ export default async function prodcuts() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@graph': categories.docs.map((cat) => cat.schemaMarkup).filter(Boolean),
+            '@graph': categories.docs.map((cat) => cat?.schemaMarkup).filter(Boolean),
           }),
         }}
       />

@@ -59,7 +59,7 @@ export default buildConfig({
       generateTitle: ({ doc }: { doc: ServicePageType }) =>
         `Lovosis Technology L.L.C — ${doc.title}`,
       generateURL: ({ doc, collectionSlug }) =>
-        `process.env.DATABASE_URI/${collectionSlug}/${doc?.slug}`,
+        `${process.env.DATABASE_URI}/${collectionSlug}/${doc?.slug}`,
     }),
   ],
 })
