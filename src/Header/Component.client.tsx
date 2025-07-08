@@ -3,7 +3,6 @@ import { Media } from '@/payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useRef, useCallback, useEffect } from 'react'
-import './header.css'
 
 interface HeaderClientProps {
   logo: Media
@@ -125,12 +124,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-gray-200 header-container">
+      <header
+        className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-gray-200 header-container"
+        style={{ minHeight: 'unset', padding: '0' }}
+      >
         <nav
           ref={navRef}
           style={{
             width: '100%',
-            padding: '15px 0',
+            padding: '6px 0',
             margin: '0 auto',
           }}
         >
@@ -349,52 +351,81 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
 
                 {/* Technologies Dropdown Menu with Curved Image */}
                 {activeDropdown === 'technologies' && (
-                  <>
+                  <div
+                    className="dropdown-menu"
+                    style={{
+                      position: 'fixed',
+                      top: '90px',
+                      left: '0',
+                      right: '0',
+                      width: '100vw',
+                      zIndex: 10000,
+                      overflow: 'hidden',
+                      backgroundColor: 'white',
+                      boxShadow:
+                        '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                      borderTop: '1px solid #e5e7eb',
+                      transition:
+                        'opacity 1.5s cubic-bezier(0.4,0,0.2,1), visibility 1.5s cubic-bezier(0.4,0,0.2,1)',
+                      opacity: activeDropdown === 'technologies' ? 1 : 0,
+                      visibility: activeDropdown === 'technologies' ? 'visible' : 'hidden',
+                    }}
+                    onMouseEnter={() => setActiveDropdown('technologies')}
+                    onMouseLeave={() => setActiveDropdown(null)}
+                  >
                     <div
                       style={{
-                        position: 'absolute',
-                        top: '100%',
-                        left: '0',
-                        right: '0',
-                        height: '10px',
-                        backgroundColor: 'transparent',
+                        display: 'flex',
+                        maxWidth: '1200px',
+                        margin: '0 auto',
+                        padding: '40px 20px',
                       }}
-                    />
-
-                    <div
-                      className="dropdown-menu"
-                      style={{
-                        position: 'absolute',
-                        top: 'calc(100% + 10px)',
-                        left: '0',
-                        width: '650px',
-                        zIndex: 10000,
-                        overflow: 'hidden',
-                      }}
-                      onMouseEnter={() => setActiveDropdown('technologies')}
-                      onMouseLeave={() => setActiveDropdown(null)}
                     >
-                      <div style={{ display: 'flex' }}>
-                        {/* Left Side - Menu Items */}
-                        <div style={{ width: '280px', padding: '20px' }}>
+                      {/* Left Side - Menu Items */}
+                      <div style={{ flex: 1, paddingRight: '60px' }}>
+                        <h3
+                          style={{
+                            fontSize: '18px',
+                            fontWeight: '600',
+                            color: '#1f2937',
+                            marginBottom: '30px',
+                            borderBottom: '2px solid #dc2626',
+                            paddingBottom: '10px',
+                            display: 'inline-block',
+                          }}
+                        >
+                          Technologies
+                        </h3>
+                        <div
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(2, 1fr)',
+                            gap: '20px',
+                          }}
+                        >
                           <a
                             href="/technologies/wizsense"
                             style={{
                               display: 'block',
-                              padding: '12px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
                             WizSense Technology
@@ -403,20 +434,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                             href="/technologies/wizmind"
                             style={{
                               display: 'block',
-                              padding: '12px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
                             WizMind Technology
@@ -425,20 +461,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                             href="/technologies/full-color"
                             style={{
                               display: 'block',
-                              padding: '12px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
                             Full-color Technology
@@ -447,20 +488,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                             href="/technologies/auto-tracking"
                             style={{
                               display: 'block',
-                              padding: '12px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
                             Auto Tracking 3.0
@@ -469,20 +515,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                             href="/technologies/hdcvi-ten"
                             style={{
                               display: 'block',
-                              padding: '12px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
                             HDCVI TEN Technology
@@ -491,55 +542,93 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                             href="/technologies/predictive-focus"
                             style={{
                               display: 'block',
-                              padding: '12px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
                             Predictive Focus Algorithm
                           </a>
                         </div>
+                      </div>
 
-                        {/* Right Side - Full Image */}
+                      {/* Right Side - Featured Content */}
+                      <div
+                        style={{
+                          width: '350px',
+                          padding: '0 20px',
+                          borderLeft: '1px solid #e5e7eb',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Image
+                          src="/images/wiz.png"
+                          alt="Technologies"
+                          width={280}
+                          height={200}
+                          style={{
+                            objectFit: 'contain',
+                            opacity: '0.95',
+                            filter: 'drop-shadow(0 8px 25px rgba(0,0,0,0.15))',
+                            borderRadius: '8px',
+                          }}
+                          onError={(e) => {
+                            ;(e.target as HTMLImageElement).style.display = 'none'
+                          }}
+                        />
                         <div
                           style={{
-                            width: '220px',
-                            height: '280px',
-                            position: 'relative',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
+                            textAlign: 'center',
+                            marginTop: '20px',
+                            padding: '20px',
+                            backgroundColor: '#f9fafb',
+                            borderRadius: '8px',
+                            border: '1px solid #e5e7eb',
                           }}
                         >
-                          <Image
-                            src="/images/wiz.png"
-                            alt="Technologies"
-                            width={200}
-                            height={150}
+                          <h4
                             style={{
-                              objectFit: 'contain',
-                              opacity: '0.95',
-                              filter: 'drop-shadow(0 8px 25px rgba(0,0,0,0.15))',
+                              fontSize: '16px',
+                              fontWeight: '600',
+                              color: '#1f2937',
+                              marginBottom: '10px',
                             }}
-                            onError={(e) => {
-                              ;(e.target as HTMLImageElement).style.display = 'none'
+                          >
+                            Advanced Technology Solutions
+                          </h4>
+                          <p
+                            style={{
+                              fontSize: '14px',
+                              color: '#6b7280',
+                              lineHeight: '1.5',
                             }}
-                          />
+                          >
+                            Discover cutting-edge surveillance technologies that deliver superior
+                            performance and reliability.
+                          </p>
                         </div>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
 
@@ -579,175 +668,257 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
 
                 {/* Solutions Dropdown Menu with Curved Image */}
                 {activeDropdown === 'solutions' && (
-                  <>
+                  <div
+                    className="dropdown-menu"
+                    style={{
+                      position: 'fixed',
+                      top: '90px',
+                      left: '0',
+                      right: '0',
+                      width: '100vw',
+                      zIndex: 10000,
+                      overflow: 'hidden',
+                      backgroundColor: 'white',
+                      boxShadow:
+                        '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                      borderTop: '1px solid #e5e7eb',
+                      transition:
+                        'opacity 1.5s cubic-bezier(0.4,0,0.2,1), visibility 1.5s cubic-bezier(0.4,0,0.2,1)',
+                      opacity: activeDropdown === 'solutions' ? 1 : 0,
+                      visibility: activeDropdown === 'solutions' ? 'visible' : 'hidden',
+                    }}
+                    onMouseEnter={() => setActiveDropdown('solutions')}
+                    onMouseLeave={() => setActiveDropdown(null)}
+                  >
                     <div
                       style={{
-                        position: 'absolute',
-                        top: '100%',
-                        left: '0',
-                        right: '0',
-                        height: '10px',
-                        backgroundColor: 'transparent',
+                        display: 'flex',
+                        maxWidth: '1200px',
+                        margin: '0 auto',
+                        padding: '40px 20px',
                       }}
-                    />
-
-                    <div
-                      className="dropdown-menu"
-                      style={{
-                        position: 'absolute',
-                        top: 'calc(100% + 10px)',
-                        left: '0',
-                        width: '650px',
-                        zIndex: 10000,
-                        overflow: 'hidden',
-                      }}
-                      onMouseEnter={() => setActiveDropdown('solutions')}
-                      onMouseLeave={() => setActiveDropdown(null)}
                     >
-                      <div style={{ display: 'flex' }}>
-                        {/* Left Side - Menu Items */}
-                        <div style={{ width: '250px', padding: '20px' }}>
+                      {/* Left Side - Menu Items */}
+                      <div style={{ flex: 1, paddingRight: '60px' }}>
+                        <h3
+                          style={{
+                            fontSize: '18px',
+                            fontWeight: '600',
+                            color: '#1f2937',
+                            marginBottom: '30px',
+                            borderBottom: '2px solid #dc2626',
+                            paddingBottom: '10px',
+                            display: 'inline-block',
+                          }}
+                        >
+                          Solutions
+                        </h3>
+                        <div
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(2, 1fr)',
+                            gap: '20px',
+                          }}
+                        >
                           <Link
                             href="/solutions/building"
                             style={{
                               display: 'block',
-                              padding: '14px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
-                            Building
+                            Building Solutions
                           </Link>
                           <Link
                             href="/solutions/banking"
                             style={{
                               display: 'block',
-                              padding: '14px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
-                            Banking
+                            Banking Solutions
                           </Link>
                           <Link
                             href="/solutions/retail"
                             style={{
                               display: 'block',
-                              padding: '14px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
-                            Retail
+                            Retail Solutions
                           </Link>
                           <Link
                             href="/solutions/transportation"
                             style={{
                               display: 'block',
-                              padding: '14px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
-                            Transportation
+                            Transportation Solutions
                           </Link>
                           <Link
                             href="/solutions/government"
                             style={{
                               display: 'block',
-                              padding: '14px 0',
+                              padding: '15px 20px',
                               color: '#1f2937',
                               textDecoration: 'none',
-                              fontSize: '14px',
+                              fontSize: '15px',
                               fontWeight: '500',
                               transition: 'all 0.3s ease',
+                              border: '1px solid #f3f4f6',
+                              borderRadius: '8px',
+                              backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.color = '#1e40af'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(4px)'
+                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
+                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
+                              ;(e.target as HTMLElement).style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
+                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
+                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
                               ;(e.target as HTMLElement).style.color = '#1f2937'
-                              ;(e.target as HTMLElement).style.transform = 'translateX(0)'
                             }}
                           >
-                            Government
+                            Government Solutions
                           </Link>
                         </div>
+                      </div>
 
-                        {/* Right Side - Full Image */}
+                      {/* Right Side - Featured Content */}
+                      <div
+                        style={{
+                          width: '350px',
+                          padding: '0 20px',
+                          borderLeft: '1px solid #e5e7eb',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Image
+                          src="/images/aboutus.png"
+                          alt="Solutions"
+                          width={280}
+                          height={200}
+                          style={{
+                            objectFit: 'contain',
+                            opacity: '0.95',
+                            filter: 'drop-shadow(0 8px 25px rgba(0,0,0,0.15))',
+                            borderRadius: '8px',
+                          }}
+                          onError={(e) => {
+                            ;(e.target as HTMLImageElement).style.display = 'none'
+                          }}
+                        />
                         <div
                           style={{
-                            width: '200px',
-                            height: '250px',
-                            position: 'relative',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
+                            textAlign: 'center',
+                            marginTop: '20px',
+                            padding: '20px',
+                            backgroundColor: '#f9fafb',
+                            borderRadius: '8px',
+                            border: '1px solid #e5e7eb',
                           }}
                         >
-                          <Image
-                            src="/images/aboutus.png"
-                            alt="Solutions"
-                            width={180}
-                            height={130}
+                          <h4
                             style={{
-                              objectFit: 'contain',
-                              opacity: '0.95',
-                              filter: 'drop-shadow(0 8px 25px rgba(0,0,0,0.15))',
+                              fontSize: '16px',
+                              fontWeight: '600',
+                              color: '#1f2937',
+                              marginBottom: '10px',
                             }}
-                            onError={(e) => {
-                              ;(e.target as HTMLImageElement).style.display = 'none'
+                          >
+                            Industry Solutions
+                          </h4>
+                          <p
+                            style={{
+                              fontSize: '14px',
+                              color: '#6b7280',
+                              lineHeight: '1.5',
                             }}
-                          />
+                          >
+                            Comprehensive security solutions tailored for various industries and
+                            applications.
+                          </p>
                         </div>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
 
@@ -1166,49 +1337,50 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 </div>
 
                 {/* Footer Contact Info */}
-                <div className="p-8 pb-12 border-t border-gray-700">
-                  <div className="text-center space-y-4">
-                    <div className="text-gray-300 text-sm">Get in touch</div>
-                    <div className="space-y-2">
-                      <a
-                        href="mailto:sales@unvdubai.com"
-                        className="flex items-center justify-center text-white text-lg hover:text-red-400 transition-colors duration-300"
+                <div className="w-full bg-white border-t border-gray-200 dark:border-gray-700 text-black hidden md:block">
+                  <div className="inline-flex flex-col items-center gap-2">
+                    <a
+                      href="mailto:sales@unvdubai.com"
+                      className="flex items-center justify-center text-gray-700 dark:text-gray-300 text-base font-medium gap-2"
+                      style={{ fontSize: '16px' }}
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <svg
-                          className="w-5 h-5 mr-3"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                          />
-                        </svg>
-                        sales@unvdubai.com
-                      </a>
-                      <a
-                        href="tel:+971552929644"
-                        className="flex items-center justify-center text-white text-lg hover:text-red-400 transition-colors duration-300"
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        ></path>
+                      </svg>
+                      sales@unvdubai.com
+                    </a>
+                    <a
+                      href="tel:+971552929644"
+                      className="flex items-center justify-center text-gray-700 dark:text-gray-300 text-base font-medium gap-2"
+                      style={{ fontSize: '16px' }}
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <svg
-                          className="w-5 h-5 mr-3"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                          />
-                        </svg>
-                        +971552929644
-                      </a>
-                    </div>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        ></path>
+                      </svg>
+                      +971552929644
+                    </a>
                   </div>
                 </div>
               </div>
