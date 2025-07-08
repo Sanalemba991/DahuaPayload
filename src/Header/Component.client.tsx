@@ -277,7 +277,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
             >
               <Link
                 href="/"
-                className="nav-link"
+                className={`nav-link group${pathname === '/' ? ' active' : ''}`}
                 style={{
                   color: 'black',
                   fontWeight: 'normal',
@@ -287,18 +287,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   transition: 'all 0.3s ease',
                   padding: '8px 0',
                   position: 'relative',
-                  borderBottom: pathname === '/' ? '2px solid #e60000' : 'none',
                 }}
                 onClick={(e) => {
                   e.preventDefault()
                   window.location.href = '/'
                 }}
               >
-                Home
+                <span className="relative">
+                  Home
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                      pathname === '/' ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                    style={{ height: '2px' }}
+                  ></span>
+                </span>
               </Link>
               <Link
                 href="/products"
-                className="nav-link"
+                className={`nav-link group${pathname === '/products' ? ' active' : ''}`}
                 style={{
                   color: 'black',
                   fontWeight: 'normal',
@@ -308,14 +315,21 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   transition: 'all 0.3s ease',
                   padding: '8px 0',
                   position: 'relative',
-                  borderBottom: pathname === '/products' ? '2px solid #e60000' : 'none',
                 }}
                 onClick={(e) => {
                   e.preventDefault()
                   window.location.href = '/products'
                 }}
               >
-                Products
+                <span className="relative">
+                  Products
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                      pathname === '/products' ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                    style={{ height: '2px' }}
+                  ></span>
+                </span>
               </Link>
               <div
                 style={{ position: 'relative' }}
@@ -342,13 +356,22 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     window.location.href = '/technologies'
                   }}
                 >
-                  Technologies
+                  <span className="relative">
+                    Technologies
+                    <span
+                      className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                        pathname === '/technologies' ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                      style={{ height: '2px' }}
+                    ></span>
+                  </span>
                   <svg
                     style={{
                       width: '12px',
                       height: '12px',
                       fill: 'white',
                       filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.8))',
+                      marginLeft: '5px',
                     }}
                     viewBox="0 0 20 20"
                   >
@@ -673,13 +696,22 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     window.location.href = '/solutions'
                   }}
                 >
-                  Solutions
+                  <span className="relative">
+                    Solutions
+                    <span
+                      className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                        pathname === '/solutions' ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                      style={{ height: '2px' }}
+                    ></span>
+                  </span>
                   <svg
                     style={{
                       width: '12px',
                       height: '12px',
                       fill: 'white',
                       filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.8))',
+                      marginLeft: '5px',
                     }}
                     viewBox="0 0 20 20"
                   >
@@ -952,7 +984,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
 
               <Link
                 href="/sira"
-                className="nav-link"
+                className="nav-link group" // Added 'group' class here
                 style={{
                   color: 'black',
                   fontWeight: 'normal',
@@ -962,18 +994,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
                   position: 'relative',
-                  borderBottom: pathname === '/sira' ? '2px solid #e60000' : 'none',
                 }}
                 onClick={(e) => {
                   e.preventDefault()
                   window.location.href = '/sira'
                 }}
               >
-                Sira
+                <span className="relative">
+                  Sira
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                      pathname === '/sira' ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                    style={{ height: '2px' }}
+                  ></span>
+                </span>
               </Link>
               <Link
                 href="/about-us"
-                className="nav-link"
+                className="nav-link group" // Added 'group' class here
                 style={{
                   color: 'black',
                   fontWeight: 'normal',
@@ -983,18 +1022,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
                   position: 'relative',
-                  borderBottom: pathname === '/about-us' ? '2px solid #e60000' : 'none',
                 }}
                 onClick={(e) => {
                   e.preventDefault()
                   window.location.href = '/about-us'
                 }}
               >
-                About Us
+                <span className="relative">
+                  About Us
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                      pathname === '/about-us' ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                    style={{ height: '2px' }}
+                  ></span>
+                </span>
               </Link>
               <Link
                 href="/contact"
-                className="nav-link"
+                className="nav-link group" // Added 'group' class here
                 style={{
                   color: 'black',
                   fontWeight: 'normal',
@@ -1004,14 +1050,21 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
                   position: 'relative',
-                  borderBottom: pathname === '/contact' ? '2px solid #e60000' : 'none',
                 }}
                 onClick={(e) => {
                   e.preventDefault()
                   window.location.href = '/contact'
                 }}
               >
-                Contact Us
+                <span className="relative">
+                  Contact Us
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                      pathname === '/contact' ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                    style={{ height: '2px' }}
+                  ></span>
+                </span>
               </Link>
             </div>
 
