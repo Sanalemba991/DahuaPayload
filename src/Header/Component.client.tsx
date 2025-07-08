@@ -2,6 +2,7 @@
 import { Media } from '@/payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 
 interface HeaderClientProps {
@@ -22,6 +23,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
   const [logoError, setLogoError] = useState(false)
   const [isClient, setIsClient] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
 
   // Ensure client-side rendering
   useEffect(() => {
@@ -65,7 +67,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
   useEffect(() => {
     if (!isClient || !logo?.url) return
 
-    if (!logoError && logo?.url && !logo.url.includes('dahualogo-removebg-preview')) {
+    if (!logoError && logo?.url && !logo.url.includes('dahualogo-removebg')) {
       const fallbackTimer = setTimeout(() => {
         if (process.env.NODE_ENV === 'development') {
           console.log('Logo taking too long to load, falling back to default')
@@ -227,74 +229,50 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
             </div>
             {/* Logo - Left Side */}
             <div
-              style={{ width: '150px', marginLeft: '16px' }}
+              style={{ width: '150px', marginLeft: '0' }}
               className="hidden md:flex items-center justify-start"
             >
               <Link href="/" style={{ display: 'block' }}>
-                {(logo?.url || logoError) &&
-                  (logoError ? (
-                    <img
-                      src="/images/dahualogo-removebg-preview.png.png"
-                      alt={logo?.alt || 'Site Logo'}
-                      width={140}
-                      height={40}
-                      style={{
-                        objectFit: 'contain',
-                        filter: 'brightness(1.2) contrast(1.1)',
-                        transition: 'all 0.3s ease',
-                        cursor: 'pointer',
-                      }}
-                      onMouseEnter={(e) => {
-                        ;(e.target as HTMLImageElement).style.filter =
-                          'brightness(1.3) contrast(1.2) drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4))'
-                        ;(e.target as HTMLImageElement).style.transform = 'scale(1.05)'
-                      }}
-                      onMouseLeave={(e) => {
-                        ;(e.target as HTMLImageElement).style.filter =
-                          'brightness(1.2) contrast(1.1)'
-                        ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
-                      }}
-                    />
-                  ) : (
-                    <Image
-                      priority={true}
-                      src={logoUrl}
-                      alt={logo?.alt || 'Site Logo'}
-                      width={140}
-                      height={40}
-                      onError={handleLogoError}
-                      style={{
-                        objectFit: 'contain',
-                        filter: 'brightness(1.2) contrast(1.1)',
-                        transition: 'all 0.3s ease',
-                        cursor: 'pointer',
-                      }}
-                      onMouseEnter={(e) => {
-                        ;(e.target as HTMLImageElement).style.filter =
-                          'brightness(1.3) contrast(1.2) drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4))'
-                        ;(e.target as HTMLImageElement).style.transform = 'scale(1.05)'
-                      }}
-                      onMouseLeave={(e) => {
-                        ;(e.target as HTMLImageElement).style.filter =
-                          'brightness(1.2) contrast(1.1)'
-                        ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
-                      }}
-                      onLoad={() => {
-                        if (process.env.NODE_ENV === 'development') {
-                          console.log('Desktop logo loaded successfully')
-                        }
-                      }}
-                    />
-                  ))}
+                <Image
+                  priority={true}
+                  src={
+                    logoError || !logo?.url ? '/images/dahualogo-removebg-preview.png.png' : logoUrl
+                  }
+                  alt={logo?.alt || 'Site Logo'}
+                  width={140}
+                  height={40}
+                  onError={handleLogoError}
+                  style={{
+                    objectFit: 'contain',
+                    filter: 'brightness(1.2) contrast(1.1)',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={(e) => {
+                    ;(e.target as HTMLImageElement).style.filter =
+                      'brightness(1.3) contrast(1.2) drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4))'
+                    ;(e.target as HTMLImageElement).style.transform = 'scale(1.05)'
+                  }}
+                  onMouseLeave={(e) => {
+                    ;(e.target as HTMLImageElement).style.filter = 'brightness(1.2) contrast(1.1)'
+                    ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
+                  }}
+                  onLoad={() => {
+                    if (process.env.NODE_ENV === 'development') {
+                      console.log('Desktop logo loaded successfully')
+                    }
+                  }}
+                />
               </Link>
             </div>
 
             {/* Main Navigation - Center */}
             <div
-              className="hidden md:flex items-center gap-8"
+              className="hidden md:flex items-center gap-12"
               style={{
                 flex: 1,
                 justifyContent: 'center',
+                padding: '0 16px',
               }}
             >
               <Link
@@ -302,12 +280,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 500,
-                  fontSize: '16px',
-                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  fontWeight: 'normal',
+                  fontSize: '18px',
+                  fontFamily: 'Open Sans, sans-serif',
                   letterSpacing: '0.01em',
                   transition: 'all 0.3s ease',
                   padding: '8px 0',
+                  position: 'relative',
+                  borderBottom: pathname === '/' ? '2px solid #e60000' : 'none',
+                }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.location.href = '/'
                 }}
               >
                 Home
@@ -317,18 +301,22 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 500,
-                  fontSize: '16px',
-                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  fontWeight: 'normal',
+                  fontSize: '18px',
+                  fontFamily: 'Open Sans, sans-serif',
                   letterSpacing: '0.01em',
                   transition: 'all 0.3s ease',
                   padding: '8px 0',
+                  position: 'relative',
+                  borderBottom: pathname === '/products' ? '2px solid #e60000' : 'none',
+                }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.location.href = '/products'
                 }}
               >
                 Products
               </Link>
-
-              {/* Technologies with Dropdown and Curved Image */}
               <div
                 style={{ position: 'relative' }}
                 onMouseEnter={() => setActiveDropdown('technologies')}
@@ -339,13 +327,19 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   className="nav-link"
                   style={{
                     color: 'black',
-                    fontWeight: 500,
-                    fontSize: '16px',
+                    fontWeight: 'normal',
+                    fontSize: '18px',
+                    fontFamily: 'Open Sans, sans-serif',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '5px',
                     padding: '8px 0',
                     transition: 'all 0.3s ease',
+                    borderBottom: pathname === '/technologies' ? '2px solid #e60000' : 'none',
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    window.location.href = '/technologies'
                   }}
                 >
                   Technologies
@@ -664,13 +658,19 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   className="nav-link"
                   style={{
                     color: 'black',
-                    fontWeight: 500,
-                    fontSize: '16px',
+                    fontWeight: 'normal',
+                    fontSize: '18px',
+                    fontFamily: 'Open Sans, sans-serif',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '5px',
                     padding: '8px 0',
                     transition: 'all 0.3s ease',
+                    borderBottom: pathname === '/solutions' ? '2px solid #e60000' : 'none',
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    window.location.href = '/solutions'
                   }}
                 >
                   Solutions
@@ -955,12 +955,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 500,
-                  fontSize: '16px',
-                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  fontWeight: 'normal',
+                  fontSize: '18px',
+                  fontFamily: 'Open Sans, sans-serif',
                   letterSpacing: '0.01em',
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
+                  position: 'relative',
+                  borderBottom: pathname === '/sira' ? '2px solid #e60000' : 'none',
+                }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.location.href = '/sira'
                 }}
               >
                 Sira
@@ -970,12 +976,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 500,
-                  fontSize: '16px',
-                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  fontWeight: 'normal',
+                  fontSize: '18px',
+                  fontFamily: 'Open Sans, sans-serif',
                   letterSpacing: '0.01em',
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
+                  position: 'relative',
+                  borderBottom: pathname === '/about-us' ? '2px solid #e60000' : 'none',
+                }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.location.href = '/about-us'
                 }}
               >
                 About Us
@@ -985,12 +997,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 500,
-                  fontSize: '16px',
-                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  fontWeight: 'normal',
+                  fontSize: '18px',
+                  fontFamily: 'Open Sans, sans-serif',
                   letterSpacing: '0.01em',
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
+                  position: 'relative',
+                  borderBottom: pathname === '/contact' ? '2px solid #e60000' : 'none',
+                }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.location.href = '/contact'
                 }}
               >
                 Contact Us
@@ -999,31 +1017,30 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
 
             {/* Right Side - Contact Information */}
             <div
-              className="hidden md:flex items-center gap-6"
+              className="hidden md:flex items-center gap-4"
               style={{
-                minWidth: '280px',
+                minWidth: '120px',
                 justifyContent: 'flex-end',
                 marginLeft: '20px',
                 zIndex: 100,
               }}
             >
-              {/* Email */}
+              {/* Email (Icon Only) */}
               <a
                 href={`mailto:${email}`}
-                className="flex items-center gap-2 text-black hover:text-red-600 transition-colors duration-300"
+                className="flex items-center justify-center text-black hover:text-red-600 transition-colors duration-300"
                 style={{
-                  fontSize: '13px',
-                  fontWeight: '600',
-                  whiteSpace: 'nowrap',
                   backgroundColor: '#f8f9fa',
-                  padding: '4px 8px',
-                  borderRadius: '4px',
+                  padding: '8px',
+                  borderRadius: '50%',
                   boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                  color: 'black', // Ensure text is black
+                  width: '40px',
+                  height: '40px',
                 }}
+                title={email}
               >
                 <svg
-                  className="w-5 h-5 text-black"
+                  className="w-6 h-6 text-black"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -1036,26 +1053,24 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   ></path>
                 </svg>
-                <span style={{ color: 'black' }}>{email}</span>
               </a>
 
-              {/* Phone */}
+              {/* Phone (Icon Only) */}
               <a
                 href={`tel:${telephone}`}
-                className="flex items-center gap-2 text-black hover:text-red-600 transition-colors duration-300"
+                className="flex items-center justify-center text-black hover:text-red-600 transition-colors duration-300"
                 style={{
-                  fontSize: '13px',
-                  fontWeight: '600',
-                  whiteSpace: 'nowrap',
                   backgroundColor: '#f8f9fa',
-                  padding: '4px 8px',
-                  borderRadius: '4px',
+                  padding: '8px',
+                  borderRadius: '50%',
                   boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                  color: 'black', // Ensure text is black
+                  width: '40px',
+                  height: '40px',
                 }}
+                title={telephone}
               >
                 <svg
-                  className="w-5 h-5 text-black"
+                  className="w-6 h-6 text-black"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -1068,7 +1083,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   ></path>
                 </svg>
-                <span style={{ color: 'black' }}>{telephone}</span>
               </a>
             </div>
           </div>
