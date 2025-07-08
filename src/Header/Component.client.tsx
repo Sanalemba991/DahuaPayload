@@ -11,7 +11,11 @@ interface HeaderClientProps {
   email: string
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({
+  logo,
+  email = 'sales@unvdubai.com',
+  telephone = '+971552929644',
+}) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileSubMenu, setMobileSubMenu] = useState<null | 'technologies' | 'solutions'>(null)
@@ -126,13 +130,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
     <>
       <header
         className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-gray-200 header-container"
-        style={{ minHeight: 'unset', padding: '0' }}
+        style={{
+          minHeight: 'unset',
+          padding: '0',
+          fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+          letterSpacing: '0.01em',
+        }}
       >
         <nav
           ref={navRef}
           style={{
             width: '100%',
-            padding: '6px 0',
+            padding: '8px 0',
             margin: '0 auto',
           }}
         >
@@ -141,8 +150,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              padding: '0 15px',
-
+              padding: '0 25px',
+              maxWidth: '1600px',
               margin: '0 auto',
             }}
           >
@@ -293,8 +302,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 'bold',
+                  fontWeight: 500,
                   fontSize: '16px',
+                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  letterSpacing: '0.01em',
                   transition: 'all 0.3s ease',
                   padding: '8px 0',
                 }}
@@ -306,8 +317,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 'bold',
+                  fontWeight: 500,
                   fontSize: '16px',
+                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  letterSpacing: '0.01em',
                   transition: 'all 0.3s ease',
                   padding: '8px 0',
                 }}
@@ -326,7 +339,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                   className="nav-link"
                   style={{
                     color: 'black',
-                    fontWeight: 'bold',
+                    fontWeight: 500,
                     fontSize: '16px',
                     display: 'flex',
                     alignItems: 'center',
@@ -355,7 +368,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                     className="dropdown-menu"
                     style={{
                       position: 'fixed',
-                      top: '90px',
+                      top: '56px',
                       left: '0',
                       right: '0',
                       width: '100vw',
@@ -366,9 +379,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                         '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
                       borderTop: '1px solid #e5e7eb',
                       transition:
-                        'opacity 1.5s cubic-bezier(0.4,0,0.2,1), visibility 1.5s cubic-bezier(0.4,0,0.2,1)',
+                        'opacity 0.8s cubic-bezier(0.4,0,0.2,1), visibility 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1)',
                       opacity: activeDropdown === 'technologies' ? 1 : 0,
                       visibility: activeDropdown === 'technologies' ? 'visible' : 'hidden',
+                      transform:
+                        activeDropdown === 'technologies' ? 'translateY(0)' : 'translateY(-10px)',
                     }}
                     onMouseEnter={() => setActiveDropdown('technologies')}
                     onMouseLeave={() => setActiveDropdown(null)}
@@ -405,6 +420,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                         >
                           <a
                             href="/technologies/wizsense"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -432,6 +448,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </a>
                           <a
                             href="/technologies/wizmind"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -459,6 +476,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </a>
                           <a
                             href="/technologies/full-color"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -486,6 +504,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </a>
                           <a
                             href="/technologies/auto-tracking"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -513,6 +532,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </a>
                           <a
                             href="/technologies/hdcvi-ten"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -540,6 +560,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </a>
                           <a
                             href="/technologies/predictive-focus"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -643,7 +664,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                   className="nav-link"
                   style={{
                     color: 'black',
-                    fontWeight: 'bold',
+                    fontWeight: 500,
                     fontSize: '16px',
                     display: 'flex',
                     alignItems: 'center',
@@ -672,7 +693,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                     className="dropdown-menu"
                     style={{
                       position: 'fixed',
-                      top: '90px',
+                      top: '56px',
                       left: '0',
                       right: '0',
                       width: '100vw',
@@ -683,9 +704,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                         '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
                       borderTop: '1px solid #e5e7eb',
                       transition:
-                        'opacity 1.5s cubic-bezier(0.4,0,0.2,1), visibility 1.5s cubic-bezier(0.4,0,0.2,1)',
+                        'opacity 0.8s cubic-bezier(0.4,0,0.2,1), visibility 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1)',
                       opacity: activeDropdown === 'solutions' ? 1 : 0,
                       visibility: activeDropdown === 'solutions' ? 'visible' : 'hidden',
+                      transform:
+                        activeDropdown === 'solutions' ? 'translateY(0)' : 'translateY(-10px)',
                     }}
                     onMouseEnter={() => setActiveDropdown('solutions')}
                     onMouseLeave={() => setActiveDropdown(null)}
@@ -722,6 +745,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                         >
                           <Link
                             href="/solutions/building"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -749,6 +773,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </Link>
                           <Link
                             href="/solutions/banking"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -776,6 +801,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </Link>
                           <Link
                             href="/solutions/retail"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -803,6 +829,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </Link>
                           <Link
                             href="/solutions/transportation"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -830,6 +857,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                           </Link>
                           <Link
                             href="/solutions/government"
+                            className="staggered-appear"
                             style={{
                               display: 'block',
                               padding: '15px 20px',
@@ -927,8 +955,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 'bold',
+                  fontWeight: 500,
                   fontSize: '16px',
+                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  letterSpacing: '0.01em',
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
                 }}
@@ -940,8 +970,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 'bold',
+                  fontWeight: 500,
                   fontSize: '16px',
+                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  letterSpacing: '0.01em',
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
                 }}
@@ -953,8 +985,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                 className="nav-link"
                 style={{
                   color: 'black',
-                  fontWeight: 'bold',
+                  fontWeight: 500,
                   fontSize: '16px',
+                  fontFamily: 'Segoe UI, Arial, Helvetica, sans-serif',
+                  letterSpacing: '0.01em',
                   padding: '8px 0',
                   transition: 'all 0.3s ease',
                 }}
@@ -963,57 +997,79 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
               </Link>
             </div>
 
+            {/* Right Side - Contact Information */}
             <div
-              className="mobile-right"
+              className="hidden md:flex items-center gap-6"
               style={{
-                display: 'flex',
+                minWidth: '280px',
                 justifyContent: 'flex-end',
+                marginLeft: '20px',
+                zIndex: 100,
               }}
             >
-              <div className="px-4 py-3 border-none border-gray-200 dark:border-gray-700 text-black hidden md:block  ">
-                <div className="space-y-2">
-                  <a
-                    href="mailto:sales@unvdubai.com"
-                    className="flex items-center text-gray-700 dark:text-gray-300 text-sm"
-                  >
-                    <svg
-                      className="w-4 h-4 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      ></path>
-                    </svg>
-                    sales@unvdubai.com
-                  </a>
-                  <a
-                    href="tel:+971552929644"
-                    className="flex items-center text-gray-700 dark:text-gray-300 text-sm"
-                  >
-                    <svg
-                      className="w-4 h-4 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      ></path>
-                    </svg>
-                    +971552929644
-                  </a>
-                </div>
-              </div>
+              {/* Email */}
+              <a
+                href={`mailto:${email}`}
+                className="flex items-center gap-2 text-black hover:text-red-600 transition-colors duration-300"
+                style={{
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  whiteSpace: 'nowrap',
+                  backgroundColor: '#f8f9fa',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                  color: 'black', // Ensure text is black
+                }}
+              >
+                <svg
+                  className="w-5 h-5 text-black"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span style={{ color: 'black' }}>{email}</span>
+              </a>
+
+              {/* Phone */}
+              <a
+                href={`tel:${telephone}`}
+                className="flex items-center gap-2 text-black hover:text-red-600 transition-colors duration-300"
+                style={{
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  whiteSpace: 'nowrap',
+                  backgroundColor: '#f8f9fa',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                  color: 'black', // Ensure text is black
+                }}
+              >
+                <svg
+                  className="w-5 h-5 text-black"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  ></path>
+                </svg>
+                <span style={{ color: 'black' }}>{telephone}</span>
+              </a>
             </div>
           </div>
           {mobileOpen && (
@@ -1336,8 +1392,54 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
                   )}
                 </div>
 
+                {/* Mobile Footer Contact Info */}
+                <div className="w-full bg-black/20 border-t border-gray-600 p-4 md:hidden">
+                  <div className="flex flex-col items-center gap-3">
+                    <a
+                      href="mailto:sales@unvdubai.com"
+                      className="flex items-center justify-center text-white text-sm font-medium gap-2 hover:text-red-400 transition-colors duration-300"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        ></path>
+                      </svg>
+                      sales@unvdubai.com
+                    </a>
+                    <a
+                      href="tel:+971552929644"
+                      className="flex items-center justify-center text-white text-sm font-medium gap-2 hover:text-red-400 transition-colors duration-300"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        ></path>
+                      </svg>
+                      +971552929644
+                    </a>
+                  </div>
+                </div>
+
                 {/* Footer Contact Info */}
-                <div className="w-full bg-white border-t border-gray-200 dark:border-gray-700 text-black hidden md:block">
+                <div className="w-full bg-white border-t border-gray-200 dark:border-gray-700 text-black">
                   <div className="inline-flex flex-col items-center gap-2">
                     <a
                       href="mailto:sales@unvdubai.com"
@@ -1388,6 +1490,42 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ logo }) => {
           )}
         </nav>
       </header>
+      <style jsx global>{`
+        .dropdown-menu .staggered-appear {
+          opacity: 0;
+          transform: translateY(10px);
+          animation: staggeredFadeIn 0.5s forwards;
+        }
+        .dropdown-menu .staggered-appear:nth-child(1) {
+          animation-delay: 0.1s;
+        }
+        .dropdown-menu .staggered-appear:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        .dropdown-menu .staggered-appear:nth-child(3) {
+          animation-delay: 0.3s;
+        }
+        .dropdown-menu .staggered-appear:nth-child(4) {
+          animation-delay: 0.4s;
+        }
+        .dropdown-menu .staggered-appear:nth-child(5) {
+          animation-delay: 0.5s;
+        }
+        .dropdown-menu .staggered-appear:nth-child(6) {
+          animation-delay: 0.6s;
+        }
+        @keyframes staggeredFadeIn {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @media (max-width: 900px) {
+          .header-contact-info {
+            display: none !important;
+          }
+        }
+      `}</style>
     </>
   )
 }
