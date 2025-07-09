@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import Image from 'next/image'
 import { Category, Product, Subcategory } from '@/payload-types'
@@ -45,12 +45,90 @@ const itemVariants = {
 
 const hoverVariants = {
   hover: {
-    y: -5,
-    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+    y: -8,
+    scale: 1.03,
+    boxShadow: '0 15px 30px rgba(0, 0, 0, 0.12)',
     transition: {
       duration: 0.3,
       ease: 'easeOut',
     },
+  },
+}
+
+// Animation variants for section elements
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  },
+}
+
+const titleVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.9,
+      ease: [0.23, 1, 0.32, 1],
+      delay: 0.1,
+    },
+  },
+}
+
+const lineVariants = {
+  hidden: { width: 0 },
+  visible: {
+    width: '6rem',
+    transition: {
+      duration: 0.7,
+      ease: [0.25, 0.46, 0.45, 0.94],
+      delay: 0.3,
+    },
+  },
+}
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 60,
+    rotateX: 15,
+    scale: 0.9,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    scale: 1,
+    transition: {
+      duration: 1,
+      ease: [0.175, 0.885, 0.32, 1.275],
+      delay: 0.5,
+    },
+  },
+  hover: {
+    y: -8,
+    scale: 1.03,
+    boxShadow: '0 15px 30px rgba(0, 0, 0, 0.12)',
+    transition: {
+      duration: 0.3,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  },
+}
+
+const floatingAnimation = {
+  y: [0, -3, 0],
+  transition: {
+    duration: 3,
+    ease: 'easeInOut',
+    repeat: Infinity,
   },
 }
 
@@ -69,8 +147,8 @@ export default function ProductGrid({
   // Trigger animation when section comes into view
   const isInView = useInView(sectionRef, {
     once: true,
-    amount: 0.3, // Trigger when 30% of the section is visible
-    margin: '0px 0px -100px 0px', // Start animation 100px before the section enters viewport
+    amount: 0.3,
+    margin: '0px 0px -100px 0px',
   })
 
   // Debug logging
@@ -111,37 +189,50 @@ export default function ProductGrid({
         })
 
   return (
-    <section ref={sectionRef} className="py-16 bg-white">
+    <motion.section
+      ref={sectionRef}
+      variants={sectionVariants}
+      initial="hidden"
+      animate={isInView ? 'visible' : 'hidden'}
+      className="py-16 bg-white relative"
+    >
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="flex flex-col items-center mb-12">
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl font-bold mb-8 text-center text-gray-900"
+            variants={titleVariants}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            className="text-4xl md:text-5xl font-bold mb-8 text-center text-gray-900"
           >
             Industry-Leading <span className="text-red-600">Products</span>
           </motion.h2>
 
           <motion.div
+            variants={lineVariants}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            className="h-1 bg-red-600 mx-auto"
+          />
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-2"
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-2 mt-8"
           >
-            <button
+            <motion.button
               key={'all'}
-              className={`px-4 py-2 rounded-full text-sm transition-all
-                  ${
-                    selectedCategory === 'all'
-                      ? 'bg-red-600 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900 border border-gray-300'
-                  }
-                `}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-4 py-2 rounded-full text-sm transition-all duration-300 ${
+                selectedCategory === 'all'
+                  ? 'bg-red-600 text-white shadow-lg'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900 border border-gray-300'
+              }`}
               onClick={() => setSelectedCategory('all')}
             >
               All
-            </button>
+            </motion.button>
             {validCategories
               .filter((category) => category && category.id && category.title)
               .map((category) => (
@@ -149,13 +240,11 @@ export default function ProductGrid({
                   key={category.id}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-2 rounded-full text-sm transition-all
-                  ${
+                  className={`px-4 py-2 rounded-full text-sm transition-all duration-300 ${
                     selectedCategory === category.id
                       ? 'bg-red-600 text-white shadow-lg'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900 border border-gray-300'
-                  }
-                `}
+                  }`}
                   onClick={() => setSelectedCategory(category.id)}
                 >
                   {category.title}
@@ -178,8 +267,26 @@ export default function ProductGrid({
                 <motion.div
                   layout
                   key={product.id}
-                  variants={itemVariants}
-                  whileHover="hover"
+                  variants={{
+                    ...itemVariants,
+                    show: {
+                      ...itemVariants.show,
+                      transition: {
+                        ...itemVariants.show.transition,
+                        delay: index * 0.1,
+                      },
+                    },
+                  }}
+                  whileHover={{
+                    y: -8,
+                    scale: 1.03,
+                    boxShadow: '0 15px 30px rgba(0, 0, 0, 0.12)',
+                    transition: {
+                      duration: 0.3,
+                      ease: 'easeOut',
+                    },
+                  }}
+                  animate={isInView ? 'show' : 'hidden'}
                   exit="exit"
                   className="relative overflow-hidden rounded-lg aspect-[3/4] group shadow-md border border-gray-200 bg-white"
                   onMouseEnter={() => setHoveredProduct(product.id)}
@@ -254,6 +361,6 @@ export default function ProductGrid({
           </AnimatePresence>
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }

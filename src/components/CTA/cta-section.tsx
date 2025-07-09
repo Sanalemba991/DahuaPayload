@@ -1,73 +1,100 @@
 'use client'
-
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-export default function CTASection() {
+export default function DahuaHeroSection() {
   return (
-    <section className="relative py-20 bg-black text-white overflow-hidden">
-      {/* Background pattern elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -right-64 -top-64 w-[40rem] h-[40rem] rounded-full bg-red-600/20 blur-3xl"></div>
-        <div className="absolute -left-64 -bottom-64 w-[30rem] h-[30rem] rounded-full bg-blue-600/20 blur-3xl"></div>
-      </div>
+    <section
+      className="relative min-h-screen flex items-center justify-center font-[Open_Sans,sans-serif] overflow-hidden"
+      style={{ fontFamily: "'Open Sans', sans-serif" }}
+    >
+      {/* Background Image with Scroll Animation */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        initial={{ opacity: 0, scale: 1.1 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{
+          duration: 2.5,
+          ease: 'easeOut',
+        }}
+      >
+        <img
+          src="/images/red.jpg"
+          alt="Professional security monitoring"
+          className="w-full h-full object-cover"
+        />
+      </motion.div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      {/* Overlay for darkening with scroll animation */}
+      <motion.div
+        className="absolute inset-0 bg-black/60 z-10"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 1.5, delay: 0.5 }}
+      />
+
+      {/* Centered Content Box with scroll animation */}
+      <div className="relative z-20 flex items-center justify-start w-full h-full">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="max-w-5xl mx-auto text-center"
+          className="max-w-xl bg-black/70 p-10 rounded-none md:rounded-lg shadow-xl ml-8 mt-16 mb-16"
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{
+            duration: 1.2,
+            delay: 0.3,
+            ease: 'easeOut',
+          }}
         >
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">Ready to upgrade your security?</h2>
-          <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
-            Join thousands of satisfied customers who trust Dahua for their security needs. Our team
-            is ready to provide a personalized solution for your requirements.
-          </p>
+          <motion.h1
+            className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            At Dahua, we&apos;re
+            <br />
+            <span className="text-red-600">security-driven.</span>
+          </motion.h1>
+
+          <motion.p
+            className="text-lg text-gray-300 mb-8 leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+          >
+            Let&apos;s build a more secure, intelligent, and connected world together.
+          </motion.p>
 
           <motion.div
-            className="grid md:grid-cols-2 gap-4"
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.2,
-                },
-              },
-            }}
-            initial="hidden"
-            whileInView="show"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.9 }}
           >
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 px-7 py-3 border-2 border-white text-white bg-transparent hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-300 font-semibold group text-base"
             >
-              <Link
-                href="/contact"
-                className="block w-full py-4 px-8 bg-red-600 hover:bg-red-700 rounded-lg text-xl font-medium transition-all"
+              Contact Us
+              <svg
+                className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Request a Demo
-              </Link>
-            </motion.div>
-
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
-            >
-              <Link
-                href="/products"
-                className="block w-full py-4 px-8 bg-transparent hover:bg-white/10 border-2 border-white rounded-lg text-xl font-medium transition-all"
-              >
-                Explore Products
-              </Link>
-            </motion.div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Link>
           </motion.div>
         </motion.div>
       </div>

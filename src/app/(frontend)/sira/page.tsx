@@ -2,149 +2,245 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import {
+  Shield,
+  Monitor,
+  Zap,
+  Search,
+  Users,
+  Cloud,
+  Wrench,
+  ArrowUp,
+  FileCheck,
+} from 'lucide-react'
+import React from 'react'
 
-// const tabs = [
-//   { label: 'IPC', key: 'ipc' },
-//   { label: 'Analog Camera', key: 'analog' },
-//   { label: 'NVR', key: 'nvr' },
-//   { label: 'XVR', key: 'xvr' },
-//   { label: 'NOC & Documents', key: 'noc' },
-// ]
+const benefits = [
+  {
+    icon: Shield,
+    iconBg: 'bg-blue-50',
+    iconColor: 'text-blue-600',
+    title: 'Enhanced Security',
+    description:
+      'Certified companies ensure flawless safety systems, providing comprehensive protection against unauthorized access and intrusion.',
+  },
+  {
+    icon: Wrench,
+    iconBg: 'bg-green-50',
+    iconColor: 'text-green-600',
+    title: 'Regular Maintenance',
+    description:
+      'With a SIRA-approved provider, prioritizing regular maintenance throughout the year ensures the uninterrupted functionality of your CCTV system.',
+  },
+  {
+    icon: ArrowUp,
+    iconBg: 'bg-yellow-50',
+    iconColor: 'text-yellow-500',
+    title: 'Up-to-Date Solutions',
+    description:
+      'SIRA-approved services keep your security system current. Utilizing the latest models and equipment, they deliver an efficient surveillance solution for your premises.',
+  },
+  {
+    icon: FileCheck,
+    iconBg: 'bg-purple-50',
+    iconColor: 'text-purple-500',
+    title: 'Compliance Assurance',
+    description:
+      'Choosing a SIRA-certified distributor guarantees that your security systems comply with all local regulations and standards, reducing legal and financial risks.',
+  },
+]
 
-// Example data for brevity, replace with your full data as needed
-// const ipcProducts = [
-//   { cert: 'SIRA/2023/7/04722', name: 'IPC-HDW1431T1-S4' },
-//   { cert: 'SIRA/2023/7/04721', name: 'IPC-HDW1431S-S4' },
-//   // ...add all your IPC products here
-// ]
-// const analogProducts = [
-//   { cert: 'SIRA/2023/7/03894', name: 'HAC-D3A21-VF' },
-//   // ...add all your Analog products here
-// ]
-// const nvrProducts = [
-//   {
-//     cert: 'SIRA/2023/1/05544',
-//     name: 'DHI-NVR608-64-4KS2',
-//     firmware: 'V4.002.10FU003.0.R',
-//     note: '2023 New',
-//   },
-//   // ...add all your NVR products here
-// ]
-// const xvrProducts = [
-//   {
-//     cert: 'SIRA/2022/1/05014',
-//     name: 'DH-XVR5116HS-I3',
-//     firmware: 'V4.001.19SX001.0',
-//     note: '2022 New',
-//   },
-//   // ...add all your XVR products here
-// ]
-// const nocDocs = [
-//   {
-//     name: 'AUTHORIZATION LETTER_NOC (Please fill in the information and send it to Wanxia.Liu@dahuatech.com)',
-//     link: '/downloads/AUTHORIZATION_LETTER_NOC.docx',
-//     label: 'Download File',
-//   },
-//   {
-//     name: 'UPS Integrates NVR for Safe Shutdown',
-//     link: '/downloads/UPS_Integrates_NVR_for_Safe_Shutdown.pdf',
-//     label: 'Download File',
-//   },
-// ]
-
-// const products = {
-//   ipc: ipcProducts,
-//   analog: analogProducts,
-//   nvr: nvrProducts,
-//   xvr: xvrProducts,
-//   noc: nocDocs,
-// }
+// Reusable FeatureCard component
+function FeatureCard({
+  icon: Icon,
+  iconBg,
+  iconColor,
+  title,
+  description,
+  xDisable = false,
+}: {
+  icon: React.ElementType
+  iconBg: string
+  iconColor: string
+  title: string
+  description: string
+  xDisable?: boolean
+}) {
+  return (
+    <motion.div
+      whileHover={xDisable ? {} : { y: -10, scale: 1.05 }}
+      className="bg-white rounded-lg p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300"
+    >
+      <div className={`${iconBg} w-16 h-16 rounded-xl flex items-center justify-center mb-4`}>
+        <Icon size={32} className={iconColor} />
+      </div>
+      <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
+      <p className="text-sm text-gray-600">{description}</p>
+    </motion.div>
+  )
+}
 
 export default function SiraPage() {
-  // const [activeTab, setActiveTab] = useState('ipc')
-
   return (
-    <main className="bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen">
-      {/* Hero Section */}
-      <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+    <main className="bg-gray-50 min-h-screen">
+      {/* Hero Section - Full Viewport Height */}
+      <section className="relative w-full h-screen flex items-center justify-start overflow-hidden">
         <Image
-          src="/images/siraa.jpg"
+          src="/images/red.jpg"
           alt="SIRA Hero"
           fill
           className="object-cover w-full h-full"
           priority
+          quality={100}
         />
+        <div className="absolute inset-0  bg-opacity-40 flex items-center">
+          <div className="max-w-4xl px-10 space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-5xl md:text-6xl lg:text-7xl font-bold"
+            >
+              <span className="block text-white">SIRA Certified</span>
+              <span className="block text-red-500">Security Solutions</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-xl md:text-2xl text-gray-100 max-w-3xl leading-relaxed"
+            >
+              Dubai trusted standard for professional security systems installation and maintenance.
+              Ensure compliance and maximum protection with SIRA-approved solutions.
+            </motion.p>
+            <motion.div
+              className="flex flex-wrap gap-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <Link
+                href="/contact"
+                className="group inline-flex items-center text-white text-lg font-medium transition-all duration-300 hover:text-red-600"
+              >
+                <span className="hover:text-red-600">Contact</span>
+                <motion.span
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="transition-colors duration-300 group-hover:text-red-600"
+                ></motion.span>
+                <motion.span className="ml-3 text-xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-red-600">
+                  →
+                </motion.span>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
       </section>
 
-      {/* Add your uploaded section here */}
-      <section className="max-w-5xl mx-auto px-4 py-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-blue-900">
-          What is SIRA and SIRA certification?
-        </h2>
-        <p className="text-gray-700 mb-6">
-          SIRA, the Security Industry Regulatory Agency, is a Dubai-based authority established in
-          2016 by a decree from HH Sheikh Mohammed Bin Rashid Al Maktoum. It oversees
-          security-related matters and licenses for guarding services, security system sales,
-          installation, and consulting. Only SIRA-approved companies can engage in these activities.
-          SIRA ensures safety and security by setting guidelines for best practices in security
-          systems, services, and personnel. There are approximately 400 SIRA-certified CCTV
-          companies and fewer than 2,000 certified providers for all security activities in Dubai.
-          SIRA’s guidelines cover CCTV installation in different building types, requiring yearly
-          audits, maintenance, certifications, and necessary upgrades.
-        </p>
-        <h3 className="text-2xl font-bold mb-4 text-blue-800">
-          Benefits of Choosing a SIRA-Approved Distributor
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="border p-6 rounded-lg bg-white">
-            <div className="text-4xl mb-2">⚛️</div>
-            <h4 className="font-bold text-xl mb-2 text-blue-900">Enhanced Security</h4>
-            <p className="text-gray-700">
-              Certified companies ensure flawless safety systems, providing comprehensive protection
-              against unauthorized access and intrusion.
-            </p>
-          </div>
-          <div className="border p-6 rounded-lg bg-white">
-            <div className="text-4xl mb-2">🛠️</div>
-            <h4 className="font-bold text-xl mb-2 text-blue-900">Regular Maintenance</h4>
-            <p className="text-gray-700">
-              With a SIRA-approved provider, prioritizing regular maintenance throughout the year
-              ensures the uninterrupted functionality of your CCTV system.
-            </p>
-          </div>
-          <div className="border p-6 rounded-lg bg-white">
-            <div className="text-4xl mb-2">⬆️</div>
-            <h4 className="font-bold text-xl mb-2 text-blue-900">Up-to-Date Solutions</h4>
-            <p className="text-gray-700">
-              SIRA-approved services keep your security system current. Utilizing the latest models
-              and equipment, they deliver an efficient surveillance solution for your premises.
-            </p>
-          </div>
-          <div className="border p-6 rounded-lg bg-white">
-            <div className="text-4xl mb-2">📜</div>
-            <h4 className="font-bold text-xl mb-2 text-blue-900">Compliance Assurance</h4>
-            <p className="text-gray-700">
-              Choosing a SIRA-certified distributor guarantees that your security systems comply
-              with all local regulations and standards, reducing legal and financial risks.
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="container mx-auto px-4 py-12">
-        <div className="bg-gradient-to-r from-blue-700 to-blue-400 rounded-2xl p-10 text-center shadow-lg">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Get Free Consultation</h2>
-          <p className="text-white mb-6">
-            Need help with SIRA compliance or security solutions? Our experts are ready to assist
-            you.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-blue-700 text-white font-bold px-8 py-3 rounded-lg shadow transition hover:bg-gradient-to-r hover:from-blue-700 hover:to-blue-400"
+      {/* SIRA Certification Section with Scroll Animation */}
+      <section className="max-w-6xl mx-auto px-4 py-20">
+        <div className="flex flex-col lg:flex-row gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: '-100px' }}
+            className="lg:w-1/2"
           >
-            Get Free Consultation
-          </Link>
+            <div className="relative h-96 w-full rounded-xl overflow-hidden shadow-2xl">
+              <Image
+                src="/images/sira-certificate.jpg"
+                alt="SIRA Certification"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: '-100px' }}
+            className="lg:w-1/2 space-y-6"
+          >
+            <h2 className="text-4xl font-bold text-gray-900">
+              <span className="text-red-600">SIRA</span> Certification
+            </h2>
+            <div className="space-y-4 text-gray-700">
+              <p className="text-lg leading-relaxed">
+                The Security Industry Regulatory Agency (SIRA) is Dubai premier security authority,
+                established in 2016 by decree of HH Sheikh Mohammed Bin Rashid Al Maktoum.
+              </p>
+              <p className="text-lg leading-relaxed">
+                SIRA regulates all security-related activities including guarding services, security
+                system sales, installation, and consulting. Only SIRA-approved companies are
+                authorized to operate in these sectors.
+              </p>
+              <p className="text-lg leading-relaxed">
+                With approximately 400 certified CCTV providers and fewer than 2,000 total certified
+                security providers in Dubai, SIRA maintains stringent standards to ensure the
+                highest levels of safety and security.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
+
+      {/* Compliance Standards Section */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="bg-gray-100 py-20"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: '-50px' }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              SIRA <span className="text-red-600">Compliance</span> Standards
+            </h2>
+            <p className="text-xl  text-gray-600">
+              SIRA sets comprehensive guidelines for security best practices across all types of
+              installations.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {benefits.map((benefit, idx) => (
+              <motion.div
+                key={benefit.title}
+                initial={{ y: 30, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: idx * 0.1,
+                }}
+                viewport={{ once: true, margin: '-50px' }}
+              >
+                <FeatureCard
+                  icon={benefit.icon}
+                  iconBg={benefit.iconBg}
+                  iconColor={benefit.iconColor}
+                  title={benefit.title}
+                  description={benefit.description}
+                  xDisable={true}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
     </main>
   )
 }

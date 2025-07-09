@@ -9,6 +9,7 @@ import { Metadata } from 'next'
 import configPromise from '@payload-config'
 import { Media } from '@/payload-types'
 import Script from 'next/script'
+import Below from '@/components/Below/Below'
 
 export const dynamic = 'force-dynamic'
 export async function generateMetadata(): Promise<Metadata> {
@@ -97,6 +98,7 @@ export default async function HomePage() {
         <FeatureBlocks />
         <TestimonialSlider />
         <CTASection />
+        {/* <Below /> */}
       </div>
     </>
   )
