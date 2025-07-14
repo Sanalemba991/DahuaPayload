@@ -45,6 +45,62 @@ import {
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+export const solutionSections = [
+  {
+    title: 'Solution Details',
+    subtitle: 'Comprehensive Security',
+    description:
+      "Dahua's Banking & Finance Solution delivers comprehensive security for branches, ATMs, and vaults. It integrates high-definition surveillance, smart analytics, and seamless system compatibility to protect assets, staff, and customers while optimizing operations.",
+    solutions: [
+      '24/7 monitoring of branches, ATMs, and cash areas',
+      'AI-powered threat detection and facial recognition',
+      'Smart transaction recording for dispute resolution',
+      'Queue management and flow statistics for better service',
+      'Easy integration with third-party banking systems',
+    ],
+    image: '/images/bnksec.png',
+  },
+  {
+    title: 'Key Technology',
+    subtitle: 'Advanced Security Features',
+    description: 'Integration of cutting-edge security technologies for comprehensive protection',
+    solutions: [
+      'AI-powered Facial Recognition & Video Analytics',
+      'Smart Transaction Recording & ATM Monitoring',
+      'Queue Management & Flow Statistics',
+      'Seamless Integration with Third-Party Systems',
+    ],
+    image: '/images/face.webp',
+  },
+  {
+    title: 'System Structure',
+    subtitle: 'Integrated Security Framework',
+    description: 'Complete end-to-end security infrastructure deployment',
+    solutions: [
+      'Branch Entrance: Face recognition camera, access control terminal',
+      'ATM Area: Smart cameras, transaction recording',
+      'Lobby: Queue management, people counting',
+      'Vault: Intrusion detection, 24/7 monitoring',
+      'Control Room: NVR, management software, alarm panel',
+    ],
+    image: '/images/bnksystem.png',
+  },
+  {
+    title: 'System Technology',
+    subtitle: 'Advanced Security Systems',
+    description: 'State-of-the-art technology integration for maximum security',
+    solutions: [
+      '4K Ultra HD Cameras with Night Vision',
+      'AI-based Intrusion & Threat Detection',
+      'Integrated Access Control & Alarm Systems',
+      'Centralized Management Platform',
+      'Mobile App for Remote Monitoring',
+      'Seamless Integration with Core Banking Systems',
+    ],
+    image: '/images/nightv.webp',
+  },
+]
+
 const IndustryPage = () => {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('overview')
@@ -142,7 +198,7 @@ const IndustryPage = () => {
         'Vandalism Prevention',
         'Remote Monitoring',
       ],
-      image: '/images/atm-security.webp',
+      image: '/images/face.webp',
     },
     {
       title: 'Vault Management',
@@ -155,7 +211,7 @@ const IndustryPage = () => {
         'Environmental Monitoring',
         'Asset Tracking',
       ],
-      image: '/images/vault-security.webp',
+      image: '/images/nightv.webp',
     },
     {
       title: 'Banking Analytics',
