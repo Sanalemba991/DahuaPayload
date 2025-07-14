@@ -85,20 +85,6 @@ export const solutionSections = [
     ],
     image: '/images/bnksystem.png',
   },
-  {
-    title: 'System Technology',
-    subtitle: 'Advanced Security Systems',
-    description: 'State-of-the-art technology integration for maximum security',
-    solutions: [
-      '4K Ultra HD Cameras with Night Vision',
-      'AI-based Intrusion & Threat Detection',
-      'Integrated Access Control & Alarm Systems',
-      'Centralized Management Platform',
-      'Mobile App for Remote Monitoring',
-      'Seamless Integration with Core Banking Systems',
-    ],
-    image: '/images/nightv.webp',
-  },
 ]
 
 const IndustryPage = () => {
@@ -224,7 +210,7 @@ const IndustryPage = () => {
         'Service Time Optimization',
         'Branch Performance Metrics',
       ],
-      image: '/images/banking-analytics.webp',
+      image: '/images/bnksystem.png',
     },
   ]
 
