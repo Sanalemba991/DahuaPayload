@@ -349,7 +349,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     gap: '5px',
                     padding: '8px 0',
                     transition: 'all 0.3s ease',
-                    borderBottom: pathname === '/technologies' ? '2px solid #e60000' : 'none',
                   }}
                   onClick={(e) => {
                     e.preventDefault()
@@ -678,7 +677,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
               >
                 <Link
                   href="/solutions"
-                  className="nav-link"
+                  className="nav-link group"
                   style={{
                     color: 'black',
                     fontWeight: 'normal',
@@ -689,7 +688,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     gap: '5px',
                     padding: '8px 0',
                     transition: 'all 0.3s ease',
-                    borderBottom: pathname === '/solutions' ? '2px solid #e60000' : 'none',
                   }}
                   onClick={(e) => {
                     e.preventDefault()
@@ -702,7 +700,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                       className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
                         pathname === '/solutions' ? 'w-full' : 'w-0 group-hover:w-full'
                       }`}
-                      style={{ height: '2px' }}
+                      style={{
+                        height: '2px',
+                        bottom: '-0.5px', // Changed from -2px to -0.5px to match Sira
+                      }}
                     ></span>
                   </span>
                   <svg

@@ -260,13 +260,26 @@ export const ContactClient: React.FC<ContactClientProps> = ({ telephone, email, 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:border-red-500 hover:bg-red-500 hover:text-white transition-colors duration-300"
+              className="inline-flex items-center gap-3 px-7 py-3 border-2 border-white text-white bg-transparent hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-300 font-semibold group text-base"
               onClick={() => {
                 const formSection = document.getElementById('contact-form')
                 formSection?.scrollIntoView({ behavior: 'smooth' })
               }}
             >
               Get Started
+              <svg
+                className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
             </motion.button>
           </motion.div>
         </motion.div>
@@ -562,11 +575,11 @@ export const ContactClient: React.FC<ContactClientProps> = ({ telephone, email, 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`inline-flex items-center px-8 py-3 ${
+                      className={`inline-flex items-center gap-3 px-7 py-3 border-2 ${
                         isSubmitting
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'bg-transparent hover:bg-red-500 hover:text-white'
-                      } border-2 border-black hover:border-red-500 text-black font-semibold text-base rounded-full transition-all duration-300`}
+                          ? 'bg-gray-400 border-gray-400 cursor-not-allowed text-white'
+                          : 'border-black text-black bg-transparent hover:bg-red-600 hover:border-red-600 hover:text-white'
+                      } transition-all duration-300 font-semibold group text-base`}
                     >
                       {isSubmitting ? (
                         <>
@@ -594,7 +607,7 @@ export const ContactClient: React.FC<ContactClientProps> = ({ telephone, email, 
                         </>
                       ) : (
                         <>
-                          <Send className="w-5 h-5 mr-2" />
+                          <Send className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                           Send Message
                         </>
                       )}
