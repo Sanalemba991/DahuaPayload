@@ -1,103 +1,69 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useRouter } from 'next/navigation'
-import {
-  Shield,
-  Camera,
-  Users,
-  TrendingUp,
-  Eye,
-  Lock,
-  BarChart3,
-  Building,
-  AlertCircle,
-  CheckCircle,
-  ArrowRight,
-  Play,
-  Star,
-  MapPin,
-  Clock,
-  DollarSign,
-  Activity,
-  Zap,
-  Target,
-  UserCheck,
-  Package,
-  Phone,
-  Info,
-  Car,
-  Navigation,
-  Lightbulb,
-  Wifi,
-  Globe,
-  Monitor,
-  Database,
-  Settings,
-  ChevronRight,
-  FileText,
-  Download,
-  ExternalLink,
-  Factory,
-  Wrench,
-  Cpu,
-  HardHat,
-} from 'lucide-react'
+import { Shield, TrendingUp, CheckCircle, Cpu, Factory, Settings } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export const solutionSections = [
+const solutionCategories = [
   {
-    title: 'Solution Details',
-    subtitle: 'Comprehensive Security',
+    title: 'Branch Security',
+    subtitle: 'Comprehensive Branch Protection',
     description:
-      "Dahua's Banking & Finance Solution delivers comprehensive security for branches, ATMs, and vaults. It integrates high-definition surveillance, smart analytics, and seamless system compatibility to protect assets, staff, and customers while optimizing operations.",
+      'Complete security solution for banking premises including entrances, counters, and vaults.',
     solutions: [
-      '24/7 monitoring of branches, ATMs, and cash areas',
-      'AI-powered threat detection and facial recognition',
-      'Smart transaction recording for dispute resolution',
-      'Queue management and flow statistics for better service',
-      'Easy integration with third-party banking systems',
+      'Perimeter Security Systems',
+      'Access Control Integration',
+      'Video Surveillance Network',
+      'Emergency Response Systems',
     ],
     image: '/images/bnksec.png',
   },
   {
-    title: 'Key Technology',
-    subtitle: 'Advanced Security Features',
-    description: 'Integration of cutting-edge security technologies for comprehensive protection',
+    title: 'ATM Security',
+    subtitle: 'Intelligent ATM Protection',
+    description:
+      'Advanced monitoring and protection systems for ATMs with real-time alerts and recording.',
     solutions: [
-      'AI-powered Facial Recognition & Video Analytics',
-      'Smart Transaction Recording & ATM Monitoring',
-      'Queue Management & Flow Statistics',
-      'Seamless Integration with Third-Party Systems',
+      'ATM Transaction Recording',
+      'Skimming Detection',
+      'Vandalism Prevention',
+      'Remote Monitoring',
     ],
     image: '/images/face.webp',
   },
   {
-    title: 'System Structure',
-    subtitle: 'Integrated Security Framework',
-    description: 'Complete end-to-end security infrastructure deployment',
+    title: 'Vault Management',
+    subtitle: 'Smart Vault Solutions',
+    description:
+      'High-security vault monitoring with advanced access control and surveillance systems.',
     solutions: [
-      'Branch Entrance: Face recognition camera, access control terminal',
-      'ATM Area: Smart cameras, transaction recording',
-      'Lobby: Queue management, people counting',
-      'Vault: Intrusion detection, 24/7 monitoring',
-      'Control Room: NVR, management software, alarm panel',
+      'Vault Access Control',
+      'Motion Detection',
+      'Environmental Monitoring',
+      'Asset Tracking',
+    ],
+    image: '/images/nightv.webp',
+  },
+  {
+    title: 'Banking Analytics',
+    subtitle: 'Intelligent Business Insights',
+    description: 'Smart analytics for customer flow, queue management, and operational efficiency.',
+    solutions: [
+      'Customer Flow Analysis',
+      'Queue Management',
+      'Service Time Optimization',
+      'Branch Performance Metrics',
     ],
     image: '/images/bnksystem.png',
   },
 ]
 
 const IndustryPage = () => {
-  const router = useRouter()
   const [activeTab, setActiveTab] = useState('overview')
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
 
-  // Refs for sections
-  const overviewRef = useRef<HTMLElement>(null)
-  const solutionsRef = useRef<HTMLElement>(null)
+  const overviewRef = useRef<HTMLDivElement>(null)
+  const solutionsRef = useRef<HTMLDivElement>(null)
 
-  // Intersection Observer hooks
-  const { ref: bannerRef, inView: bannerInView } = useInView({ triggerOnce: true, threshold: 0.1 })
   const { ref: benefitsRef, inView: benefitsInView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -107,21 +73,13 @@ const IndustryPage = () => {
     threshold: 0.1,
   })
 
-  // Function to scroll to specific section
   const scrollToSection = (sectionId: string) => {
     setActiveTab(sectionId)
+    const targetRef = sectionId === 'overview' ? overviewRef : solutionsRef
 
-    const sectionRefs = {
-      overview: overviewRef,
-      solutions: solutionsRef,
-    }
-
-    const targetRef = sectionRefs[sectionId as keyof typeof sectionRefs]
-    if (targetRef && targetRef.current) {
-      // Offset for sticky nav
+    if (targetRef.current) {
       const navHeight = 80
       const elementPosition = targetRef.current.offsetTop - navHeight
-
       window.scrollTo({
         top: elementPosition,
         behavior: 'smooth',
@@ -129,15 +87,13 @@ const IndustryPage = () => {
     }
   }
 
-  // Handle scroll spy for active tab
   useEffect(() => {
     const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100
       const sections = [
         { id: 'overview', ref: overviewRef },
         { id: 'solutions', ref: solutionsRef },
       ]
-
-      const scrollPosition = window.scrollY + 100
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i]
@@ -152,247 +108,93 @@ const IndustryPage = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Tab navigation data
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  }
+
   const tabData = [
     { id: 'overview', label: 'Overview', icon: Factory },
     { id: 'solutions', label: 'Solutions', icon: Settings },
   ]
 
-  // Solutions by category
-  const solutionCategories = [
-    {
-      title: 'Branch Security',
-      subtitle: 'Comprehensive Branch Protection',
-      description:
-        'Complete security solution for banking premises including entrances, counters, and vaults.',
-      solutions: [
-        'Perimeter Security Systems',
-        'Access Control Integration',
-        'Video Surveillance Network',
-        'Emergency Response Systems',
-      ],
-      image: '/images/bnksec.png',
-    },
-    {
-      title: 'ATM Security',
-      subtitle: 'Intelligent ATM Protection',
-      description:
-        'Advanced monitoring and protection systems for ATMs with real-time alerts and recording.',
-      solutions: [
-        'ATM Transaction Recording',
-        'Skimming Detection',
-        'Vandalism Prevention',
-        'Remote Monitoring',
-      ],
-      image: '/images/face.webp',
-    },
-    {
-      title: 'Vault Management',
-      subtitle: 'Smart Vault Solutions',
-      description:
-        'High-security vault monitoring with advanced access control and surveillance systems.',
-      solutions: [
-        'Vault Access Control',
-        'Motion Detection',
-        'Environmental Monitoring',
-        'Asset Tracking',
-      ],
-      image: '/images/nightv.webp',
-    },
-    {
-      title: 'Banking Analytics',
-      subtitle: 'Intelligent Business Insights',
-      description:
-        'Smart analytics for customer flow, queue management, and operational efficiency.',
-      solutions: [
-        'Customer Flow Analysis',
-        'Queue Management',
-        'Service Time Optimization',
-        'Branch Performance Metrics',
-      ],
-      image: '/images/bnksystem.png',
-    },
-  ]
-
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
-    },
-  }
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  }
-
-  const scaleUp = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.5, ease: 'easeOut' },
-    },
-  }
-
-  const slideInLeft = {
-    hidden: { opacity: 0, x: -60 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
-    },
-  }
-
-  const slideInRight = {
-    hidden: { opacity: 0, x: 60 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
-    },
-  }
-
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Hero Section - Mobile Optimized */}
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
       <motion.section
-        ref={bannerRef}
-        className="relative py-8 md:py-12 lg:py-20 bg-gradient-to-br from-gray-900 via-red-900 to-gray-800 overflow-hidden"
-        initial="hidden"
-        animate={bannerInView ? 'visible' : 'hidden'}
-        variants={fadeInUp}
+        className="relative w-full h-screen flex items-center justify-start"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        <div className="absolute inset-0 bg-black/20" />
-
-        {/* Animated background elements - Hidden on mobile */}
         <motion.div
-          className="absolute top-10 left-10 md:top-20 md:left-20 w-32 h-32 md:w-72 md:h-72 bg-red-600/10 rounded-full blur-3xl hidden md:block"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-        <motion.div
-          className="absolute bottom-10 right-10 md:bottom-20 md:right-20 w-48 h-48 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-3xl hidden md:block"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.4, 0.2, 0.4],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-          <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
-            <motion.div
-              className="space-y-4 md:space-y-6 lg:space-y-8 overflow-hidden"
-              variants={staggerContainer}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="w-full h-full"
+        >
+          <img
+            src="/images/about.webp"
+            alt="Banking Security Solution"
+            className="object-cover w-full h-full absolute inset-0"
+            style={{ zIndex: 0 }}
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-black/40 flex items-center">
+          <div className="max-w-4xl px-10 space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl md:text-5xl font-bold text-white leading-tight"
             >
-              <motion.div variants={fadeInUp}>
-                <motion.div
-                  className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-red-600/20 backdrop-blur-sm border border-red-500/30 rounded-full text-red-300 text-xs md:text-sm font-medium mb-4 md:mb-6"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Factory className="w-3 h-3 md:w-4 md:h-4 mr-1.5 md:mr-2" />
-                  Banking Solutions
-                </motion.div>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-3 md:mb-4 lg:mb-6">
-                  Secure Banking Excellence
-                </h1>
-                <p className="text-sm md:text-lg lg:text-xl text-gray-300 leading-relaxed">
-                  Dahua banking security solutions provide comprehensive protection for financial
-                  institutions, ATMs, and critical banking infrastructure.
-                </p>
-              </motion.div>
-
-              <motion.div className="flex flex-col sm:flex-row gap-3 md:gap-4" variants={fadeInUp}>
-                <motion.button
-                  className="px-4 py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors text-sm md:text-base"
-                  onClick={() => scrollToSection('overview')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Explore Solutions
-                </motion.button>
-                <motion.button
-                  className="px-4 py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 border border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors text-sm md:text-base"
-                  onClick={() => setIsVideoPlaying(true)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Play className="w-4 h-4 md:w-5 md:h-5 inline mr-1.5 md:mr-2" />
-                  Watch Demo
-                </motion.button>
-              </motion.div>
-            </motion.div>
-
-            <motion.div className="relative overflow-hidden" variants={slideInRight}>
-              <motion.img
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Industrial Security Technology"
-                className="w-full h-48 md:h-64 lg:h-80 xl:h-96 object-cover rounded-xl md:rounded-2xl shadow-2xl"
-                transition={{ duration: 0.5 }}
-              />
-            </motion.div>
+              <span className="block">Banking</span>
+              <span className="block text-red-500">Security Solutions</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-base md:text-lg text-gray-100 max-w-3xl leading-snug"
+            >
+              Trusted by financial institutions, our advanced banking security solutions combine
+              AI-powered analytics, 24/7 surveillance, and seamless integration—protecting assets,
+              customers, and operations for a safer financial future.
+            </motion.p>
           </div>
         </div>
       </motion.section>
-
-      {/* Navigation Tabs - Mobile Optimized */}
-      <motion.section
-        className="bg-white border-b sticky top-0 z-40 backdrop-blur-sm bg-white/95 overflow-hidden"
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-          <nav className="flex space-x-4 md:space-x-8 overflow-x-auto">
-            {tabData.map((tab, index) => {
+      {/* Navigation */}
+      <nav className="sticky top-0 z-40 bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex space-x-4">
+            {tabData.map((tab) => {
               const Icon = tab.icon
               return (
-                <motion.button
+                <button
                   key={tab.id}
                   onClick={() => scrollToSection(tab.id)}
-                  className={`flex items-center px-4 py-3 md:px-6 md:py-4 border-b-2 font-medium text-xs md:text-sm whitespace-nowrap transition-colors ${
+                  className={`flex items-center px-4 py-3 border-b-2 transition-colors ${
                     activeTab === tab.id
                       ? 'border-red-600 text-red-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700'
                   }`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -2 }}
                 >
-                  <Icon className="w-4 h-4 md:w-5 md:h-5 mr-1.5 md:mr-2" />
+                  <Icon className="w-5 h-5 mr-2" />
                   {tab.label}
-                </motion.button>
+                </button>
               )
             })}
-          </nav>
+          </div>
         </div>
-      </motion.section>
+      </nav>
 
-      {/* Overview Section - Mobile Optimized */}
-      <section ref={overviewRef} className="py-8 md:py-12 lg:py-16 bg-white overflow-hidden">
+      {/* Overview Section */}
+      <section ref={overviewRef} className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
           {/* Key Benefits */}
           <motion.div
@@ -409,7 +211,7 @@ const IndustryPage = () => {
             </motion.div>
             <motion.div
               className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 overflow-hidden"
-              variants={staggerContainer}
+              variants={fadeInUp}
             >
               {[
                 {
@@ -437,7 +239,7 @@ const IndustryPage = () => {
                   <motion.div
                     key={index}
                     className="text-center overflow-hidden"
-                    variants={scaleUp}
+                    variants={fadeInUp}
                     whileHover={{ y: -5 }}
                   >
                     <motion.div
@@ -458,14 +260,14 @@ const IndustryPage = () => {
         </div>
       </section>
 
-      {/* Solutions Section - Mobile Optimized */}
-      <section ref={solutionsRef} className="py-8 md:py-12 lg:py-16 bg-gray-50 overflow-hidden">
+      {/* Solutions Section */}
+      <section ref={solutionsRef} className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
           <motion.div
             ref={solutionsInViewRef}
             initial="hidden"
             animate={solutionsInView ? 'visible' : 'hidden'}
-            variants={staggerContainer}
+            variants={fadeInUp}
             className="overflow-hidden"
           >
             <motion.div className="text-center mb-8 md:mb-12 overflow-hidden" variants={fadeInUp}>
@@ -489,7 +291,7 @@ const IndustryPage = () => {
                 >
                   <motion.div
                     className={`space-y-4 md:space-y-6 overflow-hidden ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}
-                    variants={index % 2 === 0 ? slideInLeft : slideInRight}
+                    variants={fadeInUp}
                   >
                     <div className="overflow-hidden">
                       <motion.p
@@ -541,7 +343,7 @@ const IndustryPage = () => {
 
                   <motion.div
                     className={`overflow-hidden ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}
-                    variants={index % 2 === 0 ? slideInRight : slideInLeft}
+                    variants={fadeInUp}
                   >
                     <motion.img
                       src={category.image}
@@ -556,42 +358,6 @@ const IndustryPage = () => {
           </motion.div>
         </div>
       </section>
-
-      {/* Video Modal - Mobile Optimized */}
-      <AnimatePresence>
-        {isVideoPlaying && (
-          <motion.div
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4 overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsVideoPlaying(false)}
-          >
-            <motion.div
-              className="relative max-w-4xl w-full aspect-video bg-black rounded-lg md:rounded-2xl overflow-hidden"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <motion.button
-                className="absolute top-2 right-2 md:top-4 md:right-4 w-8 h-8 md:w-10 md:h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white z-10 text-lg md:text-xl"
-                onClick={() => setIsVideoPlaying(false)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                ×
-              </motion.button>
-              <iframe
-                src="https://www.youtube.com/embed/YOUR_BANKING_SOLUTION_VIDEO_ID?autoplay=1"
-                className="w-full h-full"
-                allowFullScreen
-                title="Dahua Banking Solutions Demo"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   )
 }
