@@ -1,102 +1,361 @@
 'use client'
+import React, { useState, useEffect, useRef } from 'react'
+import { useInView } from 'react-intersection-observer'
+import { Shield, TrendingUp, CheckCircle, Cpu, Factory, Settings } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-import Image from 'next/image'
-import Link from 'next/link'
+const solutionCategories = [
+  {
+    title: 'Government Security',
+    subtitle: 'Comprehensive Public Sector Protection',
+    description:
+      'End-to-end security for cities, roads, borders, and critical infrastructure using AI‑driven surveillance and centralized management.',
+    solutions: [
+      'City surveillance for urban safety and rapid incident response',
+      'AI-powered traffic enforcement and violation detection',
+      'Border & perimeter protection with smart analytics',
+      'Prison & correctional facility monitoring with real-time alerts',
+      'Command center integration for multi-agency coordination',
+      'System integration with government databases and legacy systems',
+    ],
+    image: '/images/solution.jpg',
+  },
+  {
+    title: 'Key Application Areas',
+    subtitle: 'Targeted Security for Government Infrastructure',
+    description:
+      'Six core modules addressing diverse governance scenarios—from city streets to secure facilities.',
+    solutions: [
+      'City Surveillance',
+      'Traffic Enforcement',
+      'Border Security',
+      'Prison Monitoring',
+      'Command Center',
+      'System Integration',
+    ],
+    image: '/images/CitySurveillance.webp',
+  },
+  {
+    title: 'System Structure',
+    subtitle: 'Comprehensive Security Architecture',
+    description:
+      'Layered security framework visualizing system components across critical government environments.',
+    solutions: [
+      'High-resolution cameras and analytics at city hubs and roads',
+      'Perimeter sensors and analytics for borders',
+      'Surveillance, alarms, and access control in prisons',
+      'Integrated command center with multi-source video/data fusion',
+      'API-based integration connecting to government backend systems',
+    ],
+    image: '/images/gvmt.png',
+  },
+]
 
-export default function GovernmentSolutionPage() {
+const GovernmentSolutionPage = () => {
+  const [activeTab, setActiveTab] = useState('overview')
+
+  const overviewRef = useRef<HTMLDivElement>(null)
+  const solutionsRef = useRef<HTMLDivElement>(null)
+
+  const { ref: benefitsRef, inView: benefitsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+  const { ref: solutionsInViewRef, inView: solutionsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveTab(sectionId)
+    const targetRef = sectionId === 'overview' ? overviewRef : solutionsRef
+
+    if (targetRef.current) {
+      const navHeight = 80
+      const elementPosition = targetRef.current.offsetTop - navHeight
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100
+      const sections = [
+        { id: 'overview', ref: overviewRef },
+        { id: 'solutions', ref: solutionsRef },
+      ]
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i]
+        if (section.ref.current && section.ref.current.offsetTop <= scrollPosition) {
+          setActiveTab(section.id)
+          break
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  }
+
+  const tabData = [
+    { id: 'overview', label: 'Overview', icon: Factory },
+    { id: 'solutions', label: 'Solutions', icon: Settings },
+  ]
+
   return (
-    <div className="pt-[80px] bg-gray-50 min-h-screen">
-      {/* Hero Section - Full Screen, No Overlay */}
-      <section className="relative w-full h-screen flex items-center justify-center">
-        <Image
-          src="/images/solution.jpg"
-          alt="Government Security Solution"
-          fill
-          className="object-cover w-full h-full"
-          priority
-        />
-        <div className="absolute inset-x-0 bottom-12 flex flex-col items-center justify-end text-center">
-          <h1 className="text-white text-3xl md:text-5xl font-bold drop-shadow-lg mb-2">
-            Government Security Solution
-          </h1>
-          <p className="text-white text-base md:text-xl max-w-2xl mx-auto drop-shadow">
-            Ensuring public safety and security for cities, roads, borders, and critical infrastructure.
-          </p>
-        </div>
-      </section>
-
-      {/* Solution Details - Six Images with Description */}
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-10 text-blue-900 text-left px-2">
-          Solution Details
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-2">
-          <div className="bg-white rounded-xl shadow p-5 flex flex-col items-center text-center">
-          <Image src="/images/CitySurveillance.webp" alt="City Surveillance" width={420} height={340} className="rounded-lg mb-4 object-cover" />
-            <h3 className="font-semibold text-blue-800 mb-2">City Surveillance</h3>
-            <p className="text-gray-600 text-sm">Comprehensive monitoring for urban safety and rapid incident response.</p>
-          </div>
-          <div className="bg-white rounded-xl shadow p-5 flex flex-col items-center text-center">
-            <Image src="/images/traffic.jpg" alt="Traffic Enforcement" width={420} height={340} className="rounded-lg mb-4 object-cover" />
-            <h3 className="font-semibold text-blue-800 mb-2">Traffic Enforcement</h3>
-            <p className="text-gray-600 text-sm">AI-powered traffic violation detection and automated evidence collection.</p>
-          </div>
-          <div className="bg-white rounded-xl shadow p-5 flex flex-col items-center text-center">
-            <Image src="/images/border.jpg" alt="Border Security" width={420} height={340} className="rounded-lg mb-4 object-cover" />
-            <h3 className="font-semibold text-blue-800 mb-2">Border Security</h3>
-            <p className="text-gray-600 text-sm">Advanced analytics for perimeter and border protection.</p>
-          </div>
-          <div className="bg-white rounded-xl shadow p-5 flex flex-col items-center text-center">
-            <Image src="/images/Prison.jpg" alt="Prison Monitoring" width={420} height={340} className="rounded-lg mb-4 object-cover" />
-            <h3 className="font-semibold text-blue-800 mb-2">Prison Monitoring</h3>
-            <p className="text-gray-600 text-sm">AI alerts and surveillance for correctional facility safety.</p>
-          </div>
-          <div className="bg-white rounded-xl shadow p-5 flex flex-col items-center text-center">
-            <Image src="/images/Command.jpg" alt="Command Center" width={420} height={340} className="rounded-lg mb-4 object-cover" />
-            <h3 className="font-semibold text-blue-800 mb-2">Command Center</h3>
-            <p className="text-gray-600 text-sm">Centralized management for multiple agencies and rapid coordination.</p>
-          </div>
-          <div className="bg-white rounded-xl shadow p-5 flex flex-col items-center text-center">
-            <Image src="/images/integration.png" alt="Integration" width={420} height={340} className="rounded-lg mb-4 object-cover" />
-            <h3 className="font-semibold text-blue-800 mb-2">System Integration</h3>
-            <p className="text-gray-600 text-sm">Seamless connection with government databases and legacy systems.</p>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <motion.section
+        className="relative w-full h-screen flex items-center justify-start"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="w-full h-full"
+        >
+          <img
+            src="/images/wzmind.webp"
+            alt="Government Security Solution"
+            className="object-cover w-full h-full absolute inset-0"
+            style={{ zIndex: 0 }}
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-black/40 flex items-center">
+          <div className="max-w-4xl px-10 space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl md:text-5xl font-bold text-white leading-tight"
+            >
+              <span className="block">Government</span>
+              <span className="block text-red-500">Security Solutions</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-base md:text-lg text-gray-100 max-w-3xl leading-snug"
+            >
+              Protect cities, borders, and critical infrastructure with AI-powered surveillance,
+              real-time alerts, and centralized management. Dahua’s advanced solutions ensure
+              safety, efficiency, and seamless operations for government environments.
+            </motion.p>
           </div>
         </div>
-      </section>
-
-      {/* System Structure - Image with Heading and Side Gaps */}
-      <section className="w-full bg-white py-12">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-blue-900 text-left">
-            System Structure
-          </h2>
-          <div className="w-full rounded-xl overflow-hidden bg-white shadow">
-            <Image
-              src="/images/gvmt.png"
-              alt="Government System Structure"
-              width={1000}
-              height={500}
-              className="w-full h-auto object-contain"
-              priority
-            />
+      </motion.section>
+      {/* Navigation */}
+      <nav className="sticky top-0 z-40 bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex space-x-4">
+            {tabData.map((tab) => {
+              const Icon = tab.icon
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => scrollToSection(tab.id)}
+                  className={`flex items-center px-4 py-3 border-b-2 transition-colors ${
+                    activeTab === tab.id
+                      ? 'border-red-600 text-red-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  <Icon className="w-5 h-5 mr-2" />
+                  {tab.label}
+                </button>
+              )
+            })}
           </div>
         </div>
-      </section>
+      </nav>
 
-      {/* Call to Action - Secure Your Government Facilities */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="bg-gradient-to-r from-blue-700 to-blue-400 rounded-2xl p-10 text-center shadow-lg">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
-            Secure Your Government Facilities with Dahua
-          </h2>
-          <Link
-            href="/contact"
-            className="inline-block bg-blue-700 text-white font-bold px-8 py-3 rounded-lg shadow transition hover:bg-gradient-to-r hover:from-blue-700 hover:to-blue-400"
+      {/* Overview Section */}
+      <section ref={overviewRef} className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Key Benefits */}
+          <motion.div
+            ref={benefitsRef}
+            className="bg-gradient-to-r from-red-50 to-gray-50 rounded-xl md:rounded-2xl p-4 md:p-6 lg:p-8 overflow-hidden"
+            initial="hidden"
+            animate={benefitsInView ? 'visible' : 'hidden'}
+            variants={fadeInUp}
           >
-            Get Free Consultation
-          </Link>
+            <motion.div className="text-center mb-6 md:mb-8" variants={fadeInUp}>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 md:mb-4">
+                Why Choose Dahua Government Solutions?
+              </h2>
+            </motion.div>
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 overflow-hidden"
+              variants={fadeInUp}
+            >
+              {[
+                {
+                  icon: TrendingUp,
+                  title: 'Comprehensive Public Safety',
+                  description:
+                    '24/7 monitoring for cities, borders, and facilities with real-time incident alerts and rapid response.',
+                  color: 'bg-red-600',
+                },
+                {
+                  icon: Shield,
+                  title: 'Centralized Command & Control',
+                  description:
+                    'Unified platform for multi-agency surveillance, access control, and analytics across government operations.',
+                  color: 'bg-gray-600',
+                },
+                {
+                  icon: Cpu,
+                  title: 'AI-Driven Security & Analytics',
+                  description:
+                    'Advanced AI for incident detection, license plate recognition, and data-driven decision making.',
+                  color: 'bg-red-600',
+                },
+              ].map((benefit, index) => {
+                const Icon = benefit.icon
+                return (
+                  <motion.div
+                    key={index}
+                    className="text-center overflow-hidden"
+                    variants={fadeInUp}
+                    whileHover={{ y: -5 }}
+                  >
+                    <motion.div
+                      className={`w-12 h-12 md:w-16 md:h-16 ${benefit.color} rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4`}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                    >
+                      <Icon className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                    </motion.div>
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1.5 md:mb-2">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-gray-600">{benefit.description}</p>
+                  </motion.div>
+                )
+              })}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Solutions Section */}
+      <section ref={solutionsRef} className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <motion.div
+            ref={solutionsInViewRef}
+            initial="hidden"
+            animate={solutionsInView ? 'visible' : 'hidden'}
+            variants={fadeInUp}
+            className="overflow-hidden"
+          >
+            <motion.div className="text-center mb-8 md:mb-12 overflow-hidden" variants={fadeInUp}>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 md:mb-4">
+                Government Solutions
+              </h2>
+              <p className="text-lg md:text-xl text-gray-600">
+                Comprehensive security and monitoring solutions for government and public sector
+                applications
+              </p>
+            </motion.div>
+
+            <div className="space-y-8 md:space-y-12 lg:space-y-16 overflow-hidden">
+              {solutionCategories.map((category, index) => (
+                <motion.div
+                  key={index}
+                  className={`grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center overflow-hidden ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}
+                  variants={fadeInUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                >
+                  <motion.div
+                    className={`space-y-4 md:space-y-6 overflow-hidden ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}
+                    variants={fadeInUp}
+                  >
+                    <div className="overflow-hidden">
+                      <motion.p
+                        className="text-xs md:text-sm font-medium text-red-600 uppercase tracking-wide mb-1.5 md:mb-2"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        {category.subtitle}
+                      </motion.p>
+                      <motion.h3
+                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 md:mb-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        {category.title}
+                      </motion.h3>
+                      <motion.p
+                        className="text-sm md:text-base lg:text-lg text-gray-600"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                      >
+                        {category.description}
+                      </motion.p>
+                    </div>
+
+                    <motion.div
+                      className="space-y-2 md:space-y-3 overflow-hidden"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      {category.solutions.map((solution, idx) => (
+                        <motion.div
+                          key={idx}
+                          className="flex items-center overflow-hidden"
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.6 + idx * 0.1 }}
+                        >
+                          <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-red-500 mr-2 md:mr-3 flex-shrink-0" />
+                          <span className="text-sm md:text-base text-gray-700">{solution}</span>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </motion.div>
+
+                  <motion.div
+                    className={`overflow-hidden ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}
+                    variants={fadeInUp}
+                  >
+                    <motion.img
+                      src={category.image}
+                      alt={category.title}
+                      className="w-full h-48 md:h-64 lg:h-80 object-cover rounded-xl md:rounded-2xl shadow-2xl"
+                      transition={{ duration: 0.5 }}
+                    />
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>
   )
 }
+
+export default GovernmentSolutionPage
