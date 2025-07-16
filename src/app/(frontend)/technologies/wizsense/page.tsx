@@ -1,565 +1,346 @@
-import React from 'react'
+'use client'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-export default function WizSensePage() {
+import { useInView } from 'react-intersection-observer'
+import { Shield, Cpu, Eye, Database, Settings } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+function FeatureCard({
+  icon: Icon,
+  iconBg,
+  iconColor,
+  title,
+  description,
+  xDisable = false,
+}: {
+  icon: React.ElementType
+  iconBg: string
+  iconColor: string
+  title: string
+  description: string
+  xDisable?: boolean
+}) {
   return (
-    <div style={{ paddingTop: '80px', backgroundColor: '#f8f9fa' }}>
-      {/* Top Background Image Section - Add your own image */}
-      <div
-        style={{
-          backgroundImage: 'url("/images/wizsens.webp")', // Add your image path here
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          position: 'relative',
-          height: '550px', // Height for the image section
-          backgroundColor: '#cccccc', // Fallback color if image doesn't load
-          display: 'flex',
-          alignItems: 'center', // Center vertically
-        }}
-      >
-        {/* Text Overlay on Left Side */}
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 2,
-            paddingLeft: '50px', // Left padding
-            maxWidth: '600px', // Limit text width
-          }}
-        >
-          <h1
-            style={{
-              fontSize: '3.5rem',
-              fontWeight: 'bold',
-              color: 'white',
-              textShadow: '3px 3px 8px rgba(0,0,0,0.9)',
-              marginBottom: '20px',
-              lineHeight: '1.2',
-            }}
-          >
-            WizSense Technology
-          </h1>
-          <p
-            style={{
-              fontSize: '1.3rem',
-              color: 'rgba(255,255,255,0.95)',
-              textShadow: '2px 2px 6px rgba(0,0,0,0.9)',
-              fontWeight: '300',
-              lineHeight: '1.6',
-            }}
-          >
-            Revolutionary AI-powered surveillance technology that transforms ordinary security
-            cameras into intelligent monitoring systems with advanced detection capabilities.
-          </p>
-        </div>
-
-        {/* Light overlay only on text area for better readability */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '50%', // Only cover left half where text is
-            height: '100%',
-            background: 'linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0))', // Light overlay
-            zIndex: 1,
-          }}
-        />
+    <motion.div
+      whileHover={xDisable ? {} : { y: -10, scale: 1.05 }}
+      className="bg-white rounded-lg p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300"
+    >
+      <div className={`${iconBg} w-16 h-16 rounded-xl flex items-center justify-center mb-4`}>
+        <Icon size={32} className={iconColor} />
       </div>
+      <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
+      <p className="text-sm text-gray-600">{description}</p>
+    </motion.div>
+  )
+}
 
-      {/* Video Section - Moved up */}
-      <div style={{ padding: '80px 0', backgroundColor: '#1a1a1a' }}>
+const features = [
+  {
+    icon: Cpu,
+    iconBg: 'bg-indigo-50',
+    iconColor: 'text-indigo-600',
+    title: 'AI-Powered Detection',
+    description:
+      'Advanced deep learning algorithms that can distinguish between humans, vehicles, and other objects with 99.7% accuracy.',
+  },
+  {
+    icon: Shield,
+    iconBg: 'bg-pink-50',
+    iconColor: 'text-pink-600',
+    title: 'Real-Time Processing',
+    description:
+      'Instant threat detection and alert notifications with minimal latency for immediate response capabilities.',
+  },
+  {
+    icon: Database,
+    iconBg: 'bg-cyan-50',
+    iconColor: 'text-cyan-600',
+    title: 'Smart Analytics',
+    description:
+      'Comprehensive behavioral analysis including crowd detection, loitering, and intrusion detection.',
+  },
+  {
+    icon: Eye,
+    iconBg: 'bg-gray-50',
+    iconColor: 'text-gray-600',
+    title: 'False Alarm Reduction',
+    description: 'Up to 95% reduction in false alarms through intelligent filtering',
+  },
+]
+
+export default function WizSensePage() {
+  const [activeTab, setActiveTab] = useState('overview')
+  const overviewRef = useRef<HTMLDivElement>(null)
+  const featuresRef = useRef<HTMLDivElement>(null)
+
+  const { ref: benefitsRef, inView: benefitsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveTab(sectionId)
+    const targetRef = sectionId === 'overview' ? overviewRef : featuresRef
+    if (targetRef.current) {
+      const navHeight = 80
+      const elementPosition = targetRef.current.offsetTop - navHeight
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  }
+
+  const tabData = [
+    { id: 'overview', label: 'Overview', icon: Eye },
+    { id: 'features', label: 'Features', icon: Settings },
+  ]
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <motion.section
+        className="relative w-full h-screen flex items-center justify-start"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="w-full h-full"
+        >
+          <img
+            src="/images/wizsens.webp"
+            alt="WizSense Technology"
+            className="object-cover w-full h-full absolute inset-0"
+            style={{ zIndex: 0 }}
+          />
+        </motion.div>
+        <div className="absolute inset-0  flex items-center">
+          <div className="max-w-4xl px-10 space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl md:text-5xl font-bold text-white leading-tight"
+            >
+              <span className="block">WizSense</span>
+              <span className="block text-red-500">Technology</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-base md:text-lg text-gray-100 max-w-3xl leading-snug"
+            >
+              Revolutionary AI-powered surveillance technology that transforms ordinary security
+              cameras into intelligent monitoring systems with advanced detection capabilities.
+            </motion.p>
+          </div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        className="py-20 bg-white bg-opacity-95"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2
-              style={{
-                fontSize: '2.5rem',
-                fontWeight: 'bold',
-                textAlign: 'center',
-                marginBottom: '20px',
-                color: 'white',
-              }}
+          <div className="max-w-5xl mx-auto">
+            {/* Header */}
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              See WizSense in Action
-            </h2>
-            <p
-              style={{
-                textAlign: 'center',
-                color: '#ccc',
-                fontSize: '1.1rem',
-                marginBottom: '50px',
-              }}
-            >
-              Watch how WizSense Technology revolutionizes security monitoring
-            </p>
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                WizSense <span className="text-red-500">Technology Demo</span>
+              </h2>
+              <p className="text-xl text-gray-600 mx-auto">
+                Experience the advanced capabilities of our AI-powered surveillance system
+              </p>
+            </motion.div>
 
             {/* Video Container */}
-            <div
-              style={{
-                position: 'relative',
-                paddingBottom: '56.25%', // 16:9 aspect ratio
-              }}
+            <motion.div
+              className="relative bg-black rounded-2xl overflow-hidden shadow-2xl"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <iframe
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '15px',
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                }}
-                src="https://www.youtube.com/embed/kQOFsrFDvC0" // Replace with actual WizSense video
-                title="WizSense Technology Demo"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+              {/* Video Wrapper */}
+              <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/kQOFsrFDvC0"
+                  title="WizSense Technology Demo"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+
+            {/* Video Description */}
+            <div className="mt-12 text-center">
+              <motion.div
+                className="grid md:grid-cols-3 gap-8 text-gray-900"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                {[
+                  {
+                    title: 'Real-Time Detection',
+                    description:
+                      'Watch AI identify and classify objects in real-time with precision',
+                  },
+                  {
+                    title: 'Smart Analytics',
+                    description:
+                      'Advanced behavioral analysis and pattern recognition capabilities',
+                  },
+                  {
+                    title: 'Zero False Alarms',
+                    description: 'Intelligent filtering reduces false alerts by up to 95%',
+                  },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
+                  >
+                    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                    <p className="text-gray-600 text-sm">{item.description}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Advanced Features Section - Moved down */}
-      <div style={{ padding: '80px 0', backgroundColor: 'white' }}>
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2
-              style={{
-                fontSize: '2.5rem',
-                fontWeight: 'bold',
-                textAlign: 'center',
-                marginBottom: '60px',
-                color: '#333',
-              }}
-            >
-              Advanced Features
-            </h2>
-
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '40px',
-                marginBottom: '60px',
-              }}
-            >
-              {/* Feature 1 */}
-              <div
-                style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  borderRadius: '15px',
-                  padding: '40px',
-                  color: 'white',
-                  textAlign: 'center',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                }}
-              >
-                <div
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                    backgroundColor: 'rgba(255,255,255,0.2)',
-                    borderRadius: '50%',
-                    margin: '0 auto 20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  🧠
-                </div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '15px' }}>
-                  AI-Powered Detection
-                </h3>
-                <p style={{ fontSize: '1rem', lineHeight: '1.6', opacity: 0.9 }}>
-                  Advanced deep learning algorithms that can distinguish between humans, vehicles,
-                  and other objects with 99.7% accuracy.
-                </p>
-              </div>
-
-              {/* Feature 2 */}
-              <div
-                style={{
-                  background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-                  borderRadius: '15px',
-                  padding: '40px',
-                  color: 'white',
-                  textAlign: 'center',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                }}
-              >
-                <div
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                    backgroundColor: 'rgba(255,255,255,0.2)',
-                    borderRadius: '50%',
-                    margin: '0 auto 20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  ⚡
-                </div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '15px' }}>
-                  Real-Time Processing
-                </h3>
-                <p style={{ fontSize: '1rem', lineHeight: '1.6', opacity: 0.9 }}>
-                  Instant threat detection and alert notifications with minimal latency for
-                  immediate response capabilities.
-                </p>
-              </div>
-
-              {/* Feature 3 */}
-              <div
-                style={{
-                  background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-                  borderRadius: '15px',
-                  padding: '40px',
-                  color: 'white',
-                  textAlign: 'center',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                }}
-              >
-                <div
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                    backgroundColor: 'rgba(255,255,255,0.2)',
-                    borderRadius: '50%',
-                    margin: '0 auto 20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  🎯
-                </div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '15px' }}>
-                  Smart Analytics
-                </h3>
-                <p style={{ fontSize: '1rem', lineHeight: '1.6', opacity: 0.9 }}>
-                  Comprehensive behavioral analysis including crowd detection, loitering, and
-                  intrusion detection.
-                </p>
-              </div>
-            </div>
-
-            {/* Additional Features Grid */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                gap: '30px',
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: '#f8f9fa',
-                  padding: '30px',
-                  borderRadius: '10px',
-                  textAlign: 'center',
-                }}
-              >
-                <h4 style={{ fontWeight: 'bold', marginBottom: '10px', color: '#333' }}>
-                  False Alarm Reduction
-                </h4>
-                <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                  Up to 95% reduction in false alarms through intelligent filtering
-                </p>
-              </div>
-
-              <div
-                style={{
-                  backgroundColor: '#f8f9fa',
-                  padding: '30px',
-                  borderRadius: '10px',
-                  textAlign: 'center',
-                }}
-              >
-                <h4 style={{ fontWeight: 'bold', marginBottom: '10px', color: '#333' }}>
-                  Metadata Search
-                </h4>
-                <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                  Advanced search capabilities by object type, color, and size
-                </p>
-              </div>
-
-              <div
-                style={{
-                  backgroundColor: '#f8f9fa',
-                  padding: '30px',
-                  borderRadius: '10px',
-                  textAlign: 'center',
-                }}
-              >
-                <h4 style={{ fontWeight: 'bold', marginBottom: '10px', color: '#333' }}>
-                  Heat Mapping
-                </h4>
-                <p style={{ color: '#666', fontSize: '0.9rem' }}>
-                  Visual representation of activity patterns and traffic flow
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </motion.section>
 
       {/* Related Products Section */}
-      <div style={{ padding: '80px 0', backgroundColor: 'white' }}>
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2
-              style={{
-                fontSize: '2.5rem',
-                fontWeight: 'bold',
-                textAlign: 'center',
-                marginBottom: '60px',
-                color: '#333',
-              }}
-            >
-              WizSense Camera Products
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="py-24 bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              WizSense Camera <span className="text-red-600">Products</span>
             </h2>
+            <p className="text-xl text-gray-600  mb-4">
+              Advanced security solutions powered by AI technology for comprehensive surveillance
+            </p>
+          </motion.div>
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '40px',
-              }}
-            >
-              {/* Product 1 - WizSense Dome Camera */}
-              <div
-                style={{
-                  backgroundColor: 'white',
-                  borderRadius: '15px',
-                  overflow: 'hidden',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                  transition: 'transform 0.3s ease',
-                }}
-              >
-                <div
-                  style={{
-                    height: '280px',
-                    backgroundColor: '#f8f9fa',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '20px',
-                    position: 'relative',
-                  }}
-                >
-                  <Image
-                    src="/images/domecamera.webp"
-                    alt="WizSense Dome Camera"
-                    width={600}
-                    height={600}
-                    className="objectFit contain border-8"
-                  />
-                </div>
-                <div style={{ padding: '30px' }}>
-                  <h3
-                    style={{
-                      fontSize: '1.3rem',
-                      fontWeight: 'bold',
-                      marginBottom: '15px',
-                      color: '#333',
-                    }}
-                  >
-                    WizSense Dome Camera
-                  </h3>
-                  <p
-                    style={{
-                      color: '#666',
-                      marginBottom: '20px',
-                      lineHeight: '1.6',
-                      fontSize: '0.95rem',
-                    }}
-                  >
-                    4MP AI-powered dome camera with advanced WizSense analytics and smart detection
-                    capabilities.
-                  </p>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  ></div>
-                </div>
-              </div>
+          <section className="py-16">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto">
+                <div className="grid md:grid-cols-3 gap-6">
+                  {/* Dome Camera */}
+                  <motion.div whileHover={{ y: -5 }} className="bg-white p-4 rounded-lg shadow-sm">
+                    <div className="h-48 flex items-center justify-center">
+                      <Image
+                        src="/images/domecamera.webp"
+                        alt="Dome Camera"
+                        width={200}
+                        height={200}
+                        className="object-contain"
+                      />
+                    </div>
+                    <h3 className="text-lg font-semibold mt-2">Dome Camera</h3>
+                    <p className="text-sm text-gray-600 mt-1">
+                      4MP AI-powered with smart detection
+                    </p>
+                    <div className="flex gap-2 mt-3">
+                      <span className="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs">
+                        4MP
+                      </span>
+                      <span className="px-2 py-1 bg-green-50 text-green-600 rounded text-xs">
+                        AI
+                      </span>
+                    </div>
+                  </motion.div>
 
-              {/* Product 2 - WizSense Bullet Camera */}
-              <div
-                style={{
-                  backgroundColor: 'white',
-                  borderRadius: '15px',
-                  overflow: 'hidden',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                  transition: 'transform 0.3s ease',
-                }}
-              >
-                <div
-                  style={{
-                    height: '280px',
-                    backgroundColor: '#f8f9fa',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '20px',
-                    position: 'relative',
-                  }}
-                >
-                  <Image
-                    src="/images/wBulletCamera.webp"
-                    alt="WizSense Bullet Camera"
-                    width={400}
-                    height={400}
-                    className="object contain border-8"
-                  />
-                </div>
-                <div style={{ padding: '30px' }}>
-                  <h3
-                    style={{
-                      fontSize: '1.3rem',
-                      fontWeight: 'bold',
-                      marginBottom: '15px',
-                      color: '#333',
-                    }}
-                  >
-                    WizSense Bullet Camera
-                  </h3>
-                  <p
-                    style={{
-                      color: '#666',
-                      marginBottom: '20px',
-                      lineHeight: '1.6',
-                      fontSize: '0.95rem',
-                    }}
-                  >
-                    8MP outdoor bullet camera with WizSense AI technology, weatherproof housing,
-                    night vision, and motion detection.
-                  </p>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  ></div>
-                </div>
-              </div>
+                  {/* Bullet Camera */}
+                  <motion.div whileHover={{ y: -5 }} className="bg-white p-4 rounded-lg shadow-sm">
+                    <div className="h-48 flex items-center justify-center">
+                      <Image
+                        src="/images/wBulletCamera.webp"
+                        alt="Bullet Camera"
+                        width={200}
+                        height={200}
+                        className="object-contain"
+                      />
+                    </div>
+                    <h3 className="text-lg font-semibold mt-2">Bullet Camera</h3>
+                    <p className="text-sm text-gray-600 mt-1">8MP outdoor with night vision</p>
+                    <div className="flex gap-2 mt-3">
+                      <span className="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs">
+                        8MP
+                      </span>
+                      <span className="px-2 py-1 bg-yellow-50 text-yellow-600 rounded text-xs">
+                        Night
+                      </span>
+                    </div>
+                  </motion.div>
 
-              {/* Product 3 - WizSense PTZ Camera */}
-              <div
-                style={{
-                  backgroundColor: 'white',
-                  borderRadius: '15px',
-                  overflow: 'hidden',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                  transition: 'transform 0.3s ease',
-                }}
-              >
-                <div
-                  style={{
-                    height: '280px',
-                    backgroundColor: '#f8f9fa',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '20px',
-                    position: 'relative',
-                  }}
-                >
-                  <Image
-                    src="/images/WizPTZCamera.webp"
-                    alt="WizSense PTZ Camera"
-                    width={600}
-                    height={600}
-                    className="object contain border-8"
-                  />
-                </div>
-                <div style={{ padding: '30px' }}>
-                  <h3
-                    style={{
-                      fontSize: '1.3rem',
-                      fontWeight: 'bold',
-                      marginBottom: '15px',
-                      color: '#333',
-                    }}
-                  >
-                    WizSense PTZ Camera
-                  </h3>
-                  <p
-                    style={{
-                      color: '#666',
-                      marginBottom: '20px',
-                      lineHeight: '1.6',
-                      fontSize: '0.95rem',
-                    }}
-                  >
-                    Professional PTZ camera with WizSense AI, 30x optical zoom, and auto-tracking
-                    capabilities.
-                  </p>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  ></div>
+                  {/* PTZ Camera */}
+                  <motion.div whileHover={{ y: -5 }} className="bg-white p-4 rounded-lg shadow-sm">
+                    <div className="h-48 flex items-center justify-center">
+                      <Image
+                        src="/images/WizPTZCamera.webp"
+                        alt="PTZ Camera"
+                        width={200}
+                        height={200}
+                        className="object-contain"
+                      />
+                    </div>
+                    <h3 className="text-lg font-semibold mt-2">PTZ Camera</h3>
+                    <p className="text-sm text-gray-600 mt-1">30x zoom with auto-tracking</p>
+                    <div className="flex gap-2 mt-3">
+                      <span className="px-2 py-1 bg-red-50 text-red-600 rounded text-xs">30x</span>
+                      <span className="px-2 py-1 bg-purple-50 text-purple-600 rounded text-xs">
+                        PTZ
+                      </span>
+                    </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         </div>
-      </div>
+      </motion.div>
 
-      <div
-        style={{
-          background: 'linear-gradient(135deg, #185adb 0%, #39a2fd 100%)',
-          padding: '64px 0',
-          color: 'white',
-          textAlign: 'center',
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <h2
-              style={{
-                fontSize: '2.2rem',
-                fontWeight: 'bold',
-                marginBottom: '28px',
-              }}
-            >
-              Get Free Consultation
-            </h2>
-            <p
-              style={{
-                fontSize: '1.15rem',
-                marginBottom: '36px',
-                opacity: 0.95,
-              }}
-            >
-              Ready to upgrade your security with WizSense? Our experts will help you find the best
-              solution for your needs.
-            </p>
-            <a
-              href="/contact"
-              className="inline-block bg-[#185adb] hover:bg-[#39a2fd] text-white font-bold px-10 py-4 rounded-full text-lg shadow transition-colors duration-200"
-              style={{
-                textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(24,90,219,0.10)',
-                display: 'inline-block',
-              }}
-            >
-              Get Free Consultation
-            </a>
-          </div>
-        </div>
-      </div>
+      {/* Compact Products Section */}
     </div>
   )
 }

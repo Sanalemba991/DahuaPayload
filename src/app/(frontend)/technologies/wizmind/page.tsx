@@ -1,351 +1,442 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import './wizmind.css'
+import { useInView } from 'react-intersection-observer'
+import { Shield, Cpu, Eye, Database, Settings } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+function FeatureCard({
+  icon: Icon,
+  iconBg,
+  iconColor,
+  title,
+  description,
+  xDisable = false,
+}: {
+  icon: React.ElementType
+  iconBg: string
+  iconColor: string
+  title: string
+  description: string
+  xDisable?: boolean
+}) {
+  return (
+    <motion.div
+      whileHover={xDisable ? {} : { y: -10, scale: 1.05 }}
+      className="bg-white rounded-lg p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300"
+    >
+      <div className={`${iconBg} w-16 h-16 rounded-xl flex items-center justify-center mb-4`}>
+        <Icon size={32} className={iconColor} />
+      </div>
+      <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
+      <p className="text-sm text-gray-600">{description}</p>
+    </motion.div>
+  )
+}
+
+const features = [
+  {
+    icon: Cpu,
+    iconBg: 'bg-indigo-50',
+    iconColor: 'text-indigo-600',
+    title: 'Deep Learning',
+    description:
+      'Advanced neural networks that continuously learn and improve detection accuracy with 99.7% precision.',
+  },
+  {
+    icon: Shield,
+    iconBg: 'bg-pink-50',
+    iconColor: 'text-pink-600',
+    title: 'Real-time Processing',
+    description:
+      'Instant analysis and response with minimal latency for critical security events and threat detection.',
+  },
+  {
+    icon: Database,
+    iconBg: 'bg-cyan-50',
+    iconColor: 'text-cyan-600',
+    title: 'Scalable Architecture',
+    description:
+      'Flexible deployment from single cameras to large-scale enterprise solutions with AI analytics.',
+  },
+  {
+    icon: Eye,
+    iconBg: 'bg-gray-50',
+    iconColor: 'text-gray-600',
+    title: 'AI Algorithms',
+    description: '50+ specialized AI algorithms for comprehensive video analytics and monitoring',
+  },
+]
 
 export default function WizMindPage() {
-  return (
-    <div style={{ paddingTop: '90px', backgroundColor: '#f8f9fa' }}>
-      {/* Hero Section */}
-      <div
-        style={{
-          backgroundImage: 'url("/images/wzmind.webp")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          position: 'relative',
-          color: 'white',
-          padding: '60px 20px',
-          minHeight: '400px',
-        }}
-      >
-        {/* Light overlay only on text area for better readability */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.3))',
-            zIndex: 1,
-          }}
-        ></div>
+  const [activeTab, setActiveTab] = useState('overview')
+  const overviewRef = useRef<HTMLDivElement>(null)
+  const featuresRef = useRef<HTMLDivElement>(null)
 
-        <div className="container mx-auto px-4" style={{ position: 'relative', zIndex: 2 }}>
-          <div className="max-w-6xl mx-auto text-center">
-            <h1
-              style={{
-                fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-                fontWeight: 'bold',
-                marginBottom: '20px',
-                background: 'linear-gradient(45deg, #ff4444, #ff6b6b)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-              }}
+  const { ref: benefitsRef, inView: benefitsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveTab(sectionId)
+    const targetRef = sectionId === 'overview' ? overviewRef : featuresRef
+    if (targetRef.current) {
+      const navHeight = 80
+      const elementPosition = targetRef.current.offsetTop - navHeight
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  }
+
+  const tabData = [
+    { id: 'overview', label: 'Overview', icon: Eye },
+    { id: 'features', label: 'Features', icon: Settings },
+  ]
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <motion.section
+        className="relative w-full h-screen flex items-center justify-start"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="w-full h-full"
+        >
+          <img
+            src="/images/wzmind.webp"
+            alt="WizMind Technology"
+            className="object-cover w-full h-full absolute inset-0"
+            style={{ zIndex: 0 }}
+          />
+        </motion.div>
+        <div className="absolute inset-0  flex items-center">
+          <div className="max-w-4xl px-10 space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl md:text-5xl font-bold text-white leading-tight"
             >
-              WizMind Technology
-            </h1>
-            <p
-              style={{
-                fontSize: 'clamp(1rem, 3vw, 1.4rem)',
-                color: 'rgba(255,255,255,0.95)',
-                maxWidth: '900px',
-                margin: '0 auto',
-                lineHeight: '1.7',
-                fontWeight: '300',
-                textShadow: '2px 2px 6px rgba(0,0,0,0.8)',
-              }}
+              <span className="block">WizMind</span>
+              <span className="block text-red-500">Technology</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-base md:text-lg text-gray-100 max-w-3xl leading-snug"
             >
               Next-generation AI surveillance technology powered by deep learning algorithms,
               delivering unprecedented intelligence and accuracy in video analytics and security
               monitoring.
-            </p>
+            </motion.p>
           </div>
         </div>
-      </div>
+      </motion.section>
 
-      {/* Main Content with Responsive Layout */}
-      <div className="responsive-container">
-        {/* Main Content Area */}
-        <div className="main-content">
-          {/* What is WizMind Section */}
-          <div className="content-card">
-            <h2 className="section-title">What is WizMind?</h2>
-
-            <div className="text-content">
-              <p style={{ marginBottom: '20px' }}>
-                <strong>WizMind</strong> represents Dahua most advanced AI technology platform,
-                combining deep learning, neural networks, and machine learning to deliver
-                intelligent video surveillance solutions that think, learn, and adapt.
-              </p>
-
-              <p style={{ marginBottom: '20px' }}>
-                Built on years of AI research and development, WizMind technology transforms
-                traditional security cameras into intelligent monitoring systems capable of
-                understanding complex scenarios and making autonomous decisions.
-              </p>
-
-              <p>
-                From facial recognition to behavioral analysis, WizMind provides comprehensive
-                AI-powered security solutions for smart cities, retail, transportation, and
-                enterprise applications.
-              </p>
-            </div>
-
-            {/* Key Stats - Mobile Responsive Grid */}
-            <div className="stats-grid">
-              <div className="stat-card stat-purple">
-                <h3>99.7%</h3>
-                <p>Accuracy Rate</p>
-              </div>
-              <div className="stat-card stat-pink">
-                <h3>50+</h3>
-                <p>AI Algorithms</p>
-              </div>
-              <div className="stat-card stat-blue">
-                <h3>24/7</h3>
-                <p>Monitoring</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Image Gallery Section */}
-          <div className="content-card">
-            <h3 className="sub-section-title">WizMind in Action</h3>
-
-            {/* Image Grid - Mobile Responsive */}
-            <div className="image-grid">
-              {/* Image 1 */}
-              <div className="image-card">
-                <Image
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop"
-                  alt="AI Facial Recognition"
-                  className="image-responsive"
-                />
-                <div className="image-overlay">
-                  <h4>Facial Recognition</h4>
-                </div>
-              </div>
-
-              {/* Image 2 */}
-              <div className="image-card">
-                <Image
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop"
-                  alt="Behavior Analysis"
-                  className="image-responsive"
-                />
-                <div className="image-overlay">
-                  <h4>Behavior Analysis</h4>
-                </div>
-              </div>
-
-              {/* Image 3 */}
-              <div className="image-card">
-                <Image
-                  src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400&h=250&fit=crop"
-                  alt="Smart City Monitoring"
-                  className="image-responsive"
-                />
-                <div className="image-overlay">
-                  <h4>Smart City Solutions</h4>
-                </div>
-              </div>
-
-              {/* Image 4 */}
-              <div className="image-card">
-                <Image
-                  src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop"
-                  alt="Vehicle Detection"
-                  className="image-responsive"
-                />
-                <div className="image-overlay">
-                  <h4>Vehicle Recognition</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Sidebar - Mobile Responsive */}
-        <div className="sidebar">
-          {/* Video Section */}
-          <div className="sidebar-card">
-            <h3 className="sidebar-title">WizMind Demo</h3>
-
-            <div className="video-container">
-              <iframe
-                className="video-iframe"
-                src="https://www.youtube.com/embed/moTVRuAF0uI?si=oBPJEAC9z2efdWfx"
-                title="WizMind Technology Demo"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-
-            <p className="video-description">
-              Watch how WizMind AI technology revolutionizes intelligent video surveillance
-            </p>
-          </div>
-
-          {/* Quick Facts */}
-          <div className="sidebar-card">
-            <h3 className="sidebar-title">Quick Facts</h3>
-
-            <div className="facts-container">
-              <div className="fact-item fact-purple">
-                <h4>Launch Year</h4>
-                <p>2019</p>
-              </div>
-
-              <div className="fact-item fact-pink">
-                <h4>Supported Models</h4>
-                <p>200+ Camera Models</p>
-              </div>
-
-              <div className="fact-item fact-blue">
-                <h4>Global Deployments</h4>
-                <p>100+ Countries</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Thermal Imaging Section */}
-      <div className="thermal-section">
-        <div className="thermal-content">
-          <h3 className="thermal-title">Thermal Imaging Technology</h3>
-
-          <div className="thermal-grid">
-            <div>
-              <h4 className="thermal-subtitle">Advanced Heat Detection</h4>
-              <p className="thermal-text">
-                See beyond visible light with thermal imaging that detects heat signatures and
-                temperature variations for 24/7 surveillance in any weather condition.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="thermal-subtitle">Fire Prevention & Safety</h4>
-              <p className="thermal-text">
-                Early fire detection and industrial equipment monitoring with precise temperature
-                measurement capabilities up to ±2°C accuracy.
-              </p>
-            </div>
-          </div>
-
-          <div className="thermal-stats">
-            <div className="thermal-stat">
-              <h5>±2°C</h5>
-              <p>Accuracy</p>
-            </div>
-            <div className="thermal-stat">
-              <h5>5km</h5>
-              <p>Range</p>
-            </div>
-            <div className="thermal-stat">
-              <h5>24/7</h5>
-              <p>Operation</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Ecosystem Section */}
-      <div className="ecosystem-section">
-        <h3 className="ecosystem-title">Complete Security Ecosystem</h3>
-
-        <div className="ecosystem-grid">
-          <div className="ecosystem-card">
-            <div className="ecosystem-icon">📹</div>
-            <h4>Smart Cameras</h4>
-            <p>AI-powered cameras with advanced analytics and multi-sensor capabilities.</p>
-          </div>
-
-          <div className="ecosystem-card">
-            <div className="ecosystem-icon">💻</div>
-            <h4>Management Platform</h4>
-            <p>Centralized software for device management and video analytics.</p>
-          </div>
-
-          <div className="ecosystem-card">
-            <div className="ecosystem-icon">🗄️</div>
-            <h4>Storage Systems</h4>
-            <p>Scalable NVRs with redundancy and high-capacity options.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="features-section">
-        <h3 className="features-title">Advanced Capabilities</h3>
-
-        <div className="features-grid">
-          <div className="feature-card feature-purple">
-            <h4>Deep Learning</h4>
-            <p>Advanced neural networks that continuously learn and improve detection accuracy.</p>
-          </div>
-
-          <div className="feature-card feature-pink">
-            <h4>Real-time Processing</h4>
-            <p>Instant analysis and response with minimal latency for critical security events.</p>
-          </div>
-
-          <div className="feature-card feature-blue">
-            <h4>Scalable Architecture</h4>
-            <p>Flexible deployment from single cameras to large-scale enterprise solutions.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Consultation Section */}
-      <div
-        style={{
-          background: 'linear-gradient(135deg, #185adb 0%, #39a2fd 100%)',
-          padding: '64px 0',
-          color: 'white',
-          textAlign: 'center',
-          marginTop: '60px',
-        }}
+      <motion.section
+        className="py-20 bg-white bg-opacity-95"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
       >
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <h2
-              style={{
-                fontSize: '2.2rem',
-                fontWeight: 'bold',
-                marginBottom: '28px',
-              }}
+          <div className="max-w-5xl mx-auto">
+            {/* Header */}
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Get Free Consultation
-            </h2>
-            <p
-              style={{
-                fontSize: '1.15rem',
-                marginBottom: '36px',
-                opacity: 0.95,
-              }}
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                WizMind <span className="text-red-500">Technology Demo</span>
+              </h2>
+              <p className="text-xl text-gray-600 mx-auto">
+                Experience how WizMind AI technology revolutionizes intelligent video surveillance
+              </p>
+            </motion.div>
+
+            {/* Video Container */}
+            <motion.div
+              className="relative bg-black rounded-2xl overflow-hidden shadow-2xl"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Ready to experience the power of WizMind? Our experts will help you choose the best AI
-              solution for your needs.
-            </p>
-            <a
-              href="/contact"
-              className="inline-block bg-[#185adb] hover:bg-[#39a2fd] text-white font-bold px-10 py-4 rounded-full text-lg shadow transition-colors duration-200"
-              style={{
-                textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(24,90,219,0.10)',
-                display: 'inline-block',
-              }}
-            >
-              Get Free Consultation
-            </a>
+              {/* Video Wrapper */}
+              <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/moTVRuAF0uI?si=oBPJEAC9z2efdWfx"
+                  title="WizMind Technology Demo"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+
+            {/* Video Description */}
+            <div className="mt-12 text-center">
+              <motion.div
+                className="grid md:grid-cols-3 gap-8 text-gray-900"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                {[
+                  {
+                    title: 'AI-Powered Analytics',
+                    description:
+                      'Advanced deep learning algorithms for intelligent video analysis and monitoring',
+                  },
+                  {
+                    title: 'Neural Networks',
+                    description:
+                      'Sophisticated neural networks that continuously learn and adapt to scenarios',
+                  },
+                  {
+                    title: 'Enterprise Solutions',
+                    description:
+                      'Scalable AI technology for smart cities, retail, and industrial applications',
+                  },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
+                  >
+                    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                    <p className="text-gray-600 text-sm">{item.description}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.section>
+
+      {/* Thermal Imaging Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="py-24 bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Thermal Imaging <span className="text-red-600">Technology</span>
+            </h2>
+            <p className="text-xl text-gray-600 mb-4">
+              Advanced heat detection and temperature monitoring for comprehensive surveillance
+            </p>
+          </motion.div>
+
+          <section className="py-16">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto">
+                <div className="grid md:grid-cols-2 gap-8 mb-12">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="bg-white p-8 rounded-lg shadow-sm"
+                  >
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Advanced Heat Detection
+                    </h3>
+                    <p className="text-gray-600">
+                      See beyond visible light with thermal imaging that detects heat signatures and
+                      temperature variations for 24/7 surveillance in any weather condition.
+                    </p>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="bg-white p-8 rounded-lg shadow-sm"
+                  >
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Fire Prevention & Safety
+                    </h3>
+                    <p className="text-gray-600">
+                      Early fire detection and industrial equipment monitoring with precise
+                      temperature measurement capabilities up to ±2°C accuracy.
+                    </p>
+                  </motion.div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="grid md:grid-cols-3 gap-6"
+                >
+                  <div className="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <h4 className="text-3xl font-bold text-red-600 mb-2">±2°C</h4>
+                    <p className="text-gray-600">Temperature Accuracy</p>
+                  </div>
+                  <div className="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <h4 className="text-3xl font-bold text-red-600 mb-2">5km</h4>
+                    <p className="text-gray-600">Detection Range</p>
+                  </div>
+                  <div className="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <h4 className="text-3xl font-bold text-red-600 mb-2">24/7</h4>
+                    <p className="text-gray-600">Continuous Operation</p>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </motion.div>
+
+      {/* Ecosystem Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="py-24 bg-white"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Complete Security <span className="text-red-600">Ecosystem</span>
+            </h2>
+            <p className="text-xl text-gray-600 mb-4">
+              Integrated AI-powered solutions for comprehensive surveillance and security management
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-lg shadow-sm text-center"
+            >
+              <div className="text-4xl mb-4">📹</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Cameras</h3>
+              <p className="text-gray-600">
+                AI-powered cameras with advanced analytics and multi-sensor capabilities.
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-lg shadow-sm text-center"
+            >
+              <div className="text-4xl mb-4">💻</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Management Platform</h3>
+              <p className="text-gray-600">
+                Centralized software for device management and video analytics.
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-lg shadow-sm text-center"
+            >
+              <div className="text-4xl mb-4">🗄️</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Storage Systems</h3>
+              <p className="text-gray-600">
+                Scalable NVRs with redundancy and high-capacity options.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Features Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="py-24 bg-gradient-to-b from-gray-50 to-white"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Advanced <span className="text-red-600">Capabilities</span>
+            </h2>
+            <p className="text-xl text-gray-600 mb-4">
+              Cutting-edge AI features that redefine intelligent video surveillance
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="bg-white p-8 rounded-lg shadow-sm border-l-4 border-red-500"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Deep Learning</h3>
+              <p className="text-gray-600">
+                Advanced neural networks that continuously learn and improve detection accuracy.
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="bg-white p-8 rounded-lg shadow-sm border-l-4 border-red-500"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Real-time Processing</h3>
+              <p className="text-gray-600">
+                Instant analysis and response with minimal latency for critical security events.
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="bg-white p-8 rounded-lg shadow-sm border-l-4 border-red-500"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Scalable Architecture</h3>
+              <p className="text-gray-600">
+                Flexible deployment from single cameras to large-scale enterprise solutions.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
     </div>
   )
 }
