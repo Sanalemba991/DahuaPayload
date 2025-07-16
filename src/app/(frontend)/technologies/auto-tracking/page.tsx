@@ -1,849 +1,420 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
-export default function AutoTrackingPage() {
-  const [isPlaying, setIsPlaying] = useState(false)
+import { motion } from 'framer-motion'
+import { Target, Zap, Bot, Shield, Settings, Eye } from 'lucide-react'
 
-  const handlePlayVideo = () => {
-    setIsPlaying(true)
+function FeatureCard({
+  icon: Icon,
+  iconBg,
+  iconColor,
+  title,
+  description,
+}: {
+  icon: React.ElementType
+  iconBg: string
+  iconColor: string
+  title: string
+  description: string
+}) {
+  return (
+    <motion.div
+      whileHover={{ y: -10, scale: 1.05 }}
+      className="bg-white rounded-xl p-8 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300"
+    >
+      <div className={`${iconBg} w-16 h-16 rounded-full flex items-center justify-center mb-6`}>
+        <Icon size={32} className={iconColor} />
+      </div>
+      <h3 className="text-xl font-bold text-gray-900 mb-4">{title}</h3>
+      <p className="text-gray-600 leading-relaxed">{description}</p>
+    </motion.div>
+  )
+}
+
+export default function AutoTrackingPage() {
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
   }
 
   return (
-    <div style={{ paddingTop: '80px', backgroundColor: '#f8f9fa' }}>
-      {/* Hero Section with Custom Background Image */}
-      <div
-        style={{
-          backgroundImage: 'url("/images/autotrack.webp")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          color: 'white',
-          padding: '120px 0 140px 0',
-          textAlign: 'center',
-          position: 'relative',
-          minHeight: '70vh',
-          display: 'flex',
-          alignItems: 'center',
-        }}
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <motion.section
+        className="relative w-full h-screen flex items-center justify-start"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        <div
-          style={{
-            maxWidth: '1200px',
-            margin: '0 auto',
-            padding: '0 20px',
-            position: 'relative',
-            zIndex: 2,
-          }}
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="w-full h-full"
         >
-          <h1
-            style={{
-              fontSize: 'clamp(3rem, 6vw, 4.5rem)',
-              fontWeight: '800',
-              marginBottom: '30px',
-              color: 'white',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            Auto Tracking 3.0
-          </h1>
-          <p
-            style={{
-              fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
-              maxWidth: '800px',
-              margin: '0 auto 40px auto',
-              lineHeight: '1.7',
-              color: 'rgba(255,255,255,0.95)',
-              textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-            }}
-          >
-            Intelligent automated tracking system that seamlessly follows moving targets with
-            precision and reliability, powered by advanced AI algorithms.
-          </p>
-
-          {/* CTA Button */}
-          <button
-            style={{
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-              border: 'none',
-              padding: '15px 35px',
-              borderRadius: '50px',
-              color: 'white',
-              fontSize: '1.1rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              boxShadow: '0 10px 30px rgba(16, 185, 129, 0.3)',
-              transition: 'all 0.3s ease',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px',
-            }}
-            onMouseEnter={(e) => {
-              const target = e.target as HTMLButtonElement
-              target.style.transform = 'translateY(-3px)'
-              target.style.boxShadow = '0 15px 40px rgba(16, 185, 129, 0.4)'
-            }}
-            onMouseLeave={(e) => {
-              const target = e.target as HTMLButtonElement
-              target.style.transform = 'translateY(0)'
-              target.style.boxShadow = '0 10px 30px rgba(16, 185, 129, 0.3)'
-            }}
-          >
-            Scroll Down For Demo
-          </button>
-        </div>
-      </div>
-
-      {/* Full Width Video Section */}
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: '60px 0 0 0',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '1400px',
-            margin: '0 auto',
-            padding: '0 20px',
-          }}
-        >
-          {/* Video Container - Full Width */}
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              paddingBottom: '56.25%',
-              height: 0,
-              overflow: 'hidden',
-              borderRadius: '15px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
-              marginBottom: '50px',
-              backgroundColor: '#000',
-            }}
-          >
-            {!isPlaying ? (
-              // Custom Video Thumbnail with Play Button
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  backgroundImage:
-                    'linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("https://images.unsplash.com/photo-1574947600450-a5c56c04b8e8?w=1400&h=800&fit=crop")',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  borderRadius: '15px',
-                }}
-                onClick={handlePlayVideo}
-              >
-                {/* Play Button */}
-                <div
-                  style={{
-                    width: '100px',
-                    height: '100px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-                  }}
-                  onMouseEnter={(e) => {
-                    const target = e.target as HTMLDivElement
-                    target.style.transform = 'scale(1.1)'
-                    target.style.backgroundColor = 'white'
-                  }}
-                  onMouseLeave={(e) => {
-                    const target = e.target as HTMLDivElement
-                    target.style.transform = 'scale(1)'
-                    target.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 0,
-                      height: 0,
-                      borderLeft: '30px solid #1e293b',
-                      borderTop: '20px solid transparent',
-                      borderBottom: '20px solid transparent',
-                      marginLeft: '8px',
-                    }}
-                  />
-                </div>
-
-                {/* Video Title Overlay */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '30px',
-                    left: '30px',
-                    color: 'white',
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: '2rem',
-                      fontWeight: '700',
-                      marginBottom: '10px',
-                      textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-                    }}
-                  >
-                    Auto Tracking 3.0 Demo
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: '1.2rem',
-                      opacity: 0.9,
-                      textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-                    }}
-                  >
-                    See intelligent tracking in action
-                  </p>
-                </div>
-              </div>
-            ) : (
-              // Actual Video Player with your specified video
-              <iframe
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '15px',
-                }}
-                src="https://www.youtube.com/embed/AVIXb5OYskY?autoplay=1&rel=0&modestbranding=1"
-                title="Auto Tracking 3.0 Demo"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            )}
-          </div>
-
-          {/* Description Below Video */}
-          <div
-            style={{
-              textAlign: 'center',
-              maxWidth: '1000px',
-              margin: '0 auto',
-              paddingBottom: '60px',
-            }}
-          >
-            <h2
-              style={{
-                fontSize: '2.5rem',
-                fontWeight: '700',
-                color: '#1e293b',
-                marginBottom: '25px',
-              }}
+          <img
+            src="/images/autotrack.webp"
+            alt="Auto Tracking 3.0"
+            className="object-cover w-full h-full absolute inset-0"
+            style={{ zIndex: 0 }}
+          />
+        </motion.div>
+        <div className="absolute inset-0  bg-opacity-30"></div>
+        <div className="absolute inset-0 flex items-center">
+          <div className="max-w-4xl px-10 space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl md:text-5xl font-bold text-white leading-tight"
             >
-              Intelligent Target Tracking
-            </h2>
-            <p
-              style={{
-                fontSize: '1.2rem',
-                lineHeight: '1.8',
-                color: '#64748b',
-                marginBottom: '30px',
-              }}
+              <span className="block">Auto Tracking</span>
+              <span className="block text-red-500">3.0</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-base md:text-lg text-gray-100 max-w-3xl leading-snug"
             >
-              Auto Tracking 3.0 represents the pinnacle of automated surveillance technology,
-              utilizing advanced AI algorithms to seamlessly track moving targets with exceptional
-              precision. The system automatically detects, locks onto, and follows objects of
-              interest while maintaining optimal framing and focus.
-            </p>
-            <p
-              style={{
-                fontSize: '1.1rem',
-                lineHeight: '1.7',
-                color: '#64748b',
-              }}
-            >
-              With intelligent prediction algorithms and smooth pan-tilt-zoom movements, Auto
-              Tracking 3.0 ensures continuous monitoring of critical targets without manual
-              intervention, perfect for security applications and automated surveillance.
-            </p>
+              Intelligent automated tracking system that seamlessly follows moving targets with
+              precision and reliability, powered by advanced AI algorithms.
+            </motion.p>
           </div>
         </div>
-      </div>
+      </motion.section>
 
-      {/* Key Features Section */}
-      <div
-        style={{
-          backgroundColor: '#f1f5f9',
-          padding: '80px 0',
-        }}
-      >
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 20px' }}>
-          <h2
-            style={{
-              fontSize: '3rem',
-              fontWeight: '700',
-              color: '#1e293b',
-              textAlign: 'center',
-              marginBottom: '60px',
-            }}
-          >
-            Key Features
-          </h2>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-              gap: '40px',
-            }}
-          >
-            {/* Feature 1 */}
-            <div
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '20px',
-                padding: '40px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  width: '80px',
-                  height: '80px',
-                  backgroundColor: '#10b981',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 25px auto',
-                  fontSize: '2rem',
-                }}
-              >
-                🎯
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '15px',
-                }}
-              >
-                Precision Tracking
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  lineHeight: '1.6',
-                  fontSize: '1rem',
-                }}
-              >
-                Advanced AI algorithms ensure accurate target detection and smooth tracking with
-                minimal lag and maximum precision.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '20px',
-                padding: '40px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  width: '80px',
-                  height: '80px',
-                  backgroundColor: '#3b82f6',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 25px auto',
-                  fontSize: '2rem',
-                }}
-              >
-                🤖
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '15px',
-                }}
-              >
-                AI-Powered Intelligence
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  lineHeight: '1.6',
-                  fontSize: '1rem',
-                }}
-              >
-                Deep learning technology enables intelligent target classification and predictive
-                movement analysis for enhanced tracking performance.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '20px',
-                padding: '40px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  width: '80px',
-                  height: '80px',
-                  backgroundColor: '#f59e0b',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 25px auto',
-                  fontSize: '2rem',
-                }}
-              >
-                ⚡
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '15px',
-                }}
-              >
-                Real-time Response
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  lineHeight: '1.6',
-                  fontSize: '1rem',
-                }}
-              >
-                Ultra-fast processing enables immediate response to target movements with smooth
-                pan-tilt-zoom operations and minimal delay.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Tracking Modes Section */}
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: '80px 0',
-        }}
-      >
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 20px' }}>
-          <h2
-            style={{
-              fontSize: '3rem',
-              fontWeight: '700',
-              color: '#1e293b',
-              textAlign: 'center',
-              marginBottom: '60px',
-            }}
-          >
-            Tracking Modes
-          </h2>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '50px',
-              alignItems: 'center',
-            }}
-          >
-            {/* Auto Mode */}
-            <div
-              style={{
-                textAlign: 'center',
-              }}
-            >
-              <Image
-                src="/images/tracka.png"
-                alt="Auto Tracking Mode"
-                style={{
-                  width: '100%',
-                  height: '350px',
-                  objectFit: 'cover',
-                  borderRadius: '15px',
-                  boxShadow: '0 15px 40px rgba(0,0,0,0.1)',
-                  marginBottom: '25px',
-                }}
-              />
-              <h3
-                style={{
-                  fontSize: '1.8rem',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '15px',
-                }}
-              >
-                Automatic Mode
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  fontSize: '1.1rem',
-                  lineHeight: '1.6',
-                }}
-              >
-                Fully automated tracking that detects and follows targets without manual
-                intervention using intelligent algorithms.
-              </p>
-            </div>
-
-            {/* Manual Mode */}
-            <div
-              style={{
-                textAlign: 'center',
-              }}
-            >
-              <Image
-                src="/images/autotrack.webp"
-                alt="Manual Tracking Mode"
-                style={{
-                  width: '100%',
-                  height: '350px',
-                  objectFit: 'cover',
-                  borderRadius: '15px',
-                  boxShadow: '0 15px 40px rgba(0,0,0,0.1)',
-                  marginBottom: '25px',
-                }}
-              />
-              <h3
-                style={{
-                  fontSize: '1.8rem',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '15px',
-                }}
-              >
-                Manual Selection
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  fontSize: '1.1rem',
-                  lineHeight: '1.6',
-                }}
-              >
-                Operator-initiated tracking allows manual target selection with automated following
-                once the target is identified.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Advanced Capabilities */}
-      <div
-        style={{
-          backgroundColor: '#1e293b',
-          color: 'white',
-          padding: '80px 0',
-        }}
-      >
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 20px' }}>
-          <h2
-            style={{
-              fontSize: '3rem',
-              fontWeight: '700',
-              textAlign: 'center',
-              marginBottom: '60px',
-            }}
-          >
-            Advanced Capabilities
-          </h2>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '40px',
-            }}
-          >
-            {/* Capability 1 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '15px',
-                padding: '35px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                  color: '#10b981',
-                }}
-              >
-                Multi-Target Support
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Simultaneously track multiple targets with priority-based switching and intelligent
-                target management.
-              </p>
-            </div>
-
-            {/* Capability 2 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '15px',
-                padding: '35px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                  color: '#3b82f6',
-                }}
-              >
-                Predictive Analytics
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Advanced algorithms predict target movement patterns for smoother tracking and
-                reduced latency.
-              </p>
-            </div>
-
-            {/* Capability 3 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '15px',
-                padding: '35px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                  color: '#f59e0b',
-                }}
-              >
-                Zone Protection
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Configure protected zones and automatic return-to-preset functionality for enhanced
-                security coverage.
-              </p>
-            </div>
-
-            {/* Capability 4 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '15px',
-                padding: '35px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                  color: '#f472b6',
-                }}
-              >
-                Smart Calibration
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Automatic calibration and scene learning optimize tracking performance for any
-                environment.
-              </p>
-            </div>
-          </div>
-
-          {/* Technical Specifications */}
-          <div
-            style={{
-              marginTop: '80px',
-              backgroundColor: 'rgba(255,255,255,0.05)',
-              borderRadius: '20px',
-              padding: '50px',
-              border: '1px solid rgba(255,255,255,0.1)',
-            }}
-          >
-            <h3
-              style={{
-                fontSize: '2rem',
-                fontWeight: '700',
-                textAlign: 'center',
-                marginBottom: '40px',
-              }}
-            >
-              Technical Specifications
-            </h3>
-
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                gap: '30px',
-              }}
-            >
-              <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    fontSize: '2.5rem',
-                    fontWeight: '800',
-                    color: '#10b981',
-                    marginBottom: '10px',
-                  }}
-                >
-                  360°
-                </div>
-                <p style={{ color: 'rgba(255,255,255,0.8)' }}>Pan Range</p>
-              </div>
-
-              <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    fontSize: '2.5rem',
-                    fontWeight: '800',
-                    color: '#3b82f6',
-                    marginBottom: '10px',
-                  }}
-                >
-                  120°/s
-                </div>
-                <p style={{ color: 'rgba(255,255,255,0.8)' }}>Max Speed</p>
-              </div>
-
-              <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    fontSize: '2.5rem',
-                    fontWeight: '800',
-                    color: '#f59e0b',
-                    marginBottom: '10px',
-                  }}
-                >
-                  32X
-                </div>
-                <p style={{ color: 'rgba(255,255,255,0.8)' }}>Optical Zoom</p>
-              </div>
-
-              <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    fontSize: '2.5rem',
-                    fontWeight: '800',
-                    color: '#f472b6',
-                    marginBottom: '10px',
-                  }}
-                >
-                  50ms
-                </div>
-                <p style={{ color: 'rgba(255,255,255,0.8)' }}>Response Time</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Consultation Section */}
-      <div
-        style={{
-          background: 'linear-gradient(135deg, #185adb 0%, #39a2fd 100%)',
-          padding: '64px 0',
-          color: 'white',
-          textAlign: 'center',
-          marginTop: '60px',
-        }}
+      {/* Video Section */}
+      <motion.section
+        className="py-20 bg-white bg-opacity-95"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
       >
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <h2
-              style={{
-                fontSize: '2.2rem',
-                fontWeight: 'bold',
-                marginBottom: '28px',
-              }}
+          <div className="max-w-5xl mx-auto">
+            {/* Header */}
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Get Free Consultation
-            </h2>
-            <p
-              style={{
-                fontSize: '1.15rem',
-                marginBottom: '36px',
-                opacity: 0.95,
-              }}
-            >
-              Ready to enhance your surveillance with Auto Tracking 3.0? Our experts will help you
-              choose the best solution for your needs.
-            </p>
-            <a
-              href="/contact"
-              className="inline-block bg-[#185adb] hover:bg-[#39a2fd] text-white font-bold px-10 py-4 rounded-full text-lg shadow transition-colors duration-200"
-              style={{
-                textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(24,90,219,0.10)',
-                display: 'inline-block',
-              }}
-            >
-              Get Free Consultation
-            </a>
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Auto Tracking <span className="text-red-500">3.0 Demo</span>
+              </h2>
+              <p className="text-xl text-gray-600 mx-auto mb-12">
+                See intelligent tracking in action with precision target following
+              </p>
+
+              {/* Video Container */}
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute inset-0 w-full h-full rounded-2xl"
+                  src="https://www.youtube.com/embed/AVIXb5OYskY?rel=0&modestbranding=1"
+                  title="Auto Tracking 3.0 Demo"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+
+            {/* Video Description */}
+            <div className="mt-12 text-center">
+              <motion.div
+                className="grid md:grid-cols-3 gap-8 text-gray-900"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                {[
+                  {
+                    title: 'Intelligent Target Tracking',
+                    description:
+                      'Advanced AI algorithms automatically detect and follow moving targets with exceptional precision',
+                  },
+                  {
+                    title: 'Seamless Movement',
+                    description:
+                      'Smooth pan-tilt-zoom operations ensure continuous monitoring without manual intervention',
+                  },
+                  {
+                    title: 'Predictive Analytics',
+                    description:
+                      'Smart prediction algorithms anticipate target movement for enhanced tracking performance',
+                  },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
+                  >
+                    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                    <p className="text-gray-600 text-sm">{item.description}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.section>
+
+      {/* Key Features Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="py-24 bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Key <span className="text-red-500">Features</span>
+            </h2>
+            <p className="text-xl text-gray-600 mb-4">
+              Advanced capabilities that deliver precision tracking and intelligent automation
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={Target}
+              iconBg="bg-emerald-50"
+              iconColor="text-emerald-600"
+              title="Precision Tracking"
+              description="Advanced AI algorithms ensure accurate target detection and smooth tracking with minimal lag and maximum precision."
+            />
+            <FeatureCard
+              icon={Bot}
+              iconBg="bg-blue-50"
+              iconColor="text-blue-600"
+              title="AI-Powered Intelligence"
+              description="Deep learning technology enables intelligent target classification and predictive movement analysis for enhanced tracking performance."
+            />
+            <FeatureCard
+              icon={Zap}
+              iconBg="bg-amber-50"
+              iconColor="text-amber-600"
+              title="Real-time Response"
+              description="Ultra-fast processing enables immediate response to target movements with smooth pan-tilt-zoom operations and minimal delay."
+            />
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Tracking Modes */}
+      <motion.section
+        className="py-20 bg-white"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Tracking{' '}
+                <span
+                  className="text-red
+                -500"
+                >
+                  Modes
+                </span>
+              </h2>
+              <p className="text-xl text-gray-600 mx-auto">
+                Flexible tracking options for different operational requirements
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Auto Mode */}
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                <div className="rounded-xl overflow-hidden mb-6">
+                  <Image
+                    src="/images/tracka.png"
+                    alt="Auto Tracking Mode"
+                    width={500}
+                    height={300}
+                    className="w-full h-64 object-cover"
+                  />
+                </div>
+                <div className="flex items-center justify-center mb-4">
+                  <div className="bg-emerald-50 p-3 rounded-full mr-4">
+                    <Settings className="text-red-600" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">Automatic Mode</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Fully automated tracking that detects and follows targets without manual
+                  intervention using intelligent algorithms and machine learning.
+                </p>
+              </motion.div>
+
+              {/* Manual Mode */}
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                <div className="rounded-xl overflow-hidden mb-6">
+                  <Image
+                    src="/images/autotrack.webp"
+                    alt="Manual Tracking Mode"
+                    width={500}
+                    height={300}
+                    className="w-full h-64 object-cover"
+                  />
+                </div>
+                <div className="flex items-center justify-center mb-4">
+                  <div className="bg-blue-50 p-3 rounded-full mr-4">
+                    <Eye className="text-blue-600" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">Manual Selection</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Operator-initiated tracking allows manual target selection with automated
+                  following once the target is identified and locked.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Advanced Capabilities */}
+      <motion.section
+        className="py-20  text-black"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-4xl font-bold mb-4">
+                Advanced <span className="text-red-500">Capabilities</span>
+              </h2>
+              <p className="text-xl text-gray-300">
+                Cutting-edge features for professional surveillance applications
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                {
+                  title: 'Multi-Target Support',
+                  description:
+                    'Simultaneously track multiple targets with priority-based switching and intelligent target management.',
+                  color: 'text-emerald-400',
+                },
+                {
+                  title: 'Predictive Analytics',
+                  description:
+                    'Advanced algorithms predict target movement patterns for smoother tracking and reduced latency.',
+                  color: 'text-blue-400',
+                },
+                {
+                  title: 'Zone Protection',
+                  description:
+                    'Configure protected zones and automatic return-to-preset functionality for enhanced security coverage.',
+                  color: 'text-amber-400',
+                },
+                {
+                  title: 'Smart Calibration',
+                  description:
+                    'Automatic calibration and scene learning optimize tracking performance for any environment.',
+                  color: 'text-pink-400',
+                },
+              ].map((capability, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-white bg-opacity-5 rounded-xl p-6 text-center border border-white border-opacity-10 hover:bg-opacity-10 transition-all duration-300"
+                >
+                  <h3 className={`text-lg font-semibold mb-3 ${capability.color}`}>
+                    {capability.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">{capability.description}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Technical Specifications */}
+            <motion.div
+              className="mt-16 bg-white bg-opacity-5 rounded-2xl p-8 border border-white border-opacity-10"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <h3 className="text-2xl font-bold text-center mb-8">Technical Specifications</h3>
+              <div className="grid md:grid-cols-4 gap-8">
+                {[
+                  { value: '360°', label: 'Pan Range', color: 'text-emerald-400' },
+                  { value: '120°/s', label: 'Max Speed', color: 'text-blue-400' },
+                  { value: '32X', label: 'Optical Zoom', color: 'text-amber-400' },
+                  { value: '50ms', label: 'Response Time', color: 'text-pink-400' },
+                ].map((spec, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+                    className="text-center"
+                  >
+                    <div className={`text-3xl font-bold ${spec.color} mb-2`}>{spec.value}</div>
+                    <p className="text-gray-300">{spec.label}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Consultation Section */}
     </div>
   )
 }

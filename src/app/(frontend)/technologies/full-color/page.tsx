@@ -1,642 +1,367 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react' // removed useState
 import Image from 'next/image'
-export default function FullColorPage() {
-  const [isPlaying, setIsPlaying] = useState(false)
+import { motion } from 'framer-motion'
+import { Brain, AlertTriangle, BarChart3, Users, Car } from 'lucide-react'
 
-  const handlePlayVideo = () => {
-    setIsPlaying(true)
+function FeatureCard({
+  icon: Icon,
+  iconBg,
+  iconColor,
+  title,
+  description,
+}: {
+  icon: React.ElementType
+  iconBg: string
+  iconColor: string
+  title: string
+  description: string
+}) {
+  return (
+    <motion.div
+      whileHover={{ y: -10, scale: 1.05 }}
+      className="bg-white rounded-xl p-8 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300"
+    >
+      <div className={`${iconBg} w-16 h-16 rounded-full flex items-center justify-center mb-6`}>
+        <Icon size={32} className={iconColor} />
+      </div>
+      <h3 className="text-xl font-bold text-gray-900 mb-4">{title}</h3>
+      <p className="text-gray-600 leading-relaxed">{description}</p>
+    </motion.div>
+  )
+}
+
+export default function SmartAnalyticsPage() {
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
   }
 
   return (
-    <div style={{ paddingTop: '80px', backgroundColor: '#f8f9fa' }}>
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div
-        style={{
-          backgroundImage: 'url("/images/dahuacolor.webp")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          position: 'relative',
-          height: 'clamp(350px, 50vh, 450px)',
-          backgroundColor: '#cccccc',
-          display: 'flex',
-          alignItems: 'center',
-        }}
+      <motion.section
+        className="relative w-full h-screen flex items-center justify-start"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        {/* Text Overlay */}
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 2,
-            paddingLeft: 'clamp(20px, 5vw, 50px)',
-            maxWidth: 'clamp(300px, 90vw, 600px)',
-            width: '100%',
-          }}
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="w-full h-full"
         >
-          <h1
-            style={{
-              fontSize: 'clamp(1.8rem, 5vw, 3rem)',
-              fontWeight: 'bold',
-              color: 'white',
-              textShadow: '3px 3px 8px rgba(0,0,0,0.9)',
-              marginBottom: '15px',
-              lineHeight: '1.2',
-            }}
-          >
-            Smart Dual Illuminators Technology
-          </h1>
-          <p
-            style={{
-              fontSize: 'clamp(1rem, 2.5vw, 1.3rem)',
-              color: 'rgba(255,255,255,0.95)',
-              textShadow: '2px 2px 6px rgba(0,0,0,0.9)',
-              fontWeight: '300',
-            }}
-          >
-            24/7 Full Color Vision
-          </p>
+          <img
+            src="/images/dahuacolor.webp"
+            alt="Smart Analytics"
+            className="object-cover w-full h-full absolute inset-0"
+            style={{ zIndex: 0 }}
+          />
+        </motion.div>
+        <div className="absolute inset-0 flex items-center">
+          <div className="max-w-4xl px-10 space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl md:text-5xl font-bold text-white leading-tight"
+            >
+              <span className="block">AI-Powered</span>
+              <span className="block text-red-500">Smart Analytics</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-base md:text-lg text-gray-100 max-w-3xl leading-snug"
+            >
+              Intelligent Video Analysis & Insights that transform ordinary surveillance into
+              intelligent monitoring systems with advanced detection capabilities.
+            </motion.p>
+          </div>
         </div>
-
-        {/* Overlay removed for a more vibrant image */}
-      </div>
+      </motion.section>
 
       {/* Video Section */}
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: 'clamp(30px, 6vw, 50px) 0',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '1200px',
-            margin: '0 auto',
-            padding: '0 clamp(15px, 3vw, 20px)',
-          }}
-        >
-          {/* Video Container */}
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              paddingBottom: '56.25%',
-              height: 0,
-              overflow: 'hidden',
-              borderRadius: '12px',
-              boxShadow: '0 15px 40px rgba(0,0,0,0.12)',
-              marginBottom: 'clamp(25px, 4vw, 40px)',
-              backgroundColor: '#000',
-            }}
-          >
-            {!isPlaying ? (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  backgroundImage:
-                    'linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=700&fit=crop")',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  borderRadius: '12px',
-                }}
-                onClick={handlePlayVideo}
-              >
-                {/* Play Button */}
-                <div
-                  style={{
-                    width: 'clamp(60px, 8vw, 80px)',
-                    height: 'clamp(60px, 8vw, 80px)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 8px 25px rgba(0,0,0,0.25)',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 0,
-                      height: 0,
-                      borderLeft: 'clamp(15px, 2.5vw, 24px) solid #1e293b',
-                      borderTop: 'clamp(10px, 1.8vw, 16px) solid transparent',
-                      borderBottom: 'clamp(10px, 1.8vw, 16px) solid transparent',
-                      marginLeft: 'clamp(3px, 0.8vw, 6px)',
-                    }}
-                  />
-                </div>
-
-                {/* Video Title */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: 'clamp(15px, 3vw, 25px)',
-                    left: 'clamp(15px, 3vw, 25px)',
-                    color: 'white',
-                    maxWidth: '85%',
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: 'clamp(1.1rem, 3vw, 1.6rem)',
-                      fontWeight: '700',
-                      marginBottom: '8px',
-                      textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-                    }}
-                  >
-                    Full Color Demo
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: 'clamp(0.85rem, 2vw, 1rem)',
-                      opacity: 0.9,
-                      textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-                    }}
-                  >
-                    24/7 color vision technology
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <iframe
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '12px',
-                }}
-                src="https://www.youtube.com/embed/kMTVBhFPxVs?autoplay=1&rel=0&modestbranding=1"
-                title="Full Color Technology Demo"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            )}
-          </div>
-
-          {/* Description */}
-          <div
-            style={{
-              textAlign: 'center',
-              maxWidth: '800px',
-              margin: '0 auto',
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
-                fontWeight: '700',
-                color: '#1e293b',
-                marginBottom: '20px',
-              }}
-            >
-              Revolutionary Color Vision
-            </h2>
-            <p
-              style={{
-                fontSize: 'clamp(0.95rem, 2.2vw, 1.1rem)',
-                lineHeight: '1.7',
-                color: '#64748b',
-              }}
-            >
-              Full Color Technology delivers unprecedented color accuracy in any lighting condition.
-              Advanced sensors with intelligent processing ensure every detail is captured in
-              true-to-life colors, 24 hours a day.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Key Features Section */}
-      <div
-        style={{
-          backgroundColor: '#f1f5f9',
-          padding: 'clamp(40px, 8vw, 60px) 0',
-        }}
-      >
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(15px, 3vw, 20px)' }}>
-          <h2
-            style={{
-              fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
-              fontWeight: '700',
-              color: '#1e293b',
-              textAlign: 'center',
-              marginBottom: 'clamp(30px, 6vw, 50px)',
-            }}
-          >
-            Key Features
-          </h2>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: 'clamp(20px, 4vw, 30px)',
-            }}
-          >
-            {/* Feature 1 */}
-            <div
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '16px',
-                padding: 'clamp(20px, 4vw, 30px)',
-                boxShadow: '0 8px 25px rgba(0,0,0,0.08)',
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  width: 'clamp(50px, 8vw, 70px)',
-                  height: 'clamp(50px, 8vw, 70px)',
-                  backgroundColor: '#3b82f6',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 20px auto',
-                  fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)',
-                }}
-              >
-                🌙
-              </div>
-              <h3
-                style={{
-                  fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '12px',
-                }}
-              >
-                Ultra Low Light
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  lineHeight: '1.6',
-                  fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                }}
-              >
-                Full color images in 0.0005 lux with F1.0 large aperture technology.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '16px',
-                padding: 'clamp(20px, 4vw, 30px)',
-                boxShadow: '0 8px 25px rgba(0,0,0,0.08)',
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  width: 'clamp(50px, 8vw, 70px)',
-                  height: 'clamp(50px, 8vw, 70px)',
-                  backgroundColor: '#10b981',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 20px auto',
-                  fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)',
-                }}
-              >
-                🎨
-              </div>
-              <h3
-                style={{
-                  fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '12px',
-                }}
-              >
-                True Color Accuracy
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  lineHeight: '1.6',
-                  fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                }}
-              >
-                AI-enhanced processing with intelligent white balance and color correction.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '16px',
-                padding: 'clamp(20px, 4vw, 30px)',
-                boxShadow: '0 8px 25px rgba(0,0,0,0.08)',
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  width: 'clamp(50px, 8vw, 70px)',
-                  height: 'clamp(50px, 8vw, 70px)',
-                  backgroundColor: '#f59e0b',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 20px auto',
-                  fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)',
-                }}
-              >
-                💡
-              </div>
-              <h3
-                style={{
-                  fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '12px',
-                }}
-              >
-                Smart Light Supplement
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  lineHeight: '1.6',
-                  fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                }}
-              >
-                Intelligent warm LED lighting activates automatically in low-light conditions.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Day & Night Comparison - Simplified */}
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: 'clamp(40px, 8vw, 60px) 0',
-        }}
-      >
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(15px, 3vw, 20px)' }}>
-          <h2
-            style={{
-              fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
-              fontWeight: '700',
-              color: '#1e293b',
-              textAlign: 'center',
-              marginBottom: 'clamp(30px, 6vw, 50px)',
-            }}
-          >
-            Day & Night Performance
-          </h2>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: 'clamp(25px, 5vw, 40px)',
-              alignItems: 'center',
-            }}
-          >
-            {/* Daytime */}
-            <div style={{ textAlign: 'center' }}>
-              <Image
-                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
-                alt="Daytime Performance"
-                style={{
-                  width: '100%',
-                  height: 'clamp(200px, 25vw, 280px)', // Reduced height
-                  objectFit: 'cover',
-                  borderRadius: '12px',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                  marginBottom: '20px',
-                }}
-              />
-              <h3
-                style={{
-                  fontSize: 'clamp(1.2rem, 3vw, 1.5rem)',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '12px',
-                }}
-              >
-                Daytime Excellence
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  fontSize: 'clamp(0.85rem, 2vw, 1rem)',
-                  lineHeight: '1.6',
-                }}
-              >
-                4K resolution with 120dB True WDR for exceptional detail in all conditions.
-              </p>
-            </div>
-
-            {/* Nighttime */}
-            <div style={{ textAlign: 'center' }}>
-              <Image
-                src="https://images.unsplash.com/photo-1519098901909-b1553a1190af?w=500&h=300&fit=crop"
-                alt="Nighttime Performance"
-                style={{
-                  width: '100%',
-                  height: 'clamp(200px, 25vw, 280px)',
-                  objectFit: 'cover',
-                  borderRadius: '12px',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                  marginBottom: '20px',
-                }}
-              />
-              <h3
-                style={{
-                  fontSize: 'clamp(1.2rem, 3vw, 1.5rem)',
-                  fontWeight: '600',
-                  color: '#1e293b',
-                  marginBottom: '12px',
-                }}
-              >
-                Night Vision Plus
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  fontSize: 'clamp(0.85rem, 2vw, 1rem)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Full color vision in near-darkness with smart light supplement technology.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Technical Specifications - Compact */}
-      <div
-        style={{
-          backgroundColor: '#1e293b',
-          color: 'white',
-          padding: 'clamp(40px, 8vw, 60px) 0',
-        }}
-      >
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(15px, 3vw, 20px)' }}>
-          <h2
-            style={{
-              fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
-              fontWeight: '700',
-              textAlign: 'center',
-              marginBottom: 'clamp(30px, 6vw, 50px)',
-            }}
-          >
-            Technical Specifications
-          </h2>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', // Smaller min width
-              gap: 'clamp(20px, 4vw, 30px)',
-              textAlign: 'center',
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', // Smaller numbers
-                  fontWeight: '800',
-                  color: '#60a5fa',
-                  marginBottom: '8px',
-                }}
-              >
-                0.0005 Lux
-              </div>
-              <p
-                style={{ color: 'rgba(255,255,255,0.8)', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}
-              >
-                Min Illumination
-              </p>
-            </div>
-
-            <div>
-              <div
-                style={{
-                  fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)',
-                  fontWeight: '800',
-                  color: '#34d399',
-                  marginBottom: '8px',
-                }}
-              >
-                F1.0
-              </div>
-              <p
-                style={{ color: 'rgba(255,255,255,0.8)', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}
-              >
-                Large Aperture
-              </p>
-            </div>
-
-            <div>
-              <div
-                style={{
-                  fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)',
-                  fontWeight: '800',
-                  color: '#fbbf24',
-                  marginBottom: '8px',
-                }}
-              >
-                4K
-              </div>
-              <p
-                style={{ color: 'rgba(255,255,255,0.8)', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}
-              >
-                Ultra HD
-              </p>
-            </div>
-
-            <div>
-              <div
-                style={{
-                  fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)',
-                  fontWeight: '800',
-                  color: '#f472b6',
-                  marginBottom: '8px',
-                }}
-              >
-                120dB
-              </div>
-              <p
-                style={{ color: 'rgba(255,255,255,0.8)', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}
-              >
-                True WDR
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Get Free Consultation Section */}
-      <div
-        style={{
-          background: 'linear-gradient(135deg, #185adb 0%, #39a2fd 100%)',
-          padding: '64px 0',
-          color: 'white',
-          textAlign: 'center',
-          marginTop: '60px',
-        }}
+      <motion.section
+        className="py-20 bg-white bg-opacity-95"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
       >
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <h2
-              style={{
-                fontSize: '2.2rem',
-                fontWeight: 'bold',
-                marginBottom: '28px',
-              }}
+          <div className="max-w-5xl mx-auto">
+            {/* Header */}
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Get Free Consultation
-            </h2>
-            <p
-              style={{
-                fontSize: '1.15rem',
-                marginBottom: '36px',
-                opacity: 0.95,
-              }}
-            >
-              Ready to see the difference with Full Color? Our experts will help you choose the best
-              solution for your needs.
-            </p>
-            <a
-              href="/contact"
-              className="inline-block bg-[#185adb] hover:bg-[#39a2fd] text-white font-bold px-10 py-4 rounded-full text-lg shadow transition-colors duration-200"
-              style={{
-                textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(24,90,219,0.10)',
-                display: 'inline-block',
-              }}
-            >
-              Get Free Consultation
-            </a>
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                WizColor <span className="text-red-500">Technology</span>
+              </h2>
+              <p className="text-xl text-gray-600 mx-auto">
+                Experience how WizColor Technology revolutionizes intelligent video surveillance
+              </p>
+
+              {/* Video Wrapper */}
+              <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/kMTVBhFPxVs?autoplay=1&rel=0&modestbranding=1"
+                  title="WizColor Technology Demo"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+
+            {/* Video Description */}
+            <div className="mt-12 text-center">
+              <motion.div
+                className="grid md:grid-cols-3 gap-8 text-gray-900"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                {[
+                  {
+                    title: 'AI-Powered Analytics',
+                    description:
+                      'Advanced deep learning algorithms for intelligent video analysis and monitoring',
+                  },
+                  {
+                    title: 'Neural Networks',
+                    description:
+                      'Sophisticated neural networks that continuously learn and adapt to scenarios',
+                  },
+                  {
+                    title: 'Enterprise Solutions',
+                    description:
+                      'Scalable AI technology for smart cities, retail, and industrial applications',
+                  },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
+                  >
+                    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                    <p className="text-gray-600 text-sm">{item.description}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.section>
+
+      {/* Key Features Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="py-24 bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Key <span className="text-red-600">Features</span>
+            </h2>
+            <p className="text-xl text-gray-600 mb-4">
+              Advanced AI capabilities that revolutionize video surveillance
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={Brain}
+              iconBg="bg-purple-50"
+              iconColor="text-purple-600"
+              title="Behavior Analysis"
+              description="Advanced AI detects unusual patterns and behaviors with 99.5% accuracy using deep learning algorithms."
+            />
+            <FeatureCard
+              icon={AlertTriangle}
+              iconBg="bg-red-50"
+              iconColor="text-red-600"
+              title="Real-time Alerts"
+              description="Instant notifications for security events with smart filtering to reduce false alarms by up to 95%."
+            />
+            <FeatureCard
+              icon={BarChart3}
+              iconBg="bg-cyan-50"
+              iconColor="text-cyan-600"
+              title="Smart Insights"
+              description="Comprehensive analytics dashboard with heat maps, trend analysis, and behavioral pattern recognition."
+            />
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Analytics Capabilities */}
+      <motion.section
+        className="py-20 bg-white"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Analytics <span className="text-red-500">Capabilities</span>
+              </h2>
+              <p className="text-xl text-gray-600 mx-auto">
+                Comprehensive analysis for people and vehicles with precision tracking
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* People Analytics */}
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-white rounded-xl overflow-hidden shadow-lg mb-6"
+                >
+                  <Image
+                    src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
+                    alt="People Analytics"
+                    width={500}
+                    height={300}
+                    className="w-full h-64 object-cover"
+                    unoptimized={true}
+                    loader={({ src }) => src}
+                  />
+                </motion.div>
+                <div className="flex items-center justify-center mb-4">
+                  <div className="bg-blue-50 p-3 rounded-full mr-4">
+                    <Users className="text-blue-600" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">People Analytics</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Track movement patterns, count visitors, analyze crowd behavior, and detect
+                  loitering with advanced human recognition algorithms.
+                </p>
+              </motion.div>
+
+              {/* Vehicle Analytics */}
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-white rounded-xl overflow-hidden shadow-lg mb-6"
+                >
+                  <Image
+                    src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500&h=300&fit=crop"
+                    alt="Vehicle Analytics"
+                    width={500}
+                    height={300}
+                    className="w-full h-64 object-cover"
+                    unoptimized={true}
+                    loader={({ src }) => src}
+                  />
+                </motion.div>
+                <div className="flex items-center justify-center mb-4">
+                  <div className="bg-green-50 p-3 rounded-full mr-4">
+                    <Car className="text-green-600" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">Vehicle Analytics</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  License plate recognition, traffic flow analysis, parking management, and vehicle
+                  classification with intelligent tracking capabilities.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Performance Metrics */}
+      <motion.section
+        className="py-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">
+                Performance <span className="text-gray-600">Metrics</span>
+              </h2>
+              <p className="text-xl text-gray-600 mb-16">
+                Industry-leading performance benchmarks that set new standards
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-4 gap-8">
+              {[
+                { value: '99.5%', label: 'Accuracy Rate', color: 'text-gray-800' },
+                { value: '<100ms', label: 'Response Time', color: 'text-gray-800' },
+                { value: '50+', label: 'AI Algorithms', color: 'text-gray-800' },
+                { value: '1000+', label: 'Cameras Support', color: 'text-gray-800' },
+              ].map((metric, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="text-center"
+                >
+                  <div className={`text-4xl font-bold ${metric.color} mb-2`}>{metric.value}</div>
+                  <p className="text-gray-600">{metric.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.section>
     </div>
   )
 }

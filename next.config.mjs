@@ -55,21 +55,12 @@ const nextConfig = {
     ]
   },
   images: {
+    domains: ['images.unsplash.com'], // Add other domains as needed
+    unoptimized: true,
     remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL /* 'https://dahua.lovosis.com' */].map((item) => {
-        const url = new URL(item)
-
-        return {
-          hostname: url.hostname,
-          protocol: url.protocol.replace(':', ''),
-        }
-      }),
-      // Add explicit domain for dahua.lovosis.com
       {
         protocol: 'https',
-        hostname: 'dahua.lovosis.com',
-        port: '',
-        pathname: '/**',
+        hostname: '**',
       },
     ],
   },
