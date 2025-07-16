@@ -154,7 +154,7 @@ const GovernmentSolutionPage = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-base md:text-lg text-gray-100 max-w-3xl leading-snug"
             >
-              Protect city, borders, and critical infrastructure with AI-powered surveillance,
+              Protect cities, borders, and critical infrastructure with AI-powered surveillance,
               real-time alerts, and centralized management. Dahua’s advanced solutions ensure
               safety, efficiency, and seamless operations for government environments.
             </motion.p>
