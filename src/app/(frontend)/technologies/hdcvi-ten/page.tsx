@@ -1,7 +1,36 @@
 'use client'
 
 import React, { useState } from 'react'
-import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { Camera, Zap, Shield, Cpu, Video, Signal } from 'lucide-react'
+
+function FeatureCard({
+  icon: Icon,
+  iconBg,
+  iconColor,
+  title,
+  description,
+}: {
+  icon: React.ElementType
+  iconBg: string
+  iconColor: string
+  title: string
+  description: string
+}) {
+  return (
+    <motion.div
+      whileHover={{ y: -10, scale: 1.05 }}
+      className="bg-white rounded-xl p-8 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300"
+    >
+      <div className={`${iconBg} w-16 h-16 rounded-full flex items-center justify-center mb-6`}>
+        <Icon size={32} className={iconColor} />
+      </div>
+      <h3 className="text-xl font-bold text-gray-900 mb-4">{title}</h3>
+      <p className="text-gray-600 leading-relaxed">{description}</p>
+    </motion.div>
+  )
+}
+
 export default function HDCVITenPage() {
   const [isPlaying, setIsPlaying] = useState(false)
 
@@ -9,1057 +38,300 @@ export default function HDCVITenPage() {
     setIsPlaying(true)
   }
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  }
+
   return (
-    <div
-      style={{
-        paddingTop: '80px',
-        backgroundColor: '#f8f9fa',
-        paddingLeft: 'clamp(8px, 4vw, 24px)',
-        paddingRight: 'clamp(8px, 4vw, 24px)',
-        boxSizing: 'border-box',
-      }}
-    >
+    <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div
-        style={{
-          backgroundImage: 'url("/images/hdcvi.webp")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          color: 'white',
-          padding: 'clamp(40px, 8vw, 120px) 0 clamp(50px, 10vw, 140px) 0',
-          textAlign: 'center',
-          position: 'relative',
-          minHeight: 'clamp(350px, 60vh, 700px)',
-          display: 'flex',
-          alignItems: 'center',
-        }}
+      <motion.section
+        className="relative w-full h-screen flex items-center justify-start"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        <div
-          style={{
-            maxWidth: '1200px',
-            margin: '0 auto',
-            width: '100%',
-            padding: '0 clamp(8px, 4vw, 24px)',
-            position: 'relative',
-            zIndex: 2,
-          }}
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="w-full h-full"
         >
-          <h1
-            style={{
-              fontSize: 'clamp(2rem, 6vw, 4rem)',
-              fontWeight: '800',
-              marginBottom: 'clamp(18px, 4vw, 30px)',
-              color: 'white',
-              textShadow: '3px 3px 6px rgba(0,0,0,0.8)',
-              letterSpacing: '-0.02em',
-              lineHeight: '1.1',
-            }}
-          >
-            {/* Add your title here */}
-          </h1>
-          <p
-            style={{
-              fontSize: 'clamp(1rem, 2.5vw, 1.3rem)',
-              maxWidth: '850px',
-              margin: '0 auto clamp(25px, 5vw, 40px) auto',
-              lineHeight: '1.7',
-              color: 'rgba(255,255,255,0.95)',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-            }}
-          >
-            {/* Add your subtitle here */}
-          </p>
+          <img
+            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop"
+            alt="HDCVI 10.0 Technology"
+            className="object-cover w-full h-full absolute inset-0"
+            style={{ zIndex: 0 }}
+          />
+          <div className="absolute inset-0  bg-opacity-40"></div>
+        </motion.div>
+
+        <div className="absolute inset-0 flex items-center">
+          <div className="max-w-4xl px-10 space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-6xl font-bold text-white leading-tight"
+            >
+              <span className="block">HDCVI 10.0</span>
+              <span className="block text-red-500">AI Over-Coax Era</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-lg md:text-xl text-gray-200 max-w-3xl leading-relaxed"
+            >
+              HDCVI 10.0 represents the pinnacle of high-definition composite video interface
+              technology with integrated AI capabilities. This breakthrough innovation blazes a
+              trail to the over-coax AI era, delivering exceptional 4K resolution with intelligent
+              analytics over traditional coaxial cables.
+            </motion.p>
+          </div>
         </div>
-      </div>
+      </motion.section>
 
       {/* Overview Section */}
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: 'clamp(40px, 8vw, 100px) 0',
-          position: 'relative',
-          marginTop: '-1px',
-        }}
+      <motion.section
+        className="py-24 bg-white"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
       >
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundImage:
-              'radial-gradient(circle at 25% 25%, rgba(245, 158, 11, 0.05) 2px, transparent 2px)',
-            backgroundSize: '60px 60px',
-            opacity: 0.6,
-          }}
-        />
-        <div
-          style={{
-            maxWidth: '1400px',
-            margin: '0 auto',
-            padding: '0 clamp(8px, 4vw, 24px)',
-            position: 'relative',
-            zIndex: 2,
-          }}
-        >
-          <div
-            style={{
-              textAlign: 'center',
-              marginBottom: 'clamp(40px, 8vw, 80px)',
-            }}
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2
-              style={{
-                fontSize: 'clamp(1.5rem, 5vw, 3.5rem)',
-                fontWeight: '800',
-                color: '#1e293b',
-                marginBottom: 'clamp(18px, 4vw, 30px)',
-                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                display: 'inline-block',
-                padding: '0 10px',
-                lineHeight: '1.1',
-              }}
-            >
-              Technology Overview
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Technology <span className="text-red-500">Overview</span>
             </h2>
-            <div
-              style={{
-                width: '100px',
-                height: '4px',
-                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                margin: '0 auto',
-                borderRadius: '2px',
-              }}
-            />
-          </div>
+            <div className="w-24 h-1 bg-gradient-to-r from-red-400 to-red-600 mx-auto mb-6"></div>
+            <p className="text-xl text-gray-600  mx-auto">
+              Next-generation HDCVI technology that revolutionizes video surveillance
+            </p>
+          </motion.div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              gap: 'clamp(30px, 6vw, 80px)',
-              alignItems: 'center',
-            }}
-          >
-            {/* Responsive: 2 columns on large screens */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr',
-                gap: 'clamp(20px, 4vw, 40px)',
-              }}
+          <div className="grid lg:grid-cols-2 gap-16 items-center p-20">
+            {/* Left Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <div>
-                <h3
-                  style={{
-                    fontSize: 'clamp(1.2rem, 3vw, 2.2rem)',
-                    fontWeight: '700',
-                    color: '#1e293b',
-                    marginBottom: 'clamp(12px, 2vw, 25px)',
-                    lineHeight: '1.3',
-                  }}
-                >
-                  Next-Generation HDCVI Technology
-                </h3>
-                <p
-                  style={{
-                    fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-                    lineHeight: '1.8',
-                    color: '#64748b',
-                    marginBottom: 'clamp(12px, 2vw, 25px)',
-                  }}
-                >
-                  HDCVI 10.0 represents the pinnacle of high-definition composite video interface
-                  technology with integrated AI capabilities. This breakthrough innovation blazes a
-                  trail to the over-coax AI era, delivering exceptional 4K resolution with
-                  intelligent analytics over traditional coaxial cables.
-                </p>
-                <p
-                  style={{
-                    fontSize: 'clamp(0.95rem, 1.8vw, 1.1rem)',
-                    lineHeight: '1.7',
-                    color: '#64748b',
-                    marginBottom: 'clamp(18px, 3vw, 35px)',
-                  }}
-                >
-                  With advanced AI processors, intelligent compression algorithms, and over-coax
-                  data transmission, HDCVI 10.0 ensures reliable performance over long distances
-                  while providing real-time AI analytics for enhanced security applications.
-                </p>
-                {/* Key Benefits */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr',
-                    gap: 'clamp(10px, 2vw, 20px)',
-                  }}
-                >
-                  {/* 2 columns on medium+ screens */}
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '1fr 1fr',
-                      gap: 'clamp(10px, 2vw, 20px)',
-                    }}
+              <h3 className="text-3xl font-bold text-gray-900 mb-6">
+                Next-Generation HDCVI Technology
+              </h3>
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                HDCVI 10.0 represents the pinnacle of high-definition composite video interface
+                technology with integrated AI capabilities. This breakthrough innovation blazes a
+                trail to the over-coax AI era, delivering exceptional 4K resolution with intelligent
+                analytics over traditional coaxial cables.
+              </p>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                With advanced AI processors, intelligent compression algorithms, and over-coax data
+                transmission, HDCVI 10.0 ensures reliable performance over long distances while
+                providing real-time AI analytics for enhanced security applications.
+              </p>
+
+              {/* Key Benefits Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { title: '4K AI Resolution', desc: 'Ultra-high definition with AI analytics' },
+                  { title: 'Over-Coax AI', desc: 'AI data transmission over coax' },
+                  { title: 'Cost Effective', desc: 'Uses existing coaxial infrastructure' },
+                  { title: 'Easy Integration', desc: 'Seamless upgrade with AI features' },
+                ].map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                    className="bg-amber-50 p-4 rounded-lg border border-red-200"
                   >
-                    <div
-                      style={{
-                        backgroundColor: '#fffbeb',
-                        padding: 'clamp(12px, 2vw, 20px)',
-                        borderRadius: '12px',
-                        border: '1px solid #fed7aa',
-                      }}
-                    >
-                      <h4
-                        style={{
-                          fontSize: 'clamp(1rem, 2vw, 1.1rem)',
-                          fontWeight: '600',
-                          color: '#f59e0b',
-                          marginBottom: '8px',
-                        }}
-                      >
-                        4K AI Resolution
-                      </h4>
-                      <p
-                        style={{
-                          fontSize: 'clamp(0.85rem, 1.5vw, 0.95rem)',
-                          color: '#64748b',
-                          lineHeight: '1.5',
-                        }}
-                      >
-                        Ultra-high definition with AI analytics
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        backgroundColor: '#fffbeb',
-                        padding: 'clamp(12px, 2vw, 20px)',
-                        borderRadius: '12px',
-                        border: '1px solid #fed7aa',
-                      }}
-                    >
-                      <h4
-                        style={{
-                          fontSize: 'clamp(1rem, 2vw, 1.1rem)',
-                          fontWeight: '600',
-                          color: '#f59e0b',
-                          marginBottom: '8px',
-                        }}
-                      >
-                        Over-Coax AI
-                      </h4>
-                      <p
-                        style={{
-                          fontSize: 'clamp(0.85rem, 1.5vw, 0.95rem)',
-                          color: '#64748b',
-                          lineHeight: '1.5',
-                        }}
-                      >
-                        AI data transmission over coax
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        backgroundColor: '#fffbeb',
-                        padding: 'clamp(12px, 2vw, 20px)',
-                        borderRadius: '12px',
-                        border: '1px solid #fed7aa',
-                      }}
-                    >
-                      <h4
-                        style={{
-                          fontSize: 'clamp(1rem, 2vw, 1.1rem)',
-                          fontWeight: '600',
-                          color: '#f59e0b',
-                          marginBottom: '8px',
-                        }}
-                      >
-                        Cost Effective
-                      </h4>
-                      <p
-                        style={{
-                          fontSize: 'clamp(0.85rem, 1.5vw, 0.95rem)',
-                          color: '#64748b',
-                          lineHeight: '1.5',
-                        }}
-                      >
-                        Uses existing coaxial infrastructure
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        backgroundColor: '#fffbeb',
-                        padding: 'clamp(12px, 2vw, 20px)',
-                        borderRadius: '12px',
-                        border: '1px solid #fed7aa',
-                      }}
-                    >
-                      <h4
-                        style={{
-                          fontSize: 'clamp(1rem, 2vw, 1.1rem)',
-                          fontWeight: '600',
-                          color: '#f59e0b',
-                          marginBottom: '8px',
-                        }}
-                      >
-                        Easy Integration
-                      </h4>
-                      <p
-                        style={{
-                          fontSize: 'clamp(0.85rem, 1.5vw, 0.95rem)',
-                          color: '#64748b',
-                          lineHeight: '1.5',
-                        }}
-                      >
-                        Seamless upgrade with AI features
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                    <h4 className="font-semibold text-red-800 mb-2">{benefit.title}</h4>
+                    <p className="text-sm text-gray-600">{benefit.desc}</p>
+                  </motion.div>
+                ))}
               </div>
-            </div>
-            {/* Right Image */}
-            <div
-              style={{
-                position: 'relative',
-                marginTop: 'clamp(30px, 6vw, 0)',
-              }}
+            </motion.div>
+
+            {/* Right Image - Full Height */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="relative h-full"
             >
-              <Image
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=500&fit=crop"
-                alt="HDCVI 10.0 Technology"
-                style={{
-                  width: '100%',
-                  maxWidth: '500px',
-                  height: 'clamp(220px, 40vw, 400px)',
-                  objectFit: 'cover',
-                  borderRadius: 'clamp(10px, 3vw, 20px)',
-                  boxShadow: '0 15px 40px rgba(0,0,0,0.15)',
-                  margin: '0 auto',
-                }}
-              />
-              {/* Floating Stats */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '20px',
-                  right: '20px',
-                  backgroundColor: 'rgba(255,255,255,0.95)',
-                  padding: '10px 16px',
-                  borderRadius: '10px',
-                  boxShadow: '0 6px 18px rgba(0,0,0,0.1)',
-                  backdropFilter: 'blur(8px)',
-                  fontSize: 'clamp(1rem, 3vw, 1.3rem)',
-                }}
-              >
-                <div
-                  style={{
-                    fontWeight: '800',
-                    color: '#f59e0b',
-                    lineHeight: '1',
-                  }}
-                >
-                  4K
+              <motion.div className="relative overflow-hidden rounded-2xl shadow-2xl h-full">
+                <img
+                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=500&fit=crop"
+                  alt="HDCVI 10.0 Technology"
+                  className="w-full h-full object-cover"
+                />
+
+                {/* Floating Stats */}
+                <div className="absolute top-4 right-4 bg-white bg-opacity-90 backdrop-blur-sm p-3 rounded-lg shadow-lg">
+                  <div className="text-2xl font-bold text-red-500">4K</div>
+                  <div className="text-sm text-gray-600">AI Resolution</div>
                 </div>
-                <div
-                  style={{
-                    fontSize: '0.9em',
-                    color: '#64748b',
-                    fontWeight: '500',
-                  }}
-                >
-                  AI Resolution
+
+                <div className="absolute bottom-4 left-4 bg-white bg-opacity-90 backdrop-blur-sm p-3 rounded-lg shadow-lg">
+                  <div className="text-2xl font-bold text-red-500">AI</div>
+                  <div className="text-sm text-gray-600">Over-Coax</div>
                 </div>
-              </div>
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '20px',
-                  left: '20px',
-                  backgroundColor: 'rgba(255,255,255,0.95)',
-                  padding: '10px 16px',
-                  borderRadius: '10px',
-                  boxShadow: '0 6px 18px rgba(0,0,0,0.1)',
-                  backdropFilter: 'blur(8px)',
-                  fontSize: 'clamp(1rem, 3vw, 1.3rem)',
-                }}
-              >
-                <div
-                  style={{
-                    fontWeight: '800',
-                    color: '#f59e0b',
-                    lineHeight: '1',
-                  }}
-                >
-                  AI
-                </div>
-                <div
-                  style={{
-                    fontSize: '0.9em',
-                    color: '#64748b',
-                    fontWeight: '500',
-                  }}
-                >
-                  Over-Coax
-                </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.section>
 
       {/* Video Section */}
-      <div
-        style={{
-          backgroundColor: '#f8fafc',
-          padding: 'clamp(40px, 8vw, 100px) 0',
-          marginTop: '-1px',
-        }}
+      <motion.section
+        className="py-20 bg-gray-100"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
       >
-        <div
-          style={{
-            maxWidth: '1200px',
-            margin: '0 auto',
-            padding: '0 clamp(8px, 4vw, 24px)',
-          }}
-        >
-          <div
-            style={{
-              textAlign: 'center',
-              marginBottom: 'clamp(30px, 6vw, 60px)',
-            }}
+        <div className="max-w-5xl mx-auto px-4">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2
-              style={{
-                fontSize: 'clamp(1.5rem, 5vw, 3.5rem)',
-                fontWeight: '800',
-                color: '#1e293b',
-                marginBottom: 'clamp(12px, 2vw, 20px)',
-              }}
-            >
-              See HDCVI 10.0 in Action
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              See HDCVI 10.0 in <span className="text-red-500">Action</span>
             </h2>
-            <p
-              style={{
-                fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-                color: '#64748b',
-                maxWidth: '600px',
-                margin: '0 auto',
-              }}
-            >
+            <p className="text-xl text-gray-600  mx-auto">
               Experience the revolutionary capabilities of HDCVI 10.0 AI technology
             </p>
-          </div>
-          {/* Video Container */}
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              paddingBottom: '56.25%',
-              height: 0,
-              overflow: 'hidden',
-              borderRadius: 'clamp(10px, 3vw, 20px)',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
-              backgroundColor: '#000',
-              margin: '0',
-            }}
+          </motion.div>
+
+          {/* Image Container */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative overflow-hidden rounded-2xl shadow-2xl"
+            style={{ paddingBottom: '56.25%' }}
           >
-            {!isPlaying ? (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  backgroundImage:
-                    'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&h=675&fit=crop")',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  borderRadius: 'clamp(10px, 3vw, 20px)',
-                }}
-                onClick={handlePlayVideo}
-              >
-                {/* Play Button */}
-                <div
-                  style={{
-                    width: 'clamp(60px, 18vw, 120px)',
-                    height: 'clamp(60px, 18vw, 120px)',
-                    backgroundColor: 'rgba(245, 158, 11, 0.9)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 8px 25px rgba(245, 158, 11, 0.4)',
-                    border: '3px solid rgba(255,255,255,0.8)',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 0,
-                      height: 0,
-                      borderLeft: 'clamp(18px, 7vw, 35px) solid white',
-                      borderTop: 'clamp(12px, 4vw, 25px) solid transparent',
-                      borderBottom: 'clamp(12px, 4vw, 25px) solid transparent',
-                      marginLeft: 'clamp(4px, 2vw, 10px)',
-                    }}
-                  />
-                </div>
-                {/* Video Title Overlay */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: 'clamp(12px, 4vw, 40px)',
-                    left: 'clamp(12px, 4vw, 40px)',
-                    color: 'white',
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: 'clamp(1.1rem, 4vw, 2.2rem)',
-                      fontWeight: '700',
-                      marginBottom: 'clamp(6px, 2vw, 12px)',
-                      textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-                    }}
-                  >
-                    HDCVI 10.0 AI Demo
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: 'clamp(0.9rem, 2vw, 1.3rem)',
-                      opacity: 0.9,
-                      textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
-                    }}
-                  >
-                    Over-coax AI Era technology
-                  </p>
-                </div>
+            <div
+              className="absolute inset-0 bg-black bg-opacity-40"
+              style={{
+                backgroundImage:
+                  'url("https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&h=675&fit=crop")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              <div className="absolute bottom-8 left-8 text-white">
+                <h3 className="text-2xl font-bold mb-2">HDCVI 10.0 AI Demo</h3>
+                <p className="text-lg opacity-90">Over-coax AI Era technology</p>
               </div>
-            ) : (
-              <video
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: 'clamp(10px, 3vw, 20px)',
-                  objectFit: 'cover',
-                }}
-                controls
-                autoPlay
-                src="https://www.dahuasecurity.com/asset/upload/uploads/media/20220407/.mp4"
-              >
-                Your browser does not support the video tag.
-              </video>
-            )}
-          </div>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.section>
 
       {/* Technical Specifications */}
-      <div
-        style={{
-          backgroundColor: '#1e293b',
-          color: 'white',
-          padding: 'clamp(40px, 8vw, 100px) 0',
-          marginTop: '-1px',
-        }}
+
+      {/* Key Features Section */}
+      <motion.section
+        className="py-12 bg-gradient-to-b from-white to-gray-50"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
       >
-        <div
-          style={{
-            maxWidth: '1400px',
-            margin: '0 auto',
-            padding: '0 clamp(8px, 4vw, 24px)',
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 'clamp(1.5rem, 5vw, 3.5rem)',
-              fontWeight: '800',
-              textAlign: 'center',
-              marginBottom: 'clamp(30px, 6vw, 80px)',
-            }}
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
           >
-            Technical Specifications
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: 'clamp(18px, 4vw, 40px)',
-            }}
-          >
-            {/* Spec Card 1 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '20px',
-                padding: '40px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '3rem',
-                  fontWeight: '800',
-                  color: '#f59e0b',
-                  marginBottom: '15px',
-                }}
-              >
-                4K
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                }}
-              >
-                Ultra HD AI Resolution
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Crystal clear 3840×2160 resolution with integrated AI analytics.
-              </p>
-            </div>
-
-            {/* Spec Card 2 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '20px',
-                padding: '40px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '3rem',
-                  fontWeight: '800',
-                  color: '#f59e0b',
-                  marginBottom: '15px',
-                }}
-              >
-                AI
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                }}
-              >
-                Over-Coax AI Data
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                AI analytics data transmitted over existing coaxial cables.
-              </p>
-            </div>
-
-            {/* Spec Card 3 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '20px',
-                padding: '40px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '3rem',
-                  fontWeight: '800',
-                  color: '#f59e0b',
-                  marginBottom: '15px',
-                }}
-              >
-                30fps
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                }}
-              >
-                Real-time Processing
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Smooth 30fps video with real-time AI analytics processing.
-              </p>
-            </div>
-
-            {/* Spec Card 4 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '20px',
-                padding: '40px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '3rem',
-                  fontWeight: '800',
-                  color: '#f59e0b',
-                  marginBottom: '15px',
-                }}
-              >
-                RG59
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                }}
-              >
-                Cable Compatibility
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Compatible with RG59 and RG6 coaxial infrastructure.
-              </p>
-            </div>
-
-            {/* Spec Card 5 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '20px',
-                padding: '40px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '3rem',
-                  fontWeight: '800',
-                  color: '#f59e0b',
-                  marginBottom: '15px',
-                }}
-              >
-                PoC
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                }}
-              >
-                Power over Coax
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Single cable solution for power, video, and AI data.
-              </p>
-            </div>
-
-            {/* Spec Card 6 */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                borderRadius: '20px',
-                padding: '40px',
-                textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '3rem',
-                  fontWeight: '800',
-                  color: '#f59e0b',
-                  marginBottom: '15px',
-                }}
-              >
-                IP67
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  marginBottom: '15px',
-                }}
-              >
-                Weather Resistance
-              </h3>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.8)',
-                  lineHeight: '1.6',
-                }}
-              >
-                Robust outdoor performance with IP67 weatherproof rating.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Advantages Section */}
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: 'clamp(40px, 8vw, 100px) 0',
-          marginTop: '-1px',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '1400px',
-            margin: '0 auto',
-            padding: '0 clamp(8px, 4vw, 24px)',
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 'clamp(1.5rem, 5vw, 3.5rem)',
-              fontWeight: '800',
-              color: '#1e293b',
-              textAlign: 'center',
-              marginBottom: 'clamp(30px, 6vw, 80px)',
-            }}
-          >
-            Why Choose HDCVI 10.0?
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: 'clamp(18px, 4vw, 50px)',
-            }}
-          >
-            {/* Advantage 1 */}
-            <div
-              style={{
-                textAlign: 'center',
-                padding: '30px',
-              }}
-            >
-              <div
-                style={{
-                  width: '100px',
-                  height: '100px',
-                  backgroundColor: '#f59e0b',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 30px auto',
-                  fontSize: '2.5rem',
-                  boxShadow: '0 15px 40px rgba(245, 158, 11, 0.3)',
-                }}
-              >
-                🚀
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.8rem',
-                  fontWeight: '700',
-                  color: '#1e293b',
-                  marginBottom: '20px',
-                }}
-              >
-                AI Over-Coax Era
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  fontSize: '1.1rem',
-                  lineHeight: '1.7',
-                }}
-              >
-                Revolutionary technology that blazes a trail to the over-coax AI era, delivering
-                intelligent analytics over existing infrastructure.
-              </p>
-            </div>
-
-            {/* Advantage 2 */}
-            <div
-              style={{
-                textAlign: 'center',
-                padding: '30px',
-              }}
-            >
-              <div
-                style={{
-                  width: '100px',
-                  height: '100px',
-                  backgroundColor: '#f59e0b',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 30px auto',
-                  fontSize: '2.5rem',
-                  boxShadow: '0 15px 40px rgba(245, 158, 11, 0.3)',
-                }}
-              >
-                💡
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.8rem',
-                  fontWeight: '700',
-                  color: '#1e293b',
-                  marginBottom: '20px',
-                }}
-              >
-                Smart Installation
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  fontSize: '1.1rem',
-                  lineHeight: '1.7',
-                }}
-              >
-                Easy upgrade with AI capabilities while maintaining existing coaxial infrastructure
-                and reducing installation complexity.
-              </p>
-            </div>
-
-            {/* Advantage 3 */}
-            <div
-              style={{
-                textAlign: 'center',
-                padding: '30px',
-              }}
-            >
-              <div
-                style={{
-                  width: '100px',
-                  height: '100px',
-                  backgroundColor: '#f59e0b',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 30px auto',
-                  fontSize: '2.5rem',
-                  boxShadow: '0 15px 40px rgba(245, 158, 11, 0.3)',
-                }}
-              >
-                ⚡
-              </div>
-              <h3
-                style={{
-                  fontSize: '1.8rem',
-                  fontWeight: '700',
-                  color: '#1e293b',
-                  marginBottom: '20px',
-                }}
-              >
-                Enhanced Intelligence
-              </h3>
-              <p
-                style={{
-                  color: '#64748b',
-                  fontSize: '1.1rem',
-                  lineHeight: '1.7',
-                }}
-              >
-                Advanced AI processing delivers superior performance with intelligent analytics and
-                real-time decision making.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Consultation Section */}
-      <div
-        style={{
-          background: 'linear-gradient(135deg, #185adb 0%, #39a2fd 100%)',
-          padding: '64px 0',
-          color: 'white',
-          textAlign: 'center',
-          marginTop: '60px',
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <h2
-              style={{
-                fontSize: '2.2rem',
-                fontWeight: 'bold',
-                marginBottom: '28px',
-              }}
-            >
-              Get Free Consultation
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Why Choose <span className="text-red-500">HDCVI 10.0?</span>
             </h2>
-            <p
-              style={{
-                fontSize: '1.15rem',
-                marginBottom: '36px',
-                opacity: 0.95,
-              }}
-            >
-              Ready to upgrade to HDCVI 10.0? Our experts will help you choose the best solution for
-              your needs.
+            <p className="text-xl text-gray-600 mb-4">
+              Revolutionary advantages that transform video surveillance
             </p>
-            <a
-              href="/contact"
-              className="inline-block bg-[#185adb] hover:bg-[#39a2fd] text-white font-bold px-10 py-4 rounded-full text-lg shadow transition-colors duration-200"
-              style={{
-                textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(24,90,219,0.10)',
-                display: 'inline-block',
-              }}
-            >
-              Get Free Consultation
-            </a>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={Zap}
+              iconBg="bg-red-50"
+              iconColor="text-red-600"
+              title="AI Over-Coax Era"
+              description="Revolutionary technology that blazes a trail to the over-coax AI era, delivering intelligent analytics over existing infrastructure."
+            />
+            <FeatureCard
+              icon={Shield}
+              iconBg="bg-red-50"
+              iconColor="text-red-600"
+              title="Smart Installation"
+              description="Easy upgrade with AI capabilities while maintaining existing coaxial infrastructure and reducing installation complexity."
+            />
+            <FeatureCard
+              icon={Cpu}
+              iconBg="bg-red-50"
+              iconColor="text-red-600"
+              title="Enhanced Intelligence"
+              description="Advanced AI processing delivers superior performance with intelligent analytics and real-time decision making."
+            />
           </div>
         </div>
-      </div>
+      </motion.section>
+
+      <motion.div
+        className="mt-16 bg-white p-8 shadow-lg"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
+        <h3 className="text-2xl font-bold text-center text-gray-900 mb-8">
+          Technical Specifications
+        </h3>
+        <motion.div
+          className="grid md:grid-cols-4 gap-8 text-gray-900"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          {[
+            { value: '4K', label: 'Resolution' },
+            { value: '<1ms', label: 'Latency' },
+            { value: '500m', label: 'Transmission' },
+            { value: '24/7', label: 'Operation' },
+          ].map((spec, index) => (
+            <div className="text-center" key={index}>
+              <div className="text-3xl font-bold text-gray-900 mb-2">{spec.value}</div>
+              <p className="text-gray-700">{spec.label}</p>
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
     </div>
   )
 }

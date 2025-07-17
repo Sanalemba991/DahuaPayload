@@ -91,7 +91,7 @@ export default function AutoTrackingPage() {
 
       {/* Video Section */}
       <motion.section
-        className="py-20 bg-white bg-opacity-95"
+        className="mt-16 bg-white  p-8 shadow-lg"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -322,6 +322,7 @@ export default function AutoTrackingPage() {
       >
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
+            {/* Section Header - Changed to grey */}
             <motion.div
               className="text-center mb-16"
               initial={{ opacity: 0, y: 20 }}
@@ -329,86 +330,122 @@ export default function AutoTrackingPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-4xl font-bold mb-4">
-                Advanced <span className="text-red-500">Capabilities</span>
+              <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                Advanced <span className="text-gray-700">Capabilities</span>
               </h2>
-              <p className="text-xl text-gray-300">
+              <p className="text-xl text-gray-600">
                 Cutting-edge features for professional surveillance applications
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Capabilities Grid - Changed to black/grey */}
+            <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  title: 'Multi-Target Support',
+                  title: 'Behavior Analysis',
                   description:
-                    'Simultaneously track multiple targets with priority-based switching and intelligent target management.',
-                  color: 'text-emerald-400',
+                    'Advanced AI detects unusual patterns and behaviors with 99.5% accuracy using deep learning algorithms.',
+                  icon: (
+                    <svg
+                      className="w-10 h-10 mx-auto mb-4 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                      />
+                    </svg>
+                  ),
                 },
                 {
-                  title: 'Predictive Analytics',
+                  title: 'Real-time Alerts',
                   description:
-                    'Advanced algorithms predict target movement patterns for smoother tracking and reduced latency.',
-                  color: 'text-blue-400',
+                    'Instant notifications for security events with smart filtering to reduce false alarms by up to 95%.',
+                  icon: (
+                    <svg
+                      className="w-10 h-10 mx-auto mb-4 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                      />
+                    </svg>
+                  ),
                 },
                 {
-                  title: 'Zone Protection',
+                  title: 'Smart Insights',
                   description:
-                    'Configure protected zones and automatic return-to-preset functionality for enhanced security coverage.',
-                  color: 'text-amber-400',
-                },
-                {
-                  title: 'Smart Calibration',
-                  description:
-                    'Automatic calibration and scene learning optimize tracking performance for any environment.',
-                  color: 'text-pink-400',
+                    'Comprehensive analytics dashboard with heat maps, trend analysis, and behavioral pattern recognition.',
+                  icon: (
+                    <svg
+                      className="w-10 h-10 mx-auto mb-4 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                      />
+                    </svg>
+                  ),
                 },
               ].map((capability, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-white bg-opacity-5 rounded-xl p-6 text-center border border-white border-opacity-10 hover:bg-opacity-10 transition-all duration-300"
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white  p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
                 >
-                  <h3 className={`text-lg font-semibold mb-3 ${capability.color}`}>
-                    {capability.title}
-                  </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">{capability.description}</p>
+                  {capability.icon}
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{capability.title}</h3>
+                  <p className="text-gray-700 leading-relaxed">{capability.description}</p>
                 </motion.div>
               ))}
             </div>
 
-            {/* Technical Specifications */}
+            {/* Technical Specifications - Changed to black/grey */}
             <motion.div
-              className="mt-16 bg-white bg-opacity-5 rounded-2xl p-8 border border-white border-opacity-10"
+              className="mt-16 bg-white p-8 shadow-lg"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <h3 className="text-2xl font-bold text-center mb-8">Technical Specifications</h3>
-              <div className="grid md:grid-cols-4 gap-8">
+              <h3 className="text-2xl font-bold text-center text-gray-900 mb-8">
+                Technical Specifications
+              </h3>
+              <motion.div
+                className="grid md:grid-cols-4 gap-8 text-gray-900"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
                 {[
-                  { value: '360°', label: 'Pan Range', color: 'text-emerald-400' },
-                  { value: '120°/s', label: 'Max Speed', color: 'text-blue-400' },
-                  { value: '32X', label: 'Optical Zoom', color: 'text-amber-400' },
-                  { value: '50ms', label: 'Response Time', color: 'text-pink-400' },
+                  { value: '360°', label: 'Pan Range' },
+                  { value: '120°/s', label: 'Max Speed' },
+                  { value: '32X', label: 'Optical Zoom' },
+                  { value: '50ms', label: 'Response Time' },
                 ].map((spec, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                    className="text-center"
-                  >
-                    <div className={`text-3xl font-bold ${spec.color} mb-2`}>{spec.value}</div>
-                    <p className="text-gray-300">{spec.label}</p>
-                  </motion.div>
+                  <div className="text-center" key={index}>
+                    <div className="text-3xl font-bold text-gray-900 mb-2">{spec.value}</div>
+                    <p className="text-gray-700">{spec.label}</p>
+                  </div>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>

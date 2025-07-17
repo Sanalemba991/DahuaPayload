@@ -128,6 +128,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
     }
   }, [isClient])
 
+  // First, add this helper function at the top of your component
+  const isPathActive = (pathname: string, basePath: string) => {
+    return pathname.startsWith(basePath)
+  }
+
   return (
     <>
       <header
@@ -331,6 +336,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   ></span>
                 </span>
               </Link>
+              {/* Technologies Link */}
               <div
                 style={{ position: 'relative' }}
                 onMouseEnter={() => setActiveDropdown('technologies')}
@@ -338,7 +344,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
               >
                 <Link
                   href="/technologies"
-                  className="nav-link"
+                  className={`nav-link group${isPathActive(pathname, '/technologies') ? ' active' : ''}`}
                   style={{
                     color: 'black',
                     fontWeight: 'normal',
@@ -359,7 +365,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     Technologies
                     <span
                       className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
-                        pathname === '/technologies' ? 'w-full' : 'w-0 group-hover:w-full'
+                        isPathActive(pathname, '/technologies')
+                          ? 'w-full'
+                          : 'w-0 group-hover:w-full'
                       }`}
                       style={{ height: '2px' }}
                     ></span>
@@ -677,7 +685,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
               >
                 <Link
                   href="/solutions"
-                  className="nav-link group"
+                  className={`nav-link group${isPathActive(pathname, '/solutions') ? ' active' : ''}`}
                   style={{
                     color: 'black',
                     fontWeight: 'normal',
@@ -689,21 +697,24 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                     padding: '8px 0',
                     transition: 'all 0.3s ease',
                   }}
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.preventDefault()
-                    window.location.href = '/solutions'
+                    try {
+                      setActiveDropdown(null) // Close dropdown first
+                      await new Promise((resolve) => setTimeout(resolve, 100)) // Small delay for animation
+                      await window.location.assign('/solutions') // Navigate to new page
+                    } catch (error) {
+                      console.error('Navigation failed:', error)
+                    }
                   }}
                 >
                   <span className="relative">
                     Solutions
                     <span
                       className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
-                        pathname === '/solutions' ? 'w-full' : 'w-0 group-hover:w-full'
+                        isPathActive(pathname, '/solutions') ? 'w-full' : 'w-0 group-hover:w-full'
                       }`}
-                      style={{
-                        height: '2px',
-                        bottom: '-0.5px', // Changed from -2px to -0.5px to match Sira
-                      }}
+                      style={{ height: '2px' }}
                     ></span>
                   </span>
                   <svg
@@ -720,7 +731,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   </svg>
                 </Link>
 
-                {/* Solutions Dropdown Menu with Curved Image */}
+                {/* Solutions Dropdown Menu */}
                 {activeDropdown === 'solutions' && (
                   <div
                     className="dropdown-menu"
@@ -743,8 +754,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                       transform:
                         activeDropdown === 'solutions' ? 'translateY(0)' : 'translateY(-10px)',
                     }}
-                    onMouseEnter={() => setActiveDropdown('solutions')}
-                    onMouseLeave={() => setActiveDropdown(null)}
+                    onMouseEnter={() => setActiveDropdown('solutions')} // Show on hover
+                    onMouseLeave={() => setActiveDropdown(null)} // Hide on mouse leave
+                    onClick={() => setActiveDropdown(null)} // Hide on click
                   >
                     <div
                       style={{
@@ -792,15 +804,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                               backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
-                              ;(e.target as HTMLElement).style.color = '#dc2626'
+                              e.currentTarget.style.backgroundColor = '#f3f4f6'
+                              e.currentTarget.style.borderColor = '#dc2626'
+                              e.currentTarget.style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
-                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.color = '#1f2937'
+                              e.currentTarget.style.backgroundColor = '#fafafa'
+                              e.currentTarget.style.borderColor = '#f3f4f6'
+                              e.currentTarget.style.color = '#1f2937'
                             }}
+                            onClick={() => setMobileOpen(false)}
                           >
                             Building Solutions
                           </Link>
@@ -820,15 +833,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                               backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
-                              ;(e.target as HTMLElement).style.color = '#dc2626'
+                              e.currentTarget.style.backgroundColor = '#f3f4f6'
+                              e.currentTarget.style.borderColor = '#dc2626'
+                              e.currentTarget.style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
-                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.color = '#1f2937'
+                              e.currentTarget.style.backgroundColor = '#fafafa'
+                              e.currentTarget.style.borderColor = '#f3f4f6'
+                              e.currentTarget.style.color = '#1f2937'
                             }}
+                            onClick={() => setMobileOpen(false)}
                           >
                             Banking Solutions
                           </Link>
@@ -848,15 +862,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                               backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
-                              ;(e.target as HTMLElement).style.color = '#dc2626'
+                              e.currentTarget.style.backgroundColor = '#f3f4f6'
+                              e.currentTarget.style.borderColor = '#dc2626'
+                              e.currentTarget.style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
-                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.color = '#1f2937'
+                              e.currentTarget.style.backgroundColor = '#fafafa'
+                              e.currentTarget.style.borderColor = '#f3f4f6'
+                              e.currentTarget.style.color = '#1f2937'
                             }}
+                            onClick={() => setMobileOpen(false)}
                           >
                             Retail Solutions
                           </Link>
@@ -876,15 +891,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                               backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
-                              ;(e.target as HTMLElement).style.color = '#dc2626'
+                              e.currentTarget.style.backgroundColor = '#f3f4f6'
+                              e.currentTarget.style.borderColor = '#dc2626'
+                              e.currentTarget.style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
-                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.color = '#1f2937'
+                              e.currentTarget.style.backgroundColor = '#fafafa'
+                              e.currentTarget.style.borderColor = '#f3f4f6'
+                              e.currentTarget.style.color = '#1f2937'
                             }}
+                            onClick={() => setMobileOpen(false)}
                           >
                             Transportation Solutions
                           </Link>
@@ -904,15 +920,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                               backgroundColor: '#fafafa',
                             }}
                             onMouseEnter={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.borderColor = '#dc2626'
-                              ;(e.target as HTMLElement).style.color = '#dc2626'
+                              e.currentTarget.style.backgroundColor = '#f3f4f6'
+                              e.currentTarget.style.borderColor = '#dc2626'
+                              e.currentTarget.style.color = '#dc2626'
                             }}
                             onMouseLeave={(e) => {
-                              ;(e.target as HTMLElement).style.backgroundColor = '#fafafa'
-                              ;(e.target as HTMLElement).style.borderColor = '#f3f4f6'
-                              ;(e.target as HTMLElement).style.color = '#1f2937'
+                              e.currentTarget.style.backgroundColor = '#fafafa'
+                              e.currentTarget.style.borderColor = '#f3f4f6'
+                              e.currentTarget.style.color = '#1f2937'
                             }}
+                            onClick={() => setMobileOpen(false)}
                           >
                             Government Solutions
                           </Link>
