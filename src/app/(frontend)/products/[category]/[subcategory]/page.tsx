@@ -1,11 +1,13 @@
+// app/products/[category]/[subcategory]/page.tsx
 export const dynamic = 'force-dynamic'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import type { Product } from '@/payload-types'
 import { draftMode } from 'next/headers'
 import Image from 'next/image'
-import Link from 'next/link'
 import { Metadata } from 'next'
+import CategorySection from './CategorySection'
+
 type Args = {
   category: string
   subcategory: string
@@ -48,7 +50,6 @@ export async function generateMetadata({
       title,
       description,
       url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'}/products/${Category}/${Subcategory}`,
-
       siteName: 'Lovosis ,Technology L.L.C',
       locale: 'en_US',
       type: 'website',
@@ -77,6 +78,7 @@ export default async function Product({ params }: { params: Promise<Args> }) {
   const { isEnabled: draft } = await draftMode()
   const { subcategory, category } = await params
   const payload = await getPayload({ config: configPromise })
+
   const subcategoryResult = await payload.find({
     collection: 'subcategories',
     draft,
@@ -90,10 +92,7 @@ export default async function Product({ params }: { params: Promise<Args> }) {
     depth: 3,
   })
 
-  // Handle case where subcategory is not found
   if (!subcategoryResult.docs || subcategoryResult.docs.length === 0) {
-    console.error(`Subcategory not found: ${subcategory}`)
-    // You might want to redirect to a 404 page or show an error
     return (
       <div className="pt-[90px] min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -122,15 +121,10 @@ export default async function Product({ params }: { params: Promise<Args> }) {
 
   const products = productsResult.docs || []
 
-  // Debug logging
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`Found ${products.length} products for subcategory: ${subcategory}`)
-  }
-
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'
 
   const productSchemas = products
-    .filter((product) => product && product.title && product.slug) // Filter out invalid products
+    .filter((product) => product && product.title && product.slug)
     .map((product) => ({
       '@type': 'Product',
       name: product.title,
@@ -142,6 +136,7 @@ export default async function Product({ params }: { params: Promise<Args> }) {
         availability: 'https://schema.org/InStock',
       },
     }))
+
   const filteredProductSchemas = productSchemas.filter((item) => item['@type'] !== 'Product')
   const schemaMarkup = {
     '@context': 'https://schema.org',
@@ -190,132 +185,34 @@ export default async function Product({ params }: { params: Promise<Args> }) {
         key="product-schema"
       />
 
-      <div className="pt-[80px] min-h-screen flex flex-col bg-white">
-        <div className="relative w-full h-[320px] md:h-[420px]">
-          <Image
-            src="/images/dahuactct.jpg"
-            alt="Dahua Solutions Banner"
-            fill
-            className="object-cover w-full h-full"
-            priority
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
-            <h1 className="text-white text-4xl md:text-5xl font-bold drop-shadow-lg">
-              <span className="text-white">Dahua</span>
-              <span className="text-red-500"> Products</span>
-            </h1>
-            <p className="text-xl max-w-3xl text-white/90">
-              Discover our comprehensive range of security products designed to meet all your
-              surveillance and safety needs.
-            </p>
+      <div className="min-h-screen bg-white">
+        {/* Hero Section */}
+        <section className="relative w-full h-screen flex items-center justify-start overflow-hidden">
+          <div className="w-full h-full">
+            <Image
+              src="/images/dahuactct.jpg"
+              alt={`${subcategoryResult.docs[0].title} Products Banner`}
+              fill
+              priority
+              className="object-cover animate-zoom-in"
+            />
           </div>
-        </div>
-        <div className="flex-grow">
-          {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16"> */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products && products.length > 0 ? (
-              products
-                .filter((product) => product && typeof product !== 'string' && product.id)
-                .map((product) => (
-                  <div key={product.id} className="p-4 ">
-                    <Link
-                      href={`/products/${category}/${subcategory}/${product.slug || 'unknown'}`}
-                    >
-                      {product.title || 'Untitled Product'}
-
-                      <div className="group relative">
-                        <div
-                          className="bg-white rounded-2xl p-6 transition-all duration-300 
-                                        shadow-[0_0_20px_rgba(0,0,0,0.05)] 
-                                        hover:shadow-[0_0_25px_rgba(0,0,0,0.2)]
-                                        border border-slate-100 hover:border-red-100"
-                        >
-                          <div className="relative h-48 mb-6 bg-gradient-to-b from-red-50/50 to-transparent rounded-xl p-4">
-                            <div className="absolute inset-0 bg-red-50/30 rounded-xl transform rotate-3 scale-95 transition-transform duration-300 group-hover:rotate-6"></div>
-                            <div className="absolute inset-0 bg-white/80 rounded-xl transform -rotate-3 scale-95 transition-transform duration-300 group-hover:-rotate-6"></div>
-                            {typeof product.heroImage === 'object' &&
-                            product.heroImage !== null &&
-                            'url' in product.heroImage ? (
-                              <Image
-                                src={product.heroImage.url ?? '/placeholder.jpg'}
-                                alt={product.title || 'Product Image'}
-                                width={500}
-                                height={384}
-                                className="relative h-full w-full object-contain p-4 transform transition-transform duration-300 group-hover:scale-110"
-                              />
-                            ) : (
-                              <div className="relative h-full w-full flex items-center justify-center">
-                                <div className="text-2xl font-bold text-red-600/80">
-                                  {product.title || 'Product'}
-                                </div>
-                              </div>
-                            )}
-                            {/* 
-                          <img
-                            src={(product.heroImage as Media)?.url ?? undefined}
-                            alt={product.title}
-                            className="relative h-full w-full object-contain p-4 transform transition-transform duration-300 group-hover:scale-110"
-                          /> */}
-
-                            {/* {product.heroImage && typeof product.heroImage !== 'string' && (
-                            <img src={product.heroImage.url!} alt="" />
-                          )} */}
-                          </div>
-
-                          {/* Content */}
-                          <div className="relative">
-                            <h2 className="text-xl font-semibold text-slate-800 mb-3 text-center">
-                              {product.title || 'Untitled Product'}
-                            </h2>
-
-                            <p className="text-gray-600 text-sm mb-4 text-center line-clamp-2">
-                              {product.description || 'No description available'}
-                            </p>
-
-                            {/* Button */}
-                            <div className="flex items-center justify-center space-x-2 text-red-600">
-                              <span className="relative">
-                                <span className="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-                                <span className="font-medium">View Details</span>
-                              </span>
-                              <svg
-                                className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                                />
-                              </svg>
-                            </div>
-
-                            {/* Corner Accent */}
-                            <div className="absolute -top-2 -right-2 w-8 h-8">
-                              <div className="absolute inset-0 transform rotate-45 translate-x-4 -translate-y-4 bg-red-600/0 group-hover:bg-red-600/10 transition-all duration-300"></div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Hover Effects */}
-                        <div className="absolute inset-0 -z-10 bg-red-600 rounded-2xl opacity-0 group-hover:opacity-5 transform scale-90 group-hover:scale-100 transition-all duration-300"></div>
-                      </div>
-                    </Link>
-                  </div>
-                ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
-                <p className="text-gray-600">
-                  There are no products available in this subcategory.
-                </p>
-              </div>
-            )}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 flex items-center animate-fade-in">
+            <div className="max-w-4xl px-10 space-y-8">
+              <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+                <span className="block opacity-0 animate-slide-in-left">
+                  {subcategoryResult.docs[0].title}
+                </span>
+                <span className="block text-red-500 opacity-0 animate-slide-in-right [animation-delay:1500ms]">
+                  Products
+                </span>
+              </h1>
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Product Section */}
+        <CategorySection products={products} category={category} subcategory={subcategory} />
       </div>
     </>
   )
