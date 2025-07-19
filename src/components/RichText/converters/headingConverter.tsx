@@ -5,7 +5,6 @@ export const headingConverter: JSXConverters<SerializedHeadingNode> = {
   heading: ({ node, nodesToJSX }) => {
     if (node.tag === 'h2') {
       const text = nodesToJSX({ nodes: node.children })
-
       const id = text
         .join('')
         .toLowerCase()
