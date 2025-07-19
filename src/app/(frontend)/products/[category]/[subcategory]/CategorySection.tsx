@@ -35,7 +35,7 @@ export default function ProductSection({ products, category, subcategory }: Prod
               setTimeout(() => {
                 child.classList.remove('opacity-0', 'translate-y-8')
                 child.classList.add('opacity-100', 'translate-y-0')
-              }, index * 80)
+              }, index * 60)
             })
 
             observer.unobserve(entry.target)
@@ -44,7 +44,7 @@ export default function ProductSection({ products, category, subcategory }: Prod
       },
       {
         threshold: 0.1,
-        rootMargin: '50px',
+        rootMargin: '30px',
       },
     )
 
@@ -71,17 +71,17 @@ export default function ProductSection({ products, category, subcategory }: Prod
   return (
     <section
       ref={sectionRef}
-      className="py-12 bg-white scroll-mt-16 opacity-0 translate-y-8 transition-all duration-800"
+      className="py-6 bg-white scroll-mt-12 opacity-0 translate-y-8 transition-all duration-800"
       id="products"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900">Products</h2>
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold text-gray-900">Products</h2>
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {products.length > 0 ? (
             products.map((product, index) => {
               if (typeof product === 'string') return null
@@ -91,15 +91,15 @@ export default function ProductSection({ products, category, subcategory }: Prod
                 <div
                   key={product.id}
                   className="product-card opacity-0 translate-y-8 transition-all duration-600"
-                  style={{ transitionDelay: `${index * 80}ms` }}
+                  style={{ transitionDelay: `${index * 60}ms` }}
                 >
-                  <div className="bg-white border border-gray-200 hover:shadow-sm transition-all duration-300 h-full">
+                  <div className="bg-white border border-gray-200 hover:shadow-sm transition-all duration-300 h-full rounded-sm">
                     <Link
                       href={`/products/${category}/${subcategory}/${product.slug || 'unknown'}`}
                       className="group block h-full"
                     >
-                      {/* Image Container */}
-                      <div className="relative h-40 bg-gray-50 flex items-center justify-center p-6">
+                      {/* Image Container - Made bigger */}
+                      <div className="relative h-40 sm:h-44 lg:h-48 bg-gray-50 flex items-center justify-center p-4">
                         {typeof product.heroImage === 'object' &&
                         product.heroImage !== null &&
                         'url' in product.heroImage ? (
@@ -109,10 +109,10 @@ export default function ProductSection({ products, category, subcategory }: Prod
                             width={160}
                             height={120}
                             className="object-contain max-w-full max-h-full transition-transform duration-300 group-hover:scale-105"
-                            priority={index < 3}
+                            priority={index < 4}
                           />
                         ) : (
-                          <div className="w-32 h-24 bg-gray-100 flex items-center justify-center">
+                          <div className="w-24 h-20 bg-gray-100 flex items-center justify-center">
                             <svg
                               className="w-8 h-8 text-gray-300"
                               fill="none"
@@ -131,14 +131,14 @@ export default function ProductSection({ products, category, subcategory }: Prod
                       </div>
 
                       {/* Product Info */}
-                      <div className="px-4 py-3">
+                      <div className="px-3 py-2">
                         {/* Product Model/SKU */}
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-lg  text-gray-900 group-hover:text-red-600 truncate transition-colors duration-200">
-                            {product.sku || product.title || 'Model Not Available'}
+                        <div className="flex items-center justify-between mb-1">
+                          <h3 className="text-sm font-medium text-gray-900 group-hover:text-red-600 truncate transition-colors duration-200">
+                            {product.title || 'Model Not Available'}
                           </h3>
                           <svg
-                            className="w-4 h-4 text-gray-400 group-hover:text-red-600 ml-2 flex-shrink-0 transition-colors duration-200"
+                            className="w-3 h-3 text-gray-400 group-hover:text-red-600 ml-1 flex-shrink-0 transition-colors duration-200"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -153,7 +153,7 @@ export default function ProductSection({ products, category, subcategory }: Prod
                         </div>
 
                         {/* Product Description */}
-                        <p className="text-base  text-gray-600 leading-tight line-clamp-2">
+                        <p className="text-xs text-gray-600 leading-tight line-clamp-2">
                           {product.meta?.description ||
                             product.title ||
                             'Product description not available'}
@@ -165,10 +165,10 @@ export default function ProductSection({ products, category, subcategory }: Prod
               )
             })
           ) : (
-            <div className="text-center py-16 col-span-full">
-              <div className="inline-flex items-center justify-center bg-gray-100 rounded-full p-8 mb-6">
+            <div className="text-center py-12 col-span-full">
+              <div className="inline-flex items-center justify-center bg-gray-100 rounded-full p-6 mb-4">
                 <svg
-                  className="w-8 h-8 text-gray-400"
+                  className="w-6 h-6 text-gray-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -181,8 +181,10 @@ export default function ProductSection({ products, category, subcategory }: Prod
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
-              <p className="text-gray-500">Check back later for new products in this category.</p>
+              <h3 className="text-base font-medium text-gray-900 mb-1">No products found</h3>
+              <p className="text-sm text-gray-500">
+                Check back later for new products in this category.
+              </p>
             </div>
           )}
         </div>
