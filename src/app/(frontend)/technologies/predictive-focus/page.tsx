@@ -1,19 +1,9 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
-import {
-  Focus,
-  Zap,
-  Camera,
-  Crosshair,
-  Target,
-  Eye,
-  Shield,
-  Cpu,
-  Database,
-  Settings,
-} from 'lucide-react'
+import { Focus, Zap, Camera, Crosshair, Target, Eye } from 'lucide-react'
 
 function FeatureCard({
   icon: Icon,
@@ -21,32 +11,28 @@ function FeatureCard({
   iconColor,
   title,
   description,
-  xDisable = false,
 }: {
   icon: React.ElementType
   iconBg: string
   iconColor: string
   title: string
   description: string
-  xDisable?: boolean
 }) {
   return (
     <motion.div
-      whileHover={xDisable ? {} : { y: -5, scale: 1.02 }}
-      className="bg-white rounded-lg p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300"
+      whileHover={{ y: -10, scale: 1.05 }}
+      className="bg-white rounded-xl p-8 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300"
     >
-      <div className={`${iconBg} w-16 h-16 rounded-xl flex items-center justify-center mb-4`}>
+      <div className={`${iconBg} w-16 h-16 rounded-full flex items-center justify-center mb-6`}>
         <Icon size={32} className={iconColor} />
       </div>
-      <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
-      <p className="text-sm text-gray-600">{description}</p>
+      <h3 className="text-xl font-bold text-gray-900 mb-4">{title}</h3>
+      <p className="text-gray-600 leading-relaxed">{description}</p>
     </motion.div>
   )
 }
 
 export default function PredictiveFocusPage() {
-  const overviewRef = useRef<HTMLDivElement>(null)
-
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -57,10 +43,10 @@ export default function PredictiveFocusPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Hero Section */}
       <motion.section
-        className="relative w-full h-screen flex items-center justify-start"
+        className="relative w-full h-screen flex items-center justify-start overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -73,11 +59,12 @@ export default function PredictiveFocusPage() {
         >
           <img
             src="https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=1920&h=1080&fit=crop"
-            alt="Predictive Focus Algorithm Technology"
+            alt="Predictive Focus Algorithm"
             className="object-cover w-full h-full absolute inset-0"
             style={{ zIndex: 0 }}
           />
         </motion.div>
+        <div className="absolute inset-0 bg-opacity-30"></div>
         <div className="absolute inset-0 flex items-center">
           <div className="max-w-4xl px-10 space-y-6">
             <motion.h1
@@ -87,7 +74,7 @@ export default function PredictiveFocusPage() {
               className="text-3xl md:text-5xl font-bold text-white leading-tight"
             >
               <span className="block">Predictive Focus</span>
-              <span className="block text-red-500">Algorithm Technology</span>
+              <span className="block text-red-500">Algorithm</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -96,16 +83,15 @@ export default function PredictiveFocusPage() {
               className="text-base md:text-lg text-gray-100 max-w-3xl leading-snug"
             >
               Next-generation AI-powered focusing technology that predicts focus requirements before
-              they are needed, ensuring crystal-clear capture with unprecedented accuracy and
-              intelligent video analytics.
+              they are needed, ensuring crystal-clear capture with unprecedented accuracy.
             </motion.p>
           </div>
         </div>
       </motion.section>
 
-      {/* Technology Demo Section */}
+      {/* Video Section */}
       <motion.section
-        className="py-20 bg-white bg-opacity-95"
+        className="mt-16 bg-white p-8 shadow-lg"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -124,28 +110,17 @@ export default function PredictiveFocusPage() {
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
                 PFA <span className="text-red-500">Technology Demo</span>
               </h2>
-              <p className="text-xl text-gray-600 mx-auto">
-                Experience how Predictive Focus Algorithm technology revolutionizes auto-focus
-                systems
+              <p className="text-xl text-gray-600 mx-auto mb-12">
+                Experience the power of predictive focus with intelligent AI algorithms
               </p>
-            </motion.div>
 
-            {/* Video Container */}
-            <motion.div
-              className="relative bg-black rounded-2xl overflow-hidden shadow-2xl"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <div className="relative" style={{ paddingBottom: '56.25%' }}>
-                <div className="absolute inset-0 bg-black">
-                  <video
-                    className="w-full h-full object-cover"
-                    controls
-                    src="https://www.dahuasecurity.com/asset/upload/video/Predictive_Focus_Algorithm_(PFA).mp4"
-                  />
-                </div>
+              {/* Video Container */}
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <video
+                  className="absolute inset-0 w-full h-full rounded-2xl"
+                  controls
+                  src="https://www.dahuasecurity.com/asset/upload/video/Predictive_Focus_Algorithm_(PFA).mp4"
+                />
               </div>
             </motion.div>
 
@@ -162,17 +137,17 @@ export default function PredictiveFocusPage() {
                   {
                     title: 'AI-Powered Prediction',
                     description:
-                      'Advanced algorithms that predict focus requirements before they are needed',
+                      'Advanced algorithms that predict focus requirements before they are needed for seamless operation',
                   },
                   {
                     title: 'Real-time Processing',
                     description:
-                      'Instant focus adjustment with 0.1s response time for moving subjects',
+                      'Lightning-fast focus adjustment with 0.1s response time for moving subjects and dynamic scenes',
                   },
                   {
-                    title: 'Enterprise Ready',
+                    title: 'Precision Accuracy',
                     description:
-                      'Scalable technology for security, surveillance, and industrial applications',
+                      'Crystal-clear focus with 99.9% accuracy rate across all lighting conditions and scenarios',
                   },
                 ].map((item, index) => (
                   <motion.div
@@ -192,7 +167,7 @@ export default function PredictiveFocusPage() {
         </div>
       </motion.section>
 
-      {/* Technical Specifications */}
+      {/* Key Features Section */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -207,258 +182,319 @@ export default function PredictiveFocusPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Technical <span className="text-red-600">Specifications</span>
+              Key <span className="text-red-500">Features</span>
             </h2>
             <p className="text-xl text-gray-600 mb-4">
-              Advanced performance metrics and precision capabilities
-            </p>
-          </motion.div>
-
-          <section className="py-16">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto">
-                <div className="grid md:grid-cols-2 gap-8 mb-12">
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="bg-white p-8 rounded-lg shadow-sm"
-                  >
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                      Superior Focus Performance
-                    </h3>
-                    <p className="text-gray-600">
-                      Lightning-fast focus acquisition with 99.9% accuracy that adapts to any
-                      scenario for professional imaging and surveillance applications.
-                    </p>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="bg-white p-8 rounded-lg shadow-sm"
-                  >
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                      Intelligent Prediction
-                    </h3>
-                    <p className="text-gray-600">
-                      Advanced AI algorithms that analyze scene conditions and predict focus changes
-                      with 4K resolution support and low-light capabilities.
-                    </p>
-                  </motion.div>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="grid md:grid-cols-4 gap-6"
-                >
-                  <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                    <h4 className="text-3xl font-bold text-red-600 mb-2">0.1s</h4>
-                    <p className="text-gray-600">Focus Speed</p>
-                  </div>
-                  <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                    <h4 className="text-3xl font-bold text-red-600 mb-2">99.9%</h4>
-                    <p className="text-gray-600">Accuracy</p>
-                  </div>
-                  <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                    <h4 className="text-3xl font-bold text-red-600 mb-2">4K</h4>
-                    <p className="text-gray-600">Resolution</p>
-                  </div>
-                  <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                    <h4 className="text-3xl font-bold text-red-600 mb-2">0.01</h4>
-                    <p className="text-gray-600">Low Light (lux)</p>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </motion.div>
-
-      {/* Security Ecosystem Section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="py-24 bg-white"
-      >
-        <div className="max-w-6xl mx-auto px-4">
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Complete Focus <span className="text-red-600">Ecosystem</span>
-            </h2>
-            <p className="text-xl text-gray-600 mb-4">
-              Integrated AI-powered focusing solutions for comprehensive imaging and surveillance
+              Advanced capabilities that deliver precision focusing and intelligent automation
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-lg shadow-sm text-center"
-            >
-              <div className="text-4xl mb-4">📹</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Cameras</h3>
-              <p className="text-gray-600">
-                AI-powered cameras with predictive focus and advanced imaging capabilities.
-              </p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-lg shadow-sm text-center"
-            >
-              <div className="text-4xl mb-4">💻</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Focus Management</h3>
-              <p className="text-gray-600">
-                Centralized software for predictive focus control and imaging optimization.
-              </p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-lg shadow-sm text-center"
-            >
-              <div className="text-4xl mb-4">🎯</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Tracking Systems</h3>
-              <p className="text-gray-600">
-                Advanced subject tracking with predictive focus for moving targets.
-              </p>
-            </motion.div>
+            <FeatureCard
+              icon={Focus}
+              iconBg="bg-emerald-50"
+              iconColor="text-emerald-600"
+              title="Predictive Focus"
+              description="Advanced AI algorithms predict focus requirements before they are needed, ensuring sharp images with minimal lag and maximum precision."
+            />
+            <FeatureCard
+              icon={Camera}
+              iconBg="bg-blue-50"
+              iconColor="text-blue-600"
+              title="Smart Learning"
+              description="Deep learning technology enables intelligent scene analysis and focus pattern recognition for enhanced performance across scenarios."
+            />
+            <FeatureCard
+              icon={Zap}
+              iconBg="bg-amber-50"
+              iconColor="text-amber-600"
+              title="Ultra-Fast Response"
+              description="Lightning-fast processing enables immediate focus adjustment with smooth transitions and minimal delay for moving subjects."
+            />
           </div>
         </div>
       </motion.div>
 
-      {/* Advanced Capabilities Section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="py-24 bg-gradient-to-b from-gray-50 to-white"
-      >
-        <div className="max-w-6xl mx-auto px-4">
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Advanced <span className="text-red-600">Capabilities</span>
-            </h2>
-            <p className="text-xl text-gray-600 mb-4">
-              Cutting-edge AI features that redefine intelligent focusing technology
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-white p-8 rounded-lg shadow-sm border-l-4 border-red-500"
-            >
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Predictive Analysis</h3>
-              <p className="text-gray-600">
-                Advanced algorithms that predict focus requirements before they are needed for
-                seamless operation.
-              </p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-white p-8 rounded-lg shadow-sm border-l-4 border-red-500"
-            >
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Real-time Processing</h3>
-              <p className="text-gray-600">
-                Lightning-fast focus adjustment with minimal latency for critical imaging scenarios.
-              </p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="bg-white p-8 rounded-lg shadow-sm border-l-4 border-red-500"
-            >
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Scalable Architecture</h3>
-              <p className="text-gray-600">
-                Flexible deployment from single cameras to large-scale enterprise imaging solutions.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Applications Section */}
+      {/* Focus Modes */}
       <motion.section
-        className="py-20 bg-gray-100"
+        className="py-20 bg-white"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <div className="max-w-7xl mx-auto px-4">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Real-World <span className="text-red-500">Applications</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              PFA Technology excels in demanding environments where focus precision is critical
-            </p>
-          </motion.div>
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Focus <span className="text-red-500">Modes</span>
+              </h2>
+              <p className="text-xl text-gray-600 mx-auto">
+                Flexible focusing options for different operational requirements
+              </p>
+            </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Forensic Analysis',
-                description:
-                  'Crystal-clear evidence capture with zero focus drift during critical investigations',
-                image:
-                  'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop',
-              },
-              {
-                title: 'Security Monitoring',
-                description:
-                  'Continuous sharp surveillance with automatic focus adjustment for moving subjects',
-                image:
-                  'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=250&fit=crop',
-              },
-              {
-                title: 'Traffic Surveillance',
-                description:
-                  'Perfect license plate capture and vehicle identification at all distances',
-                image:
-                  'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=250&fit=crop',
-              },
-            ].map((app, index) => (
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Predictive Mode */}
               <motion.div
-                key={index}
+                className="text-center"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                <div className="rounded-xl overflow-hidden mb-6">
+                  <Image
+                    src="https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=500&h=300&fit=crop"
+                    alt="Predictive Focus Mode"
+                    width={500}
+                    height={300}
+                    className="w-full h-64 object-cover"
+                  />
+                </div>
+                <div className="flex items-center justify-center mb-4">
+                  <div className="bg-emerald-50 p-3 rounded-full mr-4">
+                    <Crosshair className="text-red-600" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">Predictive Mode</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  AI-powered predictive focusing that anticipates focus requirements before they
+                  occur, ensuring sharp images with zero lag and maximum accuracy.
+                </p>
+              </motion.div>
+
+              {/* Adaptive Mode */}
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                <div className="rounded-xl overflow-hidden mb-6">
+                  <Image
+                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop"
+                    alt="Adaptive Focus Mode"
+                    width={500}
+                    height={300}
+                    className="w-full h-64 object-cover"
+                  />
+                </div>
+                <div className="flex items-center justify-center mb-4">
+                  <div className="bg-blue-50 p-3 rounded-full mr-4">
+                    <Eye className="text-blue-600" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">Adaptive Mode</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Intelligent adaptive focusing that learns from scene conditions and automatically
+                  adjusts focus parameters for optimal performance in changing environments.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Advanced Capabilities */}
+      <motion.section
+        className="py-20 text-black"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto mb-12 px-4">
+          <div className="max-w-5xl mx-auto">
+            {/* Section Header */}
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                Advanced <span className="text-gray-700">Capabilities</span>
+              </h2>
+              <p className="text-xl text-gray-600">
+                Cutting-edge features for professional imaging and surveillance applications
+              </p>
+            </motion.div>
+
+            {/* First Section: Application Cards */}
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: 'Forensic Analysis',
+                  description:
+                    'Crystal-clear evidence capture with zero focus drift during critical investigations',
+                  image:
+                    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop',
+                },
+                {
+                  title: 'Security Monitoring',
+                  description:
+                    'Continuous sharp surveillance with automatic focus adjustment for moving subjects',
+                  image:
+                    'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=250&fit=crop',
+                },
+                {
+                  title: 'Traffic Surveillance',
+                  description:
+                    'Perfect license plate capture and vehicle identification at all distances',
+                  image:
+                    'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=250&fit=crop',
+                },
+              ].map((app, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="h-48 overflow-hidden">
+                    <img src={app.image} alt={app.title} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">{app.title}</h3>
+                    <p className="text-gray-600 mb-4">{app.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Second Section with Spacing */}
+      <motion.section
+        className="py-20 text-black bg-gray-50"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            {/* Capabilities Grid */}
+            <div className="grid md:grid-cols-3 gap-8 mb-16">
+              {[
+                {
+                  title: 'Scene Analysis',
+                  description:
+                    'Advanced AI analyzes scene conditions with 99.9% accuracy using deep learning algorithms for optimal focus.',
+                  icon: (
+                    <svg
+                      className="w-10 h-10 mx-auto mb-4 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                      />
+                    </svg>
+                  ),
+                },
+                {
+                  title: 'Focus Prediction',
+                  description:
+                    'Predictive algorithms anticipate focus changes with 0.1s response time, eliminating hunting and drift.',
+                  icon: (
+                    <svg
+                      className="w-10 h-10 mx-auto mb-4 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                      />
+                    </svg>
+                  ),
+                },
+                {
+                  title: 'Adaptive Learning',
+                  description:
+                    'Continuous learning from imaging conditions with smart optimization and real-time performance enhancement.',
+                  icon: (
+                    <svg
+                      className="w-10 h-10 mx-auto mb-4 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                      />
+                    </svg>
+                  ),
+                },
+              ].map((capability, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+                >
+                  {capability.icon}
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">{capability.title}</h3>
+                  <p className="text-gray-700 leading-relaxed">{capability.description}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Technical Specifications */}
+            <motion.div
+              className="bg-white p-8 shadow-lg"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <h3 className="text-2xl font-bold text-center text-gray-900 mb-8">
+                Technical Specifications
+              </h3>
+              <motion.div
+                className="grid md:grid-cols-4 gap-8 text-gray-900"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <div className="h-48 overflow-hidden">
-                  <img src={app.image} alt={app.title} className="w-full h-full object-cover" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{app.title}</h3>
-                  <p className="text-gray-600 mb-4">{app.description}</p>
-                </div>
+                {[
+                  { value: '0.1s', label: 'Focus Speed' },
+                  { value: '99.9%', label: 'Accuracy' },
+                  { value: '4K', label: 'Resolution' },
+                  { value: '0.01', label: 'Low Light (lux)' },
+                ].map((spec, index) => (
+                  <div className="text-center" key={index}>
+                    <div className="text-3xl font-bold text-gray-900 mb-2">{spec.value}</div>
+                    <p className="text-gray-700">{spec.label}</p>
+                  </div>
+                ))}
               </motion.div>
-            ))}
+            </motion.div>
           </div>
         </div>
       </motion.section>

@@ -43,10 +43,10 @@ export default function AutoTrackingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Hero Section */}
       <motion.section
-        className="relative w-full h-screen flex items-center justify-start"
+        className="relative w-full h-screen flex items-center justify-start overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -64,7 +64,7 @@ export default function AutoTrackingPage() {
             style={{ zIndex: 0 }}
           />
         </motion.div>
-        <div className="absolute inset-0  bg-opacity-30"></div>
+        <div className="absolute inset-0 bg-opacity-30"></div>
         <div className="absolute inset-0 flex items-center">
           <div className="max-w-4xl px-10 space-y-6">
             <motion.h1
@@ -91,7 +91,7 @@ export default function AutoTrackingPage() {
 
       {/* Video Section */}
       <motion.section
-        className="mt-16 bg-white  p-8 shadow-lg"
+        className="mt-16 bg-white p-8 shadow-lg"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -236,13 +236,7 @@ export default function AutoTrackingPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Tracking{' '}
-                <span
-                  className="text-red
-                -500"
-                >
-                  Modes
-                </span>
+                Tracking <span className="text-red-500">Modes</span>
               </h2>
               <p className="text-xl text-gray-600 mx-auto">
                 Flexible tracking options for different operational requirements
@@ -314,7 +308,7 @@ export default function AutoTrackingPage() {
 
       {/* Advanced Capabilities */}
       <motion.section
-        className="py-20  text-black"
+        className="py-20 text-black"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -407,7 +401,7 @@ export default function AutoTrackingPage() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white  p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+                  className="bg-white p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
                 >
                   {capability.icon}
                   <h3 className="text-2xl font-bold mb-4 text-gray-900">{capability.title}</h3>
@@ -450,8 +444,6 @@ export default function AutoTrackingPage() {
           </div>
         </div>
       </motion.section>
-
-      {/* Consultation Section */}
     </div>
   )
 }

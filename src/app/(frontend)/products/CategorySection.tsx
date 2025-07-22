@@ -74,6 +74,7 @@ export default function CategorySection({ categories }: { categories: any }) {
 
   return (
     <>
+    
       <section
         ref={sectionRef}
         id="categories"

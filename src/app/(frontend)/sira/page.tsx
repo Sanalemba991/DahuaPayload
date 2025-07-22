@@ -83,7 +83,7 @@ function FeatureCard({
 
 export default function SiraPage() {
   return (
-    <main className="bg-gray-50 min-h-screen">
+    <main className="bg-gray-50 min-h-screen overflow-x-hidden">
       {/* Hero Section - Full Viewport Height */}
       <section className="relative w-full h-screen flex items-center justify-start overflow-hidden">
         <Image
@@ -94,7 +94,7 @@ export default function SiraPage() {
           priority
           quality={100}
         />
-        <div className="absolute inset-0  bg-opacity-40 flex items-center">
+        <div className="absolute inset-0 bg-opacity-40 flex items-center">
           <div className="max-w-4xl px-10 space-y-6">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -142,7 +142,7 @@ export default function SiraPage() {
       </section>
 
       {/* SIRA Certification Section with Scroll Animation */}
-      <section className="max-w-6xl mx-auto px-4 py-20">
+      <section className="max-w-6xl mx-auto px-4 py-20 overflow-hidden">
         <div className="flex flex-col lg:flex-row gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -197,7 +197,7 @@ export default function SiraPage() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="bg-gray-100 py-20"
+        className="bg-gray-100 py-20 overflow-hidden"
       >
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
@@ -210,7 +210,7 @@ export default function SiraPage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               SIRA <span className="text-red-600">Compliance</span> Standards
             </h2>
-            <p className="text-xl  text-gray-600">
+            <p className="text-xl text-gray-600">
               SIRA sets comprehensive guidelines for security best practices across all types of
               installations.
             </p>

@@ -106,7 +106,7 @@ export default function WizMindPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Hero Section */}
       <motion.section
         className="relative w-full h-screen flex items-center justify-start"

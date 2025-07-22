@@ -214,6 +214,16 @@ export const ContactClient: React.FC<ContactClientProps> = ({ telephone, email, 
 
       {/* Hero Banner Section */}
       <section className="relative w-full h-screen flex items-center justify-start overflow-hidden">
+        <style jsx global>{`
+          html,
+          body {
+            overflow-x: hidden;
+            max-width: 100%;
+          }
+          * {
+            box-sizing: border-box;
+          }
+        `}</style>
         <motion.div
           initial="hidden"
           animate="visible"

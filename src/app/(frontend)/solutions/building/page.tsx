@@ -114,6 +114,16 @@ const BuildingSolutionPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <style jsx global>{`
+        html,
+        body {
+          overflow-x: hidden;
+          max-width: 100%;
+        }
+        * {
+          box-sizing: border-box;
+        }
+      `}</style>
       {/* Hero Section */}
       <motion.section
         className="relative w-full h-screen flex items-center justify-start"

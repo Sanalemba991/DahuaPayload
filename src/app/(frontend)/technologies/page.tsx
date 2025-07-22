@@ -144,6 +144,16 @@ export default function SolutionsPage() {
 
   return (
     <>
+      <style jsx global>{`
+        html,
+       
+          overflow-x: hidden;
+          max-width: 100%;
+        }
+        * {
+          box-sizing: border-box;
+        
+      `}</style>
       <style jsx>{`
         @keyframes fadeIn {
           from {

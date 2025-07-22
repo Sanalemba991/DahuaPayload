@@ -94,7 +94,7 @@ export default async function HomePage() {
       </Script>
       <div className="relative w-full overflow-hidden">
         <HeroSection homepage={HomePage} videoUrl={heroVideo} />
-        <ProductGrid products={products} categories={categories} />
+        <ProductGrid products={products} />
         <FeatureBlocks />
         <TestimonialSlider />
         <CTASection />

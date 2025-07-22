@@ -10,6 +10,32 @@ type Media = {
   url: string
 }
 
+const titleVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.9,
+      ease: [0.23, 1, 0.32, 1],
+      delay: 0.1,
+    },
+  },
+}
+
+const lineVariants = {
+  hidden: { width: 0 },
+  visible: {
+    width: '6rem',
+    transition: {
+      duration: 0.7,
+      ease: [0.25, 0.46, 0.45, 0.94],
+      delay: 0.3,
+    },
+  },
+}
+
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -69,46 +95,85 @@ export default function SingleProduct({ products }: SingleProductProps) {
   }
 
   return (
-    <motion.section
-      ref={sectionRef}
-      variants={sectionVariants}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      className="py-6 bg-white scroll-mt-12"
-      id="featured-product"
-    >
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-center">
-          {featuredProduct ? (
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              whileHover="hover"
-              className="w-full max-w-xs"
-            >
-              <Link
-                href={`/products/${getProductPath(featuredProduct).categorySlug}/${
-                  getProductPath(featuredProduct).subcategorySlug
-                }/${getProductPath(featuredProduct).productSlug}`}
-                className="block"
+    <div className="mt-10">
+      <motion.h2
+        variants={titleVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+        className="text-4xl md:text-5xl font-bold mb-8 text-center text-gray-900"
+      >
+        Industry-Leading <span className="text-red-600">Products</span>
+      </motion.h2>
+
+      <motion.div
+        variants={lineVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+        className="h-1 bg-red-600 mx-auto"
+      />
+
+      <motion.section
+        ref={sectionRef}
+        variants={sectionVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+        className="py-6 bg-white scroll-mt-12"
+        id="featured-product"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex justify-center">
+            {featuredProduct ? (
+              <motion.div
+                variants={cardVariants}
+                initial="hidden"
+                animate={isInView ? 'visible' : 'hidden'}
+                whileHover="hover"
+                className="w-full max-w-xs group cursor-pointer" // Added group and cursor-pointer
               >
-                <div className="relative h-40 bg-gray-50 flex items-center justify-center p-4">
-                  {typeof featuredProduct.heroImage === 'object' &&
-                  featuredProduct.heroImage !== null &&
-                  'url' in featuredProduct.heroImage ? (
-                    <Image
-                      src={(featuredProduct.heroImage as Media).url}
-                      alt={featuredProduct.title || 'Product Image'}
-                      width={160}
-                      height={120}
-                      className="object-contain max-w-full max-h-full transition-transform duration-300 group-hover:scale-105"
-                      priority
-                    />
-                  ) : (
-                    <div className="w-24 h-20 bg-gray-100 flex items-center justify-center">
+                <Link
+                  href={`/products/${getProductPath(featuredProduct).categorySlug}/${
+                    getProductPath(featuredProduct).subcategorySlug
+                  }/${getProductPath(featuredProduct).productSlug}`}
+                  className="block"
+                >
+                  <div className="relative h-40 bg-gray-50 flex items-center justify-center p-4">
+                    {typeof featuredProduct.heroImage === 'object' &&
+                    featuredProduct.heroImage !== null &&
+                    'url' in featuredProduct.heroImage ? (
+                      <Image
+                        src={(featuredProduct.heroImage as Media).url}
+                        alt={featuredProduct.title || 'Product Image'}
+                        width={160}
+                        height={120}
+                        className="object-contain max-w-full max-h-full transition-transform duration-300 group-hover:scale-105"
+                        priority
+                      />
+                    ) : (
+                      <div className="w-24 h-20 bg-gray-100 flex items-center justify-center">
+                        <svg
+                          className="w-8 h-8 text-gray-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="px-3 py-2 bg-white border border-t-0 border-gray-200">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="text-sm font-medium text-gray-900 truncate group-hover:text-red-500 transition-colors duration-200">
+                        {featuredProduct.title || 'Product'}
+                      </h3>
                       <svg
-                        className="w-8 h-8 text-gray-300"
+                        className="w-3 h-3 text-gray-400 ml-1 group-hover:text-red-500 transition-colors duration-200"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -116,46 +181,25 @@ export default function SingleProduct({ products }: SingleProductProps) {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2z"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
                         />
                       </svg>
                     </div>
-                  )}
-                </div>
-
-                <div className="px-3 py-2 bg-white border border-t-0 border-gray-200">
-                  <div className="flex items-center justify-between mb-1">
-                    <h3 className="text-sm font-medium text-gray-900 truncate">
-                      {featuredProduct.title || 'Product'}
-                    </h3>
-                    <svg
-                      className="w-3 h-3 text-gray-400 ml-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                    <p className="text-xs text-gray-600 line-clamp-2">
+                      {featuredProduct.meta?.description || 'Product description'}
+                    </p>
                   </div>
-                  <p className="text-xs text-gray-600 line-clamp-2">
-                    {featuredProduct.meta?.description || 'Product description'}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
-          ) : (
-            <div className="text-center py-8 text-sm text-gray-500">
-              No featured product available
-            </div>
-          )}
+                </Link>
+              </motion.div>
+            ) : (
+              <div className="text-center py-8 text-sm text-gray-500">
+                No featured product available
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </motion.section>
+      </motion.section>
+    </div>
   )
 }
