@@ -115,7 +115,6 @@ const TransportationSolutionPage = () => {
       <style jsx global>{`
         html,
         body {
-          overflow-x: hidden;
           max-width: 100%;
         }
         * {

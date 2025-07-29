@@ -310,7 +310,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
               </Link>
               <Link
                 href="/products"
-                className={`nav-link group${pathname === '/products' ? ' active' : ''}`}
+                className={`nav-link group${pathname.startsWith('/products') ? ' active' : ''}`}
                 style={{
                   color: 'black',
                   fontWeight: 'normal',
@@ -330,7 +330,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                   Products
                   <span
                     className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
-                      pathname === '/products' ? 'w-full' : 'w-0 group-hover:w-full'
+                      pathname.startsWith('/products') ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                     style={{ height: '2px' }}
                   ></span>

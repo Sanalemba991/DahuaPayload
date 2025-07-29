@@ -22,7 +22,7 @@ export default function DahuaHeroSection() {
         <img
           src="/images/red.jpg"
           alt="Professional security monitoring"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
       </motion.div>
 
@@ -36,9 +36,11 @@ export default function DahuaHeroSection() {
       />
 
       {/* Centered Content Box with scroll animation */}
-      <div className="relative z-20 flex items-center justify-start w-full h-full">
+      <div className="relative z-20 flex items-center justify-start w-full h-full px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="max-w-xl bg-black/70 p-10 rounded-none md:rounded-lg shadow-xl ml-8 mt-16 mb-16"
+          className="w-full max-w-xl bg-black/70 p-6 sm:p-8 md:p-10 rounded-lg shadow-xl 
+                     mx-auto sm:mx-0 sm:ml-4 md:ml-8 lg:ml-12 xl:ml-16
+                     mt-8 mb-8 sm:mt-12 sm:mb-12 md:mt-16 md:mb-16"
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-100px' }}
@@ -49,7 +51,8 @@ export default function DahuaHeroSection() {
           }}
         >
           <motion.h1
-            className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 
+                       font-bold text-white mb-4 sm:mb-5 md:mb-6 leading-tight"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -61,7 +64,8 @@ export default function DahuaHeroSection() {
           </motion.h1>
 
           <motion.p
-            className="text-lg text-gray-300 mb-8 leading-relaxed"
+            className="text-sm sm:text-base md:text-lg text-gray-300 
+                       mb-6 sm:mb-7 md:mb-8 leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -78,11 +82,17 @@ export default function DahuaHeroSection() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center gap-3 px-7 py-3 border-2 border-white text-white bg-transparent hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-300 font-semibold group text-base"
+              className="inline-flex items-center justify-center gap-2 sm:gap-3 
+                         px-5 py-2.5 sm:px-6 sm:py-3 md:px-7 md:py-3 
+                         border-2 border-white text-white bg-transparent 
+                         hover:bg-red-600 hover:border-red-600 hover:text-white 
+                         transition-all duration-300 font-semibold group 
+                         text-sm sm:text-base w-full sm:w-auto
+                         focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black"
             >
               Contact Us
               <svg
-                className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

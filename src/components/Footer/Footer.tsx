@@ -169,9 +169,12 @@ export default function Footer() {
             {/* Powered By - Second line */}
             <span className="text-gray-400 text-xs">
               Powered By:{' '}
-              <span className="text-white font-semibold transition-transform duration-200 hover:translate-x-1 cursor-pointer">
+              <a
+                href="https://lovosis.in/"
+                className="text-white font-bold transition-transform duration-200 hover:translate-x-1 cursor-pointer"
+              >
                 Lovosis Technology
-              </span>
+              </a>
             </span>
           </div>
         </div>
