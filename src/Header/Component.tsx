@@ -1,4 +1,4 @@
-import { HeaderClient } from './Component.client'
+import HeaderClient from './Component.client'
 import React from 'react'
 import type { Media } from '@/payload-types'
 import { getPayload } from 'payload'
