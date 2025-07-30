@@ -13,6 +13,25 @@ interface HeaderProps {
   telephone?: string
 }
 
+interface ReloadLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  href: string
+  children: React.ReactNode
+}
+
+const ReloadLink = ({ href, children, ...props }: ReloadLinkProps) => {
+  return (
+    <a
+      href={href}
+      onClick={() => {
+        window.location.href = href
+      }}
+      {...props}
+    >
+      {children}
+    </a>
+  )
+}
+
 const HeaderClient = ({
   logo,
   email = 'sales@example.com',
@@ -20,9 +39,10 @@ const HeaderClient = ({
 }: HeaderProps) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
-  const [mobileSubMenu, setMobileSubMenu] = useState<null | 'technologies' | 'solutions'>(null)
+  const [mobileSubMenu, setMobileSubMenu] = useState<null | string>(null)
   const pathname = usePathname()
   const navRef = useRef<HTMLDivElement>(null)
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -42,8 +62,11 @@ const HeaderClient = ({
     }
   }, [mobileOpen])
 
-  const isPathActive = (pathname: string, basePath: string) => {
-    return pathname.startsWith(basePath)
+  const isPathActive = (currentPath: string, targetPath: string) => {
+    if (targetPath === '/') {
+      return currentPath === targetPath
+    }
+    return currentPath.startsWith(targetPath)
   }
 
   const navLinks = [
@@ -101,9 +124,8 @@ const HeaderClient = ({
     <header className="fixed top-0 left-0 right-0 bg-white text-black shadow-md z-50 border-b border-gray-200">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          {/* Mobile menu button and logo - Updated layout */}
-          <div className="flex w-full md:hidden items-center justify-between">
-            {/* Logo on the left */}
+          {/* Mobile/tablet menu button and logo */}
+          <div className="flex w-full lg:hidden items-center justify-between">
             <Link href="/" className="block">
               <Image
                 src={logo?.url || '/images/dahualogo-removebg-preview.png.png'}
@@ -114,7 +136,6 @@ const HeaderClient = ({
               />
             </Link>
 
-            {/* Menu toggle button on the right */}
             <button
               className="flex items-center z-[100000] relative p-2"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -122,58 +143,44 @@ const HeaderClient = ({
             >
               <div className="w-6 h-6 relative flex flex-col justify-center items-center">
                 <div
-                  className="w-5 h-0.5 bg-red-600 rounded-full transition-all duration-300 ease-in-out absolute"
-                  style={{
-                    transform: mobileOpen ? 'rotate(45deg)' : 'rotate(0) translateY(-6px)',
-                  }}
+                  className={`w-5 h-0.5 bg-red-600 rounded-full transition-all duration-300 ease-in-out absolute ${
+                    mobileOpen ? 'rotate-45 translate-y-0' : '-translate-y-1.5'
+                  }`}
                 />
                 <div
-                  className="w-5 h-0.5 bg-red-600 rounded-full transition-all duration-300 ease-in-out absolute"
-                  style={{
-                    opacity: mobileOpen ? 0 : 1,
-                  }}
+                  className={`w-5 h-0.5 bg-red-600 rounded-full transition-all duration-300 ease-in-out absolute ${
+                    mobileOpen ? 'opacity-0' : 'opacity-100'
+                  }`}
                 />
                 <div
-                  className="w-5 h-0.5 bg-red-600 rounded-full transition-all duration-300 ease-in-out absolute"
-                  style={{
-                    transform: mobileOpen ? 'rotate(-45deg)' : 'rotate(0) translateY(6px)',
-                  }}
+                  className={`w-5 h-0.5 bg-red-600 rounded-full transition-all duration-300 ease-in-out absolute ${
+                    mobileOpen ? '-rotate-45 translate-y-0' : 'translate-y-1.5'
+                  }`}
                 />
               </div>
             </button>
           </div>
 
           {/* Desktop logo */}
-          <div className="hidden md:flex items-center justify-start" style={{ width: '150px' }}>
+          <div className="hidden lg:flex items-center justify-start" style={{ width: '150px' }}>
             <Link href="/" className="block">
               <Image
                 src={logo?.url || '/images/dahualogo-removebg-preview.png.png'}
                 alt={logo?.alt || 'Logo'}
                 width={140}
                 height={40}
-                className="object-contain"
+                className="object-contain transition-all duration-300 hover:scale-105"
                 style={{
                   filter: 'brightness(1.2) contrast(1.1)',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={(e) => {
-                  ;(e.target as HTMLImageElement).style.filter =
-                    'brightness(1.3) contrast(1.2) drop-shadow(0 2px 8px rgba(59, 130, 246, 0.4))'
-                  ;(e.target as HTMLImageElement).style.transform = 'scale(1.05)'
-                }}
-                onMouseLeave={(e) => {
-                  ;(e.target as HTMLImageElement).style.filter = 'brightness(1.2) contrast(1.1)'
-                  ;(e.target as HTMLImageElement).style.transform = 'scale(1)'
                 }}
               />
             </Link>
           </div>
 
-          {/* Desktop navigation - REMOVED UNDERLINE ANIMATIONS */}
+          {/* Desktop navigation */}
           <nav
             ref={navRef}
-            className="hidden md:flex items-center gap-8"
+            className="hidden lg:flex items-center gap-8"
             style={{ flex: 1, justifyContent: 'center' }}
           >
             {navLinks.map((item) => (
@@ -185,7 +192,11 @@ const HeaderClient = ({
                   >
                     <Link
                       href={item.href}
-                      className={`flex items-center gap-1 px-3 py-2 group ${isPathActive(pathname, item.href) ? 'text-red-600' : 'text-gray-800 hover:text-red-600'}`}
+                      className={`flex items-center gap-1 px-3 py-2 group transition-colors duration-300 ${
+                        isPathActive(pathname, item.href)
+                          ? 'text-red-600'
+                          : 'text-gray-800 hover:text-red-600'
+                      }`}
                     >
                       <span className="relative">
                         {item.label}
@@ -196,24 +207,26 @@ const HeaderClient = ({
                         ></span>
                       </span>
                       <svg
-                        className="w-4 h-4"
+                        className={`w-4 h-4 transition-transform duration-300 ${
+                          activeDropdown === item.href ? 'rotate-180' : 'rotate-0'
+                        }`}
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        style={{
-                          filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.8))',
-                        }}
                       >
-                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </Link>
 
                     {activeDropdown === item.href && (
                       <div
-                        className="fixed left-0 right-0 w-full bg-white shadow-lg py-1 z-10 mt-0"
+                        className="fixed left-0 right-0 w-full bg-white shadow-lg py-1 z-10 mt-0 animate-fadeIn"
                         style={{
                           top: '64px',
                           borderTop: '1px solid #e5e7eb',
-                          animation: 'fadeIn 0.3s ease-out',
                         }}
                         onMouseEnter={() => setActiveDropdown(item.href)}
                         onMouseLeave={() => setActiveDropdown(null)}
@@ -226,18 +239,23 @@ const HeaderClient = ({
                               </h3>
                               <div className="grid grid-cols-2 gap-4">
                                 {item.submenu.map((subItem) => (
-                                  <Link
+                                  <ReloadLink
                                     key={subItem.href}
                                     href={subItem.href}
-                                    className="block p-4 text-gray-800 hover:bg-gray-100 rounded-lg border border-gray-100 bg-gray-50 hover:border-red-600 hover:text-red-600 transition-all"
+                                    className={`block p-4 rounded-lg border transition-all duration-300 ${
+                                      isPathActive(pathname, subItem.href)
+                                        ? 'border-red-600 bg-red-50 text-red-600'
+                                        : 'border-gray-100 bg-gray-50 hover:border-red-600 text-gray-800'
+                                    }`}
                                   >
-                                    {subItem.label}
-                                  </Link>
+                                    <div className="font-medium">{subItem.label}</div>
+                                    <div className="text-sm text-gray-500 mt-1">{subItem.desc}</div>
+                                  </ReloadLink>
                                 ))}
                               </div>
                             </div>
                             <div className="w-80 pl-8 border-l border-gray-200 flex flex-col items-center justify-center">
-                              <div className="w-full h-48 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+                              <div className="w-full h-48 bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
                                 <Image
                                   src={
                                     item.href === '/technologies'
@@ -247,10 +265,10 @@ const HeaderClient = ({
                                   alt={item.label}
                                   width={280}
                                   height={200}
-                                  className="object-contain rounded-lg"
+                                  className="object-cover transition-transform duration-500 hover:scale-105"
                                 />
                               </div>
-                              <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+                              <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200 transition-all duration-300 hover:shadow-md">
                                 <h4 className="font-semibold mb-2">
                                   {item.href === '/technologies'
                                     ? 'Advanced Technology Solutions'
@@ -258,8 +276,8 @@ const HeaderClient = ({
                                 </h4>
                                 <p className="text-sm text-gray-600">
                                   {item.href === '/technologies'
-                                    ? 'Discover cutting-edge surveillance technologies that deliver superior performance and reliability.'
-                                    : 'Comprehensive security solutions tailored for various industries and applications.'}
+                                    ? 'Discover cutting-edge surveillance technologies'
+                                    : 'Comprehensive security solutions'}
                                 </p>
                               </div>
                             </div>
@@ -271,13 +289,17 @@ const HeaderClient = ({
                 ) : (
                   <Link
                     href={item.href}
-                    className={`px-3 py-2 group ${pathname === item.href ? 'text-red-600' : 'text-gray-800 hover:text-red-600'}`}
+                    className={`px-3 py-2 group transition-colors duration-300 ${
+                      isPathActive(pathname, item.href)
+                        ? 'text-red-600'
+                        : 'text-gray-800 hover:text-red-600'
+                    }`}
                   >
                     <span className="relative">
                       {item.label}
                       <span
                         className={`absolute -bottom-1 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
-                          pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'
+                          isPathActive(pathname, item.href) ? 'w-full' : 'w-0 group-hover:w-full'
                         }`}
                       ></span>
                     </span>
@@ -289,151 +311,160 @@ const HeaderClient = ({
 
           {/* Desktop contact icons */}
           <div
-            className="hidden md:flex items-center gap-4"
+            className="hidden lg:flex items-center gap-4"
             style={{ minWidth: '120px', justifyContent: 'flex-end' }}
           >
             <a
               href={`mailto:${email}`}
-              className="flex items-center justify-center text-black hover:text-red-600 transition-colors duration-300"
+              className="flex items-center justify-center text-black hover:text-red-600 transition-all duration-300"
               style={{
                 backgroundColor: '#f8f9fa',
                 padding: '8px',
                 borderRadius: '50%',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 width: '40px',
                 height: '40px',
               }}
               title={email}
             >
               <svg
-                className="w-6 h-6 text-black"
+                className="w-6 h-6 transition-transform duration-300 hover:scale-110"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                ></path>
+                />
               </svg>
             </a>
 
             <a
               href={`tel:${telephone}`}
-              className="flex items-center justify-center text-black hover:text-red-600 transition-colors duration-300"
+              className="flex items-center justify-center text-black hover:text-red-600 transition-all duration-300"
               style={{
                 backgroundColor: '#f8f9fa',
                 padding: '8px',
                 borderRadius: '50%',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 width: '40px',
                 height: '40px',
               }}
               title={telephone}
             >
               <svg
-                className="w-6 h-6 text-black"
+                className="w-6 h-6 transition-transform duration-300 hover:scale-110"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                ></path>
+                />
               </svg>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu - USING SECOND CODE VERSION */}
-      {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-50 pt-16">
-          <div className="absolute inset-0 bg-transparent" onClick={() => setMobileOpen(false)} />
-
-          <div
-            className="absolute left-0 right-0 top-0 bg-white shadow-xl overflow-y-auto flex flex-col"
-            style={{
-              height: 'auto',
-              maxHeight: '85vh',
-              animation: 'slideInDown 0.3s ease-out forwards',
-            }}
-          >
-            <div className="p-4 border-b border-gray-200 bg-gray-50">
-              <Link href="/" className="block" onClick={() => setMobileOpen(false)}>
-                <Image
-                  src={logo?.url || '/images/dahualogo-removebg-preview.png.png'}
-                  alt={logo?.alt || 'Logo'}
-                  width={120}
-                  height={36}
-                  className="h-9 object-contain"
-                />
-              </Link>
-            </div>
-
-            <div className="flex-1 py-2">
-              {!mobileSubMenu && (
-                <nav className="px-2">
-                  {navLinks.map((item) => (
-                    <div key={item.href} className="border-b border-gray-100 last:border-b-0">
-                      {item.submenu ? (
-                        <button
-                          className="w-full flex items-center justify-between py-3 px-3 text-gray-800 hover:text-red-600 hover:bg-gray-50 transition-colors duration-200 text-sm"
-                          onClick={() =>
-                            setMobileSubMenu(
-                              item.href.includes('technologies') ? 'technologies' : 'solutions',
-                            )
-                          }
-                        >
-                          <span className="font-medium">{item.label}</span>
-                          <svg
-                            className="w-4 h-4 text-gray-400"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </button>
-                      ) : (
-                        <Link
-                          href={item.href}
-                          onClick={() => setMobileOpen(false)}
-                          className={`flex items-center py-3 px-3 text-sm font-medium transition-colors duration-200 ${
-                            pathname === item.href
-                              ? 'text-red-600 bg-red-50'
-                              : 'text-gray-800 hover:text-red-600 hover:bg-gray-50'
-                          }`}
+      {/* Mobile menu */}
+      <div
+        ref={mobileMenuRef}
+        className={`lg:hidden fixed inset-0 z-40 transition-all duration-300 ease-in-out ${
+          mobileOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}
+        style={{
+          top: '64px',
+          height: 'calc(100vh - 64px)',
+          backgroundColor: 'transparent',
+          pointerEvents: mobileOpen ? 'auto' : 'none',
+        }}
+        onClick={(e) => {
+          if (e.target === mobileMenuRef.current) {
+            setMobileOpen(false)
+            setMobileSubMenu(null)
+          }
+        }}
+      >
+        <div
+          className={`bg-white shadow-xl overflow-y-auto transition-all duration-300 ease-in-out ${
+            mobileOpen ? 'translate-y-0' : '-translate-y-full'
+          }`}
+          style={{
+            height: 'auto',
+            maxHeight: 'calc(100vh - 64px)',
+          }}
+        >
+          {!mobileSubMenu ? (
+            <div className="flex flex-col">
+              <nav className="px-4">
+                {navLinks.map((item) => (
+                  <div key={item.href} className="border-b border-gray-100 last:border-b-0">
+                    {item.submenu ? (
+                      <button
+                        className={`w-full flex items-center justify-between py-4 px-2 text-base font-medium transition-colors duration-300 ${
+                          isPathActive(pathname, item.href)
+                            ? 'text-red-600 bg-red-50'
+                            : 'text-gray-800 hover:text-red-600 hover:bg-red-50'
+                        }`}
+                        onClick={() => setMobileSubMenu(item.href)}
+                      >
+                        <span
+                          className={`${isPathActive(pathname, item.href) ? 'font-semibold' : ''}`}
                         >
                           {item.label}
-                        </Link>
-                      )}
-                    </div>
-                  ))}
-                </nav>
-              )}
+                        </span>
+                        <svg
+                          className={`w-5 h-5 transition-colors duration-300 ${
+                            isPathActive(pathname, item.href) ? 'text-red-600' : 'text-gray-500'
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        onClick={() => {
+                          setMobileOpen(false)
+                          setMobileSubMenu(null)
+                        }}
+                        className={`flex items-center py-4 px-2 text-base font-medium transition-colors duration-300 ${
+                          isPathActive(pathname, item.href)
+                            ? 'text-red-600 bg-red-50 font-semibold'
+                            : 'text-gray-800 hover:text-red-600 hover:bg-red-50'
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                        {isPathActive(pathname, item.href) && (
+                          <div className="ml-auto w-1 h-6 bg-red-600 rounded-full"></div>
+                        )}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </nav>
 
-              {/* Enhanced Submenu Display */}
-              {(mobileSubMenu === 'technologies' || mobileSubMenu === 'solutions') && (
-                <div className="px-2">
-                  <button
-                    className="flex items-center py-3 px-3 text-gray-600 hover:text-red-600 transition-colors duration-200 mb-2 text-sm"
-                    onClick={() => setMobileSubMenu(null)}
+              <div className="p-4 border-t border-gray-200 bg-gray-50 mt-auto">
+                <div className="space-y-3">
+                  <a
+                    href={`mailto:${email}`}
+                    className="flex items-center text-sm text-gray-600 hover:text-red-600 transition-colors duration-300"
                   >
                     <svg
-                      className="mr-2 w-4 h-4"
+                      className="w-5 h-5 mr-2 text-gray-500 transition-transform duration-300 hover:scale-110"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -441,111 +472,122 @@ const HeaderClient = ({
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
+                        strokeWidth="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                       />
                     </svg>
-                    Back to Menu
-                  </button>
-
-                  <div className="border-t border-gray-200 pt-3">
-                    <h3 className="px-3 py-2 text-xs font-semibold text-gray-900 uppercase tracking-wide bg-gray-50 rounded">
-                      {mobileSubMenu === 'technologies' ? 'Technologies' : 'Solutions'}
-                    </h3>
-
-                    <div className="mt-2 space-y-1">
-                      {navLinks
-                        .find((item) => item.href === `/${mobileSubMenu}`)
-                        ?.submenu?.map((subItem) => (
-                          <Link
-                            key={subItem.href}
-                            href={subItem.href}
-                            onClick={() => setMobileOpen(false)}
-                            className="block p-3 text-gray-800 hover:text-red-600 hover:bg-red-50 transition-colors duration-200 border border-gray-100 rounded-md mx-2 mb-2"
-                          >
-                            <div className="text-sm font-medium">{subItem.label}</div>
-                            <div className="text-xs text-gray-500 mt-1">
-                              {(subItem as any).desc || 'Advanced security solution'}
-                            </div>
-                          </Link>
-                        ))}
-                    </div>
-                  </div>
+                    {email}
+                  </a>
+                  <a
+                    href={`tel:${telephone}`}
+                    className="flex items-center text-sm text-gray-600 hover:text-red-600 transition-colors duration-300"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-2 text-gray-500 transition-transform duration-300 hover:scale-110"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                      />
+                    </svg>
+                    {telephone}
+                  </a>
                 </div>
-              )}
-            </div>
-
-            {/* Contact info */}
-            <div className="border-t border-gray-200 p-4 bg-gray-50">
-              <div className="space-y-2">
-                <a
-                  href={`mailto:${email}`}
-                  className="flex items-center text-sm text-gray-600 hover:text-red-600 transition-colors duration-200"
-                >
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                  {email}
-                </a>
-                <a
-                  href={`tel:${telephone}`}
-                  className="flex items-center text-sm text-gray-600 hover:text-red-600 transition-colors duration-200"
-                >
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
-                  {telephone}
-                </a>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="h-full flex flex-col">
+              <div className="p-4 border-b border-gray-200 flex items-center bg-red-50">
+                <button
+                  className="flex items-center text-gray-600 hover:text-red-600 transition-colors duration-300"
+                  onClick={() => setMobileSubMenu(null)}
+                >
+                  <svg
+                    className="w-5 h-5 mr-2 transition-transform duration-300 hover:-translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                  <span className="font-medium">Back</span>
+                </button>
+                <span className="ml-2 font-semibold text-red-600">
+                  {navLinks.find((item) => item.href === mobileSubMenu)?.label}
+                </span>
+              </div>
+
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-4">
+                  <div className="space-y-2">
+                    {navLinks
+                      .find((item) => item.href === mobileSubMenu)
+                      ?.submenu?.map((subItem) => (
+                        <Link
+                          key={subItem.href}
+                          href={subItem.href}
+                          onClick={() => {
+                            setMobileOpen(false)
+                            setMobileSubMenu(null)
+                          }}
+                          className={`block p-4 rounded-lg transition-all duration-300 border ${
+                            isPathActive(pathname, subItem.href)
+                              ? 'bg-red-50 text-red-600 border-red-200 shadow-sm'
+                              : 'hover:bg-red-50 text-gray-900 hover:text-red-600 border-gray-100 hover:border-red-200'
+                          }`}
+                        >
+                          <div
+                            className={`font-medium ${
+                              isPathActive(pathname, subItem.href) ? 'font-semibold' : ''
+                            }`}
+                          >
+                            {subItem.label}
+                            {isPathActive(pathname, subItem.href) && (
+                              <span className="ml-2 inline-block w-2 h-2 bg-red-600 rounded-full"></span>
+                            )}
+                          </div>
+                          <div
+                            className={`text-sm mt-1 ${
+                              isPathActive(pathname, subItem.href)
+                                ? 'text-red-500'
+                                : 'text-gray-500'
+                            }`}
+                          >
+                            {subItem.desc}
+                          </div>
+                        </Link>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
-      <style jsx>{`
-        @keyframes slideInDown {
-          from {
-            transform: translateY(-100%);
-          }
-          to {
-            transform: translateY(0);
-          }
-        }
-
+      <style jsx global>{`
         @keyframes fadeIn {
           from {
             opacity: 0;
+            transform: translateY(-10px);
           }
           to {
             opacity: 1;
+            transform: translateY(0);
           }
         }
-
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
         }
       `}</style>
     </header>

@@ -87,7 +87,7 @@ export default function SiraPage() {
       {/* Hero Section - Full Viewport Height */}
       <section className="relative w-full h-screen flex items-center justify-start overflow-hidden">
         <Image
-          src="/images/red.jpg"
+          src="/images/sira.jpg"
           alt="SIRA Hero"
           fill
           className="object-cover w-full h-full"
@@ -153,7 +153,7 @@ export default function SiraPage() {
           >
             <div className="relative h-80 sm:h-96 w-full rounded-xl overflow-hidden shadow-2xl">
               <Image
-                src="/images/sira-certificate.jpg"
+                src="/images/Sira.jpg"
                 alt="SIRA Certification"
                 fill
                 className="object-cover"

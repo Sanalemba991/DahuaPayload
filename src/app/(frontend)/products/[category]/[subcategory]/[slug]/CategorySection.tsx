@@ -188,17 +188,6 @@ export default function CategorySection({ product, selectedImage }: ProductDetai
                 >
                   Product Specifications
                 </button>
-
-                <button
-                  className={`relative py-6 px-8 font-semibold text-base transition-all duration-300 ${
-                    activeTab === 'download'
-                      ? 'text-gray-900 bg-white border-b-2 border-gray-900'
-                      : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                  }`}
-                  onClick={() => setActiveTab('download')}
-                >
-                  Resources & Downloads
-                </button>
               </nav>
             </div>
 
@@ -269,109 +258,6 @@ export default function CategorySection({ product, selectedImage }: ProductDetai
                       </div>
                     </motion.div>
                   </div>
-                </div>
-              )}
-
-              {activeTab === 'download' && (
-                <div className="p-16 text-center">
-                  <motion.div
-                    className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-8"
-                    animate={{
-                      scale: [1, 1.05, 1],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                  >
-                    <svg
-                      className="w-12 h-12 text-gray-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                  </motion.div>
-                  <h4 className="text-3xl font-bold text-gray-900 mb-4">Product Resources</h4>
-                  <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-                    Access comprehensive documentation, technical manuals, installation guides, and
-                    software downloads for this product.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
-                    <div className="p-6 bg-gray-50 rounded-xl border border-gray-100">
-                      <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mx-auto mb-4 shadow-sm">
-                        <svg
-                          className="w-6 h-6 text-gray-600"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                          />
-                        </svg>
-                      </div>
-                      <h5 className="font-semibold text-gray-900 mb-2">User Manual</h5>
-                      <p className="text-gray-600 text-sm">
-                        Complete installation and operation guide
-                      </p>
-                    </div>
-                    <div className="p-6 bg-gray-50 rounded-xl border border-gray-100">
-                      <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mx-auto mb-4 shadow-sm">
-                        <svg
-                          className="w-6 h-6 text-gray-600"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 00-2-2z"
-                          />
-                        </svg>
-                      </div>
-                      <h5 className="font-semibold text-gray-900 mb-2">Technical Specs</h5>
-                      <p className="text-gray-600 text-sm">Detailed technical specifications</p>
-                    </div>
-                    <div className="p-6 bg-gray-50 rounded-xl border border-gray-100">
-                      <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mx-auto mb-4 shadow-sm">
-                        <svg
-                          className="w-6 h-6 text-gray-600"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                          />
-                        </svg>
-                      </div>
-                      <h5 className="font-semibold text-gray-900 mb-2">Software</h5>
-                      <p className="text-gray-600 text-sm">Configuration and management tools</p>
-                    </div>
-                  </div>
-                  <motion.button
-                    className="px-8 py-4 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 shadow-lg"
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Request Complete Resource Package
-                  </motion.button>
                 </div>
               )}
             </motion.div>

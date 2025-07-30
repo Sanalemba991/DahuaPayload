@@ -71,17 +71,17 @@ export default function ProductSection({ products, category, subcategory }: Prod
   return (
     <section
       ref={sectionRef}
-      className="py-6 bg-white scroll-mt-12 opacity-0 translate-y-8 transition-all duration-800"
+      className="py-4 sm:py-6 bg-white scroll-mt-12 opacity-0 translate-y-8 transition-all duration-800"
       id="products"
     >
       <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header */}
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">Products</h2>
+        <div className="mb-3 sm:mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Products</h2>
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
           {products.length > 0 ? (
             products.map((product, index) => {
               if (typeof product === 'string') return null
@@ -98,23 +98,23 @@ export default function ProductSection({ products, category, subcategory }: Prod
                       href={`/products/${category}/${subcategory}/${product.slug || 'unknown'}`}
                       className="group block h-full"
                     >
-                      {/* Image Container - Made bigger */}
-                      <div className="relative h-40 sm:h-44 lg:h-48 bg-gray-50 flex items-center justify-center p-4">
+                      {/* Image Container - Responsive sizing */}
+                      <div className="relative h-32 sm:h-40 md:h-44 lg:h-48 bg-gray-50 flex items-center justify-center p-2 sm:p-4">
                         {typeof product.heroImage === 'object' &&
                         product.heroImage !== null &&
                         'url' in product.heroImage ? (
                           <Image
                             src={(product.heroImage as Media).url}
                             alt={product.title || 'Product Image'}
-                            width={160}
-                            height={120}
+                            width={120}
+                            height={90}
                             className="object-contain max-w-full max-h-full transition-transform duration-300 group-hover:scale-105"
                             priority={index < 4}
                           />
                         ) : (
-                          <div className="w-24 h-20 bg-gray-100 flex items-center justify-center">
+                          <div className="w-16 h-14 sm:w-20 sm:h-16 bg-gray-100 flex items-center justify-center">
                             <svg
-                              className="w-8 h-8 text-gray-300"
+                              className="w-6 h-6 sm:w-8 sm:h-8 text-gray-300"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -131,14 +131,14 @@ export default function ProductSection({ products, category, subcategory }: Prod
                       </div>
 
                       {/* Product Info */}
-                      <div className="px-3 py-2">
+                      <div className="px-2 py-1 sm:px-3 sm:py-2">
                         {/* Product Model/SKU */}
-                        <div className="flex items-center justify-between mb-1">
-                          <h3 className="text-sm font-medium text-gray-900 group-hover:text-red-600 truncate transition-colors duration-200">
+                        <div className="flex items-center justify-between mb-0 sm:mb-1">
+                          <h3 className="text-xs sm:text-sm font-medium text-gray-900 group-hover:text-red-600 truncate transition-colors duration-200">
                             {product.title || 'Model Not Available'}
                           </h3>
                           <svg
-                            className="w-3 h-3 text-gray-400 group-hover:text-red-600 ml-1 flex-shrink-0 transition-colors duration-200"
+                            className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-gray-400 group-hover:text-red-600 ml-1 flex-shrink-0 transition-colors duration-200"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -153,7 +153,7 @@ export default function ProductSection({ products, category, subcategory }: Prod
                         </div>
 
                         {/* Product Description */}
-                        <p className="text-xs text-gray-600 leading-tight line-clamp-2">
+                        <p className="text-[10px] sm:text-xs text-gray-600 leading-tight line-clamp-2">
                           {product.meta?.description ||
                             product.title ||
                             'Product description not available'}
@@ -165,10 +165,10 @@ export default function ProductSection({ products, category, subcategory }: Prod
               )
             })
           ) : (
-            <div className="text-center py-12 col-span-full">
-              <div className="inline-flex items-center justify-center bg-gray-100 rounded-full p-6 mb-4">
+            <div className="text-center py-8 sm:py-12 col-span-full">
+              <div className="inline-flex items-center justify-center bg-gray-100 rounded-full p-4 sm:p-6 mb-3 sm:mb-4">
                 <svg
-                  className="w-6 h-6 text-gray-400"
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -181,8 +181,10 @@ export default function ProductSection({ products, category, subcategory }: Prod
                   />
                 </svg>
               </div>
-              <h3 className="text-base font-medium text-gray-900 mb-1">No products found</h3>
-              <p className="text-sm text-gray-500">
+              <h3 className="text-sm sm:text-base font-medium text-gray-900 mb-1">
+                No products found
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-500">
                 Check back later for new products in this category.
               </p>
             </div>

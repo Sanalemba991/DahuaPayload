@@ -62,20 +62,20 @@ export default function CategorySection({
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-white scroll-mt-16 opacity-0 translate-y-10 transition-all duration-1000"
+      className="py-12 md:py-20 bg-white scroll-mt-16 opacity-0 translate-y-10 transition-all duration-1000"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+        <div className="text-center mb-10 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-gray-900">
             {categoryDoc.title} <span className="text-red-500">Categories</span>
           </h2>
-          <p className="text-xl text-gray-600 mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 mx-auto max-w-2xl">
             Browse through our extensive product categories to find the perfect solution for your
             needs.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {categoryDoc.subcategories?.map((subcategory, index) => {
             if (typeof subcategory === 'string') return null
             return (
@@ -85,9 +85,9 @@ export default function CategorySection({
                 className="category-card group opacity-0 translate-y-10 transition-all duration-700"
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-300 overflow-hidden hover:shadow-md cursor-pointer group">
+                <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-300 overflow-hidden hover:shadow-md cursor-pointer group h-full flex flex-col">
                   {/* Image Container */}
-                  <div className="relative h-48 bg-gray-50 flex items-center justify-center p-6">
+                  <div className="relative h-32 sm:h-40 md:h-48 bg-gray-50 flex items-center justify-center p-4 sm:p-6">
                     {typeof subcategory.SubcategoryImage === 'object' &&
                     subcategory.SubcategoryImage !== null &&
                     'url' in subcategory.SubcategoryImage ? (
@@ -100,17 +100,21 @@ export default function CategorySection({
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-2xl font-bold text-gray-400">{subcategory.title}</div>
+                        <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-400">
+                          {subcategory.title}
+                        </div>
                       </div>
                     )}
                   </div>
 
                   {/* Content Container */}
-                  <div className="p-4 text-center bg-white">
-                    <h3 className="text-lg font-medium text-gray-700 mb-2">{subcategory.title}</h3>
+                  <div className="p-3 sm:p-4 text-center bg-white flex-grow flex flex-col">
+                    <h3 className="text-sm sm:text-base md:text-lg font-medium text-gray-700 mb-2">
+                      {subcategory.title}
+                    </h3>
 
                     {/* Subtle divider line */}
-                    <div className="w-0 h-0.5 bg-red-500 mx-auto group-hover:w-8 transition-all duration-300"></div>
+                    <div className="w-0 h-0.5 bg-red-500 mx-auto mt-auto group-hover:w-8 transition-all duration-300"></div>
                   </div>
                 </div>
               </Link>
