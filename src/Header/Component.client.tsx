@@ -53,23 +53,43 @@ const HeaderClient = ({
       href: '/technologies',
       label: 'Technologies',
       submenu: [
-        { href: '/technologies/wizsense', label: 'WizSense' },
-        { href: '/technologies/wizmind', label: 'WizMind' },
-        { href: '/technologies/full-color', label: 'Full-color' },
-        { href: '/technologies/auto-tracking', label: 'Auto Tracking 3.0' },
-        { href: '/technologies/hdcvi-ten', label: 'HDCVI TEN Technology' },
-        { href: '/technologies/predictive-focus', label: 'Predictive Focus Algorithm' },
+        { href: '/technologies/wizsense', label: 'WizSense', desc: 'AI-powered video analytics' },
+        { href: '/technologies/wizmind', label: 'WizMind', desc: 'Intelligent monitoring system' },
+        {
+          href: '/technologies/full-color',
+          label: 'Full-color',
+          desc: '24/7 colorful surveillance',
+        },
+        {
+          href: '/technologies/auto-tracking',
+          label: 'Auto Tracking 3.0',
+          desc: 'Smart object tracking',
+        },
+        {
+          href: '/technologies/hdcvi-ten',
+          label: 'HDCVI TEN Technology',
+          desc: 'High-definition transmission',
+        },
+        {
+          href: '/technologies/predictive-focus',
+          label: 'Predictive Focus Algorithm',
+          desc: 'Advanced focus algorithm',
+        },
       ],
     },
     {
       href: '/solutions',
       label: 'Solutions',
       submenu: [
-        { href: '/solutions/building', label: 'Building' },
-        { href: '/solutions/banking', label: 'Banking' },
-        { href: '/solutions/retail', label: 'Retail' },
-        { href: '/solutions/transportation', label: 'Transportation' },
-        { href: '/solutions/government', label: 'Government' },
+        { href: '/solutions/building', label: 'Building', desc: 'Commercial security solutions' },
+        { href: '/solutions/banking', label: 'Banking', desc: 'Financial institution security' },
+        { href: '/solutions/retail', label: 'Retail', desc: 'Store monitoring & analytics' },
+        {
+          href: '/solutions/transportation',
+          label: 'Transportation',
+          desc: 'Traffic & transit security',
+        },
+        { href: '/solutions/government', label: 'Government', desc: 'Public safety solutions' },
       ],
     },
     { href: '/sira', label: 'Sira' },
@@ -150,7 +170,7 @@ const HeaderClient = ({
             </Link>
           </div>
 
-          {/* Desktop navigation */}
+          {/* Desktop navigation - KEEPING ORIGINAL FROM FIRST CODE */}
           <nav
             ref={navRef}
             className="hidden md:flex items-center gap-12"
@@ -335,22 +355,19 @@ const HeaderClient = ({
         </div>
       </div>
 
-      {/* Mobile menu - Updated background */}
+      {/* Mobile menu - USING SECOND CODE VERSION */}
       {mobileOpen && (
         <div className="md:hidden fixed inset-0 z-50 pt-16">
-          {/* Transparent backdrop */}
           <div className="absolute inset-0 bg-transparent" onClick={() => setMobileOpen(false)} />
 
-          {/* Half-height drawer with white background */}
           <div
             className="absolute left-0 right-0 top-0 bg-white shadow-xl overflow-y-auto"
             style={{
-              height: '50vh',
+              height: '70vh',
               animation: 'slideInDown 0.3s ease-out forwards',
             }}
           >
-            {/* Logo section at top */}
-            <div className="p-6 border-b border-gray-200 bg-gray-50">
+            <div className="p-4 border-b border-gray-200 bg-gray-50">
               <Link href="/" className="block" onClick={() => setMobileOpen(false)}>
                 <Image
                   src={logo?.url || '/images/dahualogo-removebg-preview.png.png'}
@@ -362,37 +379,23 @@ const HeaderClient = ({
               </Link>
             </div>
 
-            {/* Navigation menu */}
-            <div className="flex-1 py-4">
+            <div className="flex-1 py-2">
               {!mobileSubMenu && (
-                <nav className="px-4">
-                  {navLinks.map((item, index) => (
+                <nav className="px-2">
+                  {navLinks.map((item) => (
                     <div key={item.href} className="border-b border-gray-100 last:border-b-0">
                       {item.submenu ? (
                         <button
-                          className="w-full flex items-center justify-between py-4 px-2 text-gray-800 hover:text-red-600 hover:bg-gray-50 transition-colors duration-200"
+                          className="w-full flex items-center justify-between py-3 px-3 text-gray-800 hover:text-red-600 hover:bg-gray-50 transition-colors duration-200 text-sm"
                           onClick={() =>
                             setMobileSubMenu(
                               item.href.includes('technologies') ? 'technologies' : 'solutions',
                             )
                           }
                         >
-                          <div className="flex items-center">
-                            <svg
-                              className="w-5 h-5 mr-3 text-gray-500"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span className="text-left font-medium">{item.label}</span>
-                          </div>
+                          <span className="font-medium">{item.label}</span>
                           <svg
-                            className="w-5 h-5 text-gray-400"
+                            className="w-4 h-4 text-gray-400"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -409,23 +412,12 @@ const HeaderClient = ({
                         <Link
                           href={item.href}
                           onClick={() => setMobileOpen(false)}
-                          className={`flex items-center py-4 px-2 font-medium transition-colors duration-200 ${
+                          className={`flex items-center py-3 px-3 text-sm font-medium transition-colors duration-200 ${
                             pathname === item.href
                               ? 'text-red-600 bg-red-50'
                               : 'text-gray-800 hover:text-red-600 hover:bg-gray-50'
                           }`}
                         >
-                          <svg
-                            className="w-5 h-5 mr-3 text-gray-500"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
                           {item.label}
                         </Link>
                       )}
@@ -434,15 +426,15 @@ const HeaderClient = ({
                 </nav>
               )}
 
-              {/* Technologies Submenu */}
-              {mobileSubMenu === 'technologies' && (
-                <div className="px-4">
+              {/* Enhanced Submenu Display */}
+              {(mobileSubMenu === 'technologies' || mobileSubMenu === 'solutions') && (
+                <div className="px-2">
                   <button
-                    className="flex items-center py-4 px-2 text-gray-600 hover:text-red-600 transition-colors duration-200 mb-2"
+                    className="flex items-center py-3 px-3 text-gray-600 hover:text-red-600 transition-colors duration-200 mb-2 text-sm"
                     onClick={() => setMobileSubMenu(null)}
                   >
                     <svg
-                      className="mr-2 w-5 h-5"
+                      className="mr-2 w-4 h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -456,100 +448,43 @@ const HeaderClient = ({
                     </svg>
                     Back to Menu
                   </button>
-                  <div className="border-t border-gray-200 pt-4">
-                    <h3 className="px-2 py-2 text-sm font-semibold text-gray-900 uppercase tracking-wide">
-                      Technologies
-                    </h3>
-                    {navLinks
-                      .find((item) => item.href === '/technologies')
-                      ?.submenu?.map((subItem) => (
-                        <Link
-                          key={subItem.href}
-                          href={subItem.href}
-                          onClick={() => setMobileOpen(false)}
-                          className="flex items-center py-3 px-2 text-gray-800 hover:text-red-600 hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0"
-                        >
-                          <svg
-                            className="w-4 h-4 mr-3 text-gray-500"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          {subItem.label}
-                        </Link>
-                      ))}
-                  </div>
-                </div>
-              )}
 
-              {/* Solutions Submenu */}
-              {mobileSubMenu === 'solutions' && (
-                <div className="px-4">
-                  <button
-                    className="flex items-center py-4 px-2 text-gray-600 hover:text-red-600 transition-colors duration-200 mb-2"
-                    onClick={() => setMobileSubMenu(null)}
-                  >
-                    <svg
-                      className="mr-2 w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
-                      />
-                    </svg>
-                    Back to Menu
-                  </button>
-                  <div className="border-t border-gray-200 pt-4">
-                    <h3 className="px-2 py-2 text-sm font-semibold text-gray-900 uppercase tracking-wide">
-                      Solutions
+                  <div className="border-t border-gray-200 pt-3">
+                    <h3 className="px-3 py-2 text-xs font-semibold text-gray-900 uppercase tracking-wide bg-gray-50 rounded">
+                      {mobileSubMenu === 'technologies' ? 'Technologies' : 'Solutions'}
                     </h3>
-                    {navLinks
-                      .find((item) => item.href === '/solutions')
-                      ?.submenu?.map((subItem) => (
-                        <Link
-                          key={subItem.href}
-                          href={subItem.href}
-                          onClick={() => setMobileOpen(false)}
-                          className="flex items-center py-3 px-2 text-gray-800 hover:text-red-600 hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0"
-                        >
-                          <svg
-                            className="w-4 h-4 mr-3 text-gray-500"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
+
+                    <div className="mt-2 space-y-1">
+                      {navLinks
+                        .find((item) => item.href === `/${mobileSubMenu}`)
+                        ?.submenu?.map((subItem) => (
+                          <Link
+                            key={subItem.href}
+                            href={subItem.href}
+                            onClick={() => setMobileOpen(false)}
+                            className="block p-3 text-gray-800 hover:text-red-600 hover:bg-red-50 transition-colors duration-200 border border-gray-100 rounded-md mx-2 mb-2"
                           >
-                            <path
-                              fillRule="evenodd"
-                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          {subItem.label}
-                        </Link>
-                      ))}
+                            <div className="text-sm font-medium">{subItem.label}</div>
+                            <div className="text-xs text-gray-500 mt-1">
+                              {(subItem as any).desc || 'Advanced security solution'}
+                            </div>
+                          </Link>
+                        ))}
+                    </div>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Contact info at bottom */}
+            {/* Contact info */}
             <div className="border-t border-gray-200 p-4 bg-gray-50">
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <a
                   href={`mailto:${email}`}
                   className="flex items-center text-sm text-gray-600 hover:text-red-600 transition-colors duration-200"
                 >
                   <svg
-                    className="w-4 h-4 mr-3 flex-shrink-0"
+                    className="w-4 h-4 mr-2"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -561,14 +496,14 @@ const HeaderClient = ({
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                     />
                   </svg>
-                  <span className="truncate">{email}</span>
+                  {email}
                 </a>
                 <a
                   href={`tel:${telephone}`}
                   className="flex items-center text-sm text-gray-600 hover:text-red-600 transition-colors duration-200"
                 >
                   <svg
-                    className="w-4 h-4 mr-3 flex-shrink-0"
+                    className="w-4 h-4 mr-2"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -580,7 +515,7 @@ const HeaderClient = ({
                       d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                     />
                   </svg>
-                  <span>{telephone}</span>
+                  {telephone}
                 </a>
               </div>
             </div>
@@ -605,6 +540,13 @@ const HeaderClient = ({
           to {
             opacity: 1;
           }
+        }
+
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       `}</style>
     </header>
