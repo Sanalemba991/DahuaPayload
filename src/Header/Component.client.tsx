@@ -170,10 +170,10 @@ const HeaderClient = ({
             </Link>
           </div>
 
-          {/* Desktop navigation - KEEPING ORIGINAL FROM FIRST CODE */}
+          {/* Desktop navigation - REMOVED UNDERLINE ANIMATIONS */}
           <nav
             ref={navRef}
-            className="hidden md:flex items-center gap-12"
+            className="hidden md:flex items-center gap-8"
             style={{ flex: 1, justifyContent: 'center' }}
           >
             {navLinks.map((item) => (
@@ -185,15 +185,14 @@ const HeaderClient = ({
                   >
                     <Link
                       href={item.href}
-                      className={`flex items-center gap-1 px-3 py-2 ${isPathActive(pathname, item.href) ? 'text-red-600' : 'text-gray-800 hover:text-red-600'}`}
+                      className={`flex items-center gap-1 px-3 py-2 group ${isPathActive(pathname, item.href) ? 'text-red-600' : 'text-gray-800 hover:text-red-600'}`}
                     >
                       <span className="relative">
                         {item.label}
                         <span
-                          className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                          className={`absolute -bottom-1 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
                             isPathActive(pathname, item.href) ? 'w-full' : 'w-0 group-hover:w-full'
                           }`}
-                          style={{ height: '2px' }}
                         ></span>
                       </span>
                       <svg
@@ -272,15 +271,14 @@ const HeaderClient = ({
                 ) : (
                   <Link
                     href={item.href}
-                    className={`px-3 py-2 ${pathname === item.href ? 'text-red-600' : 'text-gray-800 hover:text-red-600'}`}
+                    className={`px-3 py-2 group ${pathname === item.href ? 'text-red-600' : 'text-gray-800 hover:text-red-600'}`}
                   >
                     <span className="relative">
                       {item.label}
                       <span
-                        className={`absolute -bottom-0.5 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
+                        className={`absolute -bottom-1 left-0 h-0.5 bg-red-600 transition-all duration-300 ${
                           pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'
                         }`}
-                        style={{ height: '2px' }}
                       ></span>
                     </span>
                   </Link>
@@ -361,9 +359,10 @@ const HeaderClient = ({
           <div className="absolute inset-0 bg-transparent" onClick={() => setMobileOpen(false)} />
 
           <div
-            className="absolute left-0 right-0 top-0 bg-white shadow-xl overflow-y-auto"
+            className="absolute left-0 right-0 top-0 bg-white shadow-xl overflow-y-auto flex flex-col"
             style={{
-              height: '70vh',
+              height: 'auto',
+              maxHeight: '85vh',
               animation: 'slideInDown 0.3s ease-out forwards',
             }}
           >

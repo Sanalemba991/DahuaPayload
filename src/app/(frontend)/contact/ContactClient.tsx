@@ -217,7 +217,6 @@ export const ContactClient: React.FC<ContactClientProps> = ({ telephone, email, 
         <style jsx global>{`
           html,
           body {
-            overflow-x: hidden;
             max-width: 100%;
           }
           * {

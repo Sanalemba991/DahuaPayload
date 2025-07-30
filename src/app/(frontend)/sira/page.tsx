@@ -94,13 +94,13 @@ export default function SiraPage() {
           priority
           quality={100}
         />
-        <div className="absolute inset-0 bg-opacity-40 flex items-center">
-          <div className="max-w-4xl px-10 space-y-6">
+        <div className="absolute inset-0 bg-opacity-40 flex items-center px-4 sm:px-6 lg:px-10">
+          <div className="max-w-4xl space-y-4 sm:space-y-6">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold"
             >
               <span className="block text-white">SIRA Certified</span>
               <span className="block text-red-500">Security Solutions</span>
@@ -109,7 +109,7 @@ export default function SiraPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-xl md:text-2xl text-gray-100 max-w-3xl leading-relaxed"
+              className="text-lg sm:text-xl md:text-2xl text-gray-100 max-w-3xl leading-relaxed"
             >
               Dubai trusted standard for professional security systems installation and maintenance.
               Ensure compliance and maximum protection with SIRA-approved solutions.
@@ -122,9 +122,9 @@ export default function SiraPage() {
             >
               <Link
                 href="/contact"
-                className="group inline-flex items-center text-white text-lg font-medium transition-all duration-300 hover:text-red-600"
+                className="group inline-flex items-center text-white text-base sm:text-lg font-medium transition-all duration-300 hover:text-red-600"
               >
-                <span className="hover:text-red-600">Contact</span>
+                <span className="hover:text-red-600">Contact Us</span>
                 <motion.span
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -142,16 +142,16 @@ export default function SiraPage() {
       </section>
 
       {/* SIRA Certification Section with Scroll Animation */}
-      <section className="max-w-6xl mx-auto px-4 py-20 overflow-hidden">
-        <div className="flex flex-col lg:flex-row gap-12 items-center">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 overflow-hidden">
+        <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true, margin: '-100px' }}
-            className="lg:w-1/2"
+            className="lg:w-1/2 w-full"
           >
-            <div className="relative h-96 w-full rounded-xl overflow-hidden shadow-2xl">
+            <div className="relative h-80 sm:h-96 w-full rounded-xl overflow-hidden shadow-2xl">
               <Image
                 src="/images/sira-certificate.jpg"
                 alt="SIRA Certification"
@@ -166,22 +166,22 @@ export default function SiraPage() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true, margin: '-100px' }}
-            className="lg:w-1/2 space-y-6"
+            className="lg:w-1/2 space-y-4 sm:space-y-6 mt-8 lg:mt-0"
           >
-            <h2 className="text-4xl font-bold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
               <span className="text-red-600">SIRA</span> Certification
             </h2>
-            <div className="space-y-4 text-gray-700">
-              <p className="text-lg leading-relaxed">
+            <div className="space-y-3 sm:space-y-4 text-gray-700">
+              <p className="text-base sm:text-lg leading-relaxed">
                 The Security Industry Regulatory Agency (SIRA) is Dubai premier security authority,
                 established in 2016 by decree of HH Sheikh Mohammed Bin Rashid Al Maktoum.
               </p>
-              <p className="text-lg leading-relaxed">
+              <p className="text-base sm:text-lg leading-relaxed">
                 SIRA regulates all security-related activities including guarding services, security
                 system sales, installation, and consulting. Only SIRA-approved companies are
                 authorized to operate in these sectors.
               </p>
-              <p className="text-lg leading-relaxed">
+              <p className="text-base sm:text-lg leading-relaxed">
                 With approximately 400 certified CCTV providers and fewer than 2,000 total certified
                 security providers in Dubai, SIRA maintains stringent standards to ensure the
                 highest levels of safety and security.
@@ -197,26 +197,26 @@ export default function SiraPage() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="bg-gray-100 py-20 overflow-hidden"
+        className="bg-gray-100 py-16 sm:py-20 overflow-hidden"
       >
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true, margin: '-50px' }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
               SIRA <span className="text-red-600">Compliance</span> Standards
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-gray-600">
               SIRA sets comprehensive guidelines for security best practices across all types of
               installations.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {benefits.map((benefit, idx) => (
               <motion.div
                 key={benefit.title}
